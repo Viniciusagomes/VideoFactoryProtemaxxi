@@ -1,0 +1,16 @@
+# segredos
+.env
+.env.*
+!.env.exemplo
+
+# saídas pesadas de render/áudio
+saida/
+*.mp4
+*.mov
+*.wav
+
+# sistema / ferramentas
+__pycache__/
+.DS_Store
+Thumbs.db
+.claude/settings.local.json
