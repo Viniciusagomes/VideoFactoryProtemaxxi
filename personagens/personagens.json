@@ -1,0 +1,107 @@
+{
+  "versao": 1,
+  "estilo": "2D flat, contorno escuro, cabeça grande (aprox. 4,5 cabeças de altura), visão frontal",
+  "elevenlabs": {
+    "modelo_recomendado": "eleven_multilingual_v2",
+    "idioma": "pt-BR",
+    "observacao": "Criar cada voz no Voice Design do ElevenLabs com o prompt abaixo e colar o voice_id gerado aqui. A chave da API fica só no .env (nunca no repositório)."
+  },
+  "personagens": [
+    {
+      "slug": "marcao-instalador",
+      "nome": "Marcão",
+      "papel": "Instalador",
+      "arquivo": "svg/marcao-instalador.svg",
+      "visual": "Uniforme azul-marinho de manga longa, colete laranja refletivo com a logo, capacete branco com a logo, óculos de proteção, luvas, cinto de ferramentas e botina com biqueira.",
+      "personalidade": "Experiente, prático e tranquilo. Explica o passo a passo da instalação sem enrolar e sempre lembra da segurança.",
+      "voz": {
+        "voice_id": "",
+        "genero": "masculino",
+        "idade": "40-45",
+        "prompt_voice_design": "Brazilian Portuguese male voice, around 42 years old, deep and slightly raspy, calm and confident, friendly working-class tone from the interior of São Paulo state, speaks at a steady, unhurried pace like an experienced technician explaining a job.",
+        "configuracao": { "stability": 0.55, "similarity_boost": 0.75, "style": 0.2, "speed": 0.95 },
+        "frase_teste": "Fala, pessoal! Antes de subir na escada, capacete, luva e óculos. Segurança primeiro, depois a câmera."
+      }
+    },
+    {
+      "slug": "rodrigo-vendedor",
+      "nome": "Rodrigo",
+      "papel": "Vendedor",
+      "arquivo": "svg/rodrigo-vendedor.svg",
+      "visual": "Camisa social azul-clara com a logo no bolso, gravata azul-marinho, calça social, sapato, relógio dourado e óculos de armação fina.",
+      "personalidade": "Carismático, sorridente e consultivo. Entende o problema do cliente antes de oferecer o produto.",
+      "voz": {
+        "voice_id": "",
+        "genero": "masculino",
+        "idade": "30-35",
+        "prompt_voice_design": "Brazilian Portuguese male voice, around 32 years old, warm, bright and charismatic, smiling tone, clear diction, energetic but trustworthy, like a friendly consultant salesman talking to a customer.",
+        "configuracao": { "stability": 0.45, "similarity_boost": 0.8, "style": 0.35, "speed": 1.05 },
+        "frase_teste": "Olá! Me conta o que você quer proteger, que eu te mostro o kit certo, sem gastar à toa."
+      }
+    },
+    {
+      "slug": "luana-estoquista",
+      "nome": "Luana",
+      "papel": "Estoquista",
+      "arquivo": "svg/luana-estoquista.svg",
+      "visual": "Camisa polo verde com a logo, boné verde da empresa, rabo de cavalo, calça cargo, botina e leitor de código de barras na mão.",
+      "personalidade": "Organizada, ágil e bem-humorada. Sabe onde está cada peça e garante que o pedido sai completo.",
+      "voz": {
+        "voice_id": "",
+        "genero": "feminino",
+        "idade": "24-28",
+        "prompt_voice_design": "Brazilian Portuguese female voice, around 26 years old, energetic, upbeat and direct, slightly fast pace, cheerful and practical, like a young warehouse team leader who is always on the move.",
+        "configuracao": { "stability": 0.5, "similarity_boost": 0.75, "style": 0.3, "speed": 1.08 },
+        "frase_teste": "Pedido conferido, bipado e embalado! Fonte, conector, cabo e câmera: tá tudo aqui."
+      }
+    },
+    {
+      "slug": "caio-suporte",
+      "nome": "Caio",
+      "papel": "Suporte técnico",
+      "arquivo": "svg/caio-suporte.svg",
+      "visual": "Jeito nerd: óculos redondos grandes, headset com microfone, smartwatch, cabelo bagunçado, camiseta preta da Protemaxxi, jeans e tênis.",
+      "personalidade": "Didático, curioso e paciente. Adora tecnologia e transforma configuração difícil em passo simples.",
+      "voz": {
+        "voice_id": "",
+        "genero": "masculino",
+        "idade": "25-28",
+        "prompt_voice_design": "Brazilian Portuguese young male voice, around 26 years old, slightly nasal and light, enthusiastic and nerdy, patient and didactic, medium-fast pace, sounds like a tech support specialist who loves explaining gadgets.",
+        "configuracao": { "stability": 0.5, "similarity_boost": 0.75, "style": 0.25, "speed": 1.02 },
+        "frase_teste": "Beleza, vamos lá: abre o aplicativo, toca no mais e aponta a câmera do celular pro QR Code do gravador."
+      }
+    },
+    {
+      "slug": "seu-antonio-cliente",
+      "nome": "Seu Antônio",
+      "papel": "Cliente (comerciante)",
+      "arquivo": "svg/seu-antonio-cliente.svg",
+      "visual": "Senhor de uns 65 anos, careca com cabelo branco nas laterais, bigode branco, camisa xadrez de manga curta, barriguinha, calça cáqui com cinto.",
+      "personalidade": "Dono de comércio de bairro, desconfiado com tecnologia mas preocupado com a segurança da loja. Faz as perguntas que todo cliente faz.",
+      "voz": {
+        "voice_id": "",
+        "genero": "masculino",
+        "idade": "60-68",
+        "prompt_voice_design": "Brazilian Portuguese elderly male voice, around 65 years old, warm and a little hoarse, slow and deliberate pace, folksy and good-humored, slightly skeptical tone, like a neighborhood shop owner.",
+        "configuracao": { "stability": 0.6, "similarity_boost": 0.75, "style": 0.2, "speed": 0.9 },
+        "frase_teste": "Ô, meu filho, mas essa câmera aí grava à noite também? Porque o problema lá na padaria é de madrugada."
+      }
+    },
+    {
+      "slug": "fernanda-cliente",
+      "nome": "Fernanda",
+      "papel": "Cliente (moradora e empreendedora)",
+      "arquivo": "svg/fernanda-cliente.svg",
+      "visual": "Mulher de uns 35 anos, cabelo crespo volumoso, brincos de argola dourados, blusa amarela, saia midi verde-água, tênis e celular na mão.",
+      "personalidade": "Conectada, decidida e prática. Quer ver tudo pelo celular e entender o custo-benefício.",
+      "voz": {
+        "voice_id": "",
+        "genero": "feminino",
+        "idade": "32-38",
+        "prompt_voice_design": "Brazilian Portuguese female voice, around 35 years old, clear, confident and warm, medium pace, modern and articulate, curious and decisive, like a busy entrepreneur asking smart questions.",
+        "configuracao": { "stability": 0.5, "similarity_boost": 0.8, "style": 0.3, "speed": 1.0 },
+        "frase_teste": "Eu consigo ver a câmera da minha casa e da minha loja no mesmo aplicativo? E se a internet cair?"
+      }
+    }
+  ]
+}
