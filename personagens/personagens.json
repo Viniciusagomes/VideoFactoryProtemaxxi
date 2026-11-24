@@ -1,6 +1,6 @@
 {
   "versao": 1,
-  "estilo": "2D flat, contorno escuro, cabeça grande (aprox. 4,5 cabeças de altura), visão frontal",
+  "estilo": "2D cartoon, cabeça grande (aprox. 3,5 cabeças de altura), contorno fino na cor de cada peça, sombreado chapado, visão frontal",
   "elevenlabs": {
     "modelo_recomendado": "eleven_multilingual_v2",
     "idioma": "pt-BR",
@@ -12,7 +12,7 @@
       "nome": "Vinícius",
       "papel": "Apresentador geral",
       "arquivo": "svg/vinicius-apresentador.svg",
-      "visual": "Baseado no próprio Vinícius: cabelo escuro cacheado e volumoso no topo, laterais curtas, barba rala, sobrancelhas grossas, porte forte, camiseta preta justa com o selo da Protemaxxi no peito, calça preta, tênis claro robusto, pulseira de contas e aliança.",
+      "visual": "Baseado no próprio Vinícius: cabelo escuro liso penteado para trás, barba rala, sobrancelhas grossas, porte forte, camiseta preta justa com o selo da Protemaxxi no peito, calça preta, tênis claro robusto, pulseira de contas e aliança.",
       "personalidade": "Dono e cara da Protemaxxi. Abre e fecha os vídeos, chama os outros personagens e fala direto com o cliente, com confiança e sem enrolação.",
       "voz": {
         "voice_id": "",

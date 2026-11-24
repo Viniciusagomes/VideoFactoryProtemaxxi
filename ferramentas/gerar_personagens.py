@@ -1,23 +1,30 @@
-"""Gera os SVGs 2D dos personagens da Video Factory Protemaxxi.
+"""Gera os SVGs 2D (estilo cartoon) dos personagens da Video Factory Protemaxxi.
 
 Uso:  python ferramentas/gerar_personagens.py
 
 Cada personagem sai em personagens/svg/<slug>.svg, com grupos nomeados
-(bracos, tronco, cabeca, olhos, boca...) para facilitar animação depois
-(piscar, sincronia labial, gestos).
+(braco-esq, braco-dir, tronco, cabeca, olhos, sobrancelhas, boca...) para
+animar depois (piscar, sincronia labial, gestos). Também gera
+personagens/folha.html para revisão.
+
+Estilo: cabeça grande (~3,5 cabeças de altura), contorno fino na cor de
+cada peça, sombreado chapado, olhos de cartoon, braços afinando até a mão.
 """
 from __future__ import annotations
 
+import html
+import json
+import math
 import pathlib
 import re
 
 RAIZ = pathlib.Path(__file__).resolve().parents[1]
 SAIDA = RAIZ / "personagens" / "svg"
 
-CONTORNO = "#1E2A38"
 AZUL = "#2B7BB9"
 VERDE = "#1FAE5A"
 MARINHO = "#22374B"
+TINTA = "#2A1E1A"  # olhos e linhas do rosto
 
 
 def _d_do_svg(nome: str) -> str:
@@ -29,173 +36,259 @@ ICONE_D = _d_do_svg("icone.svg")
 LOGO_D = _d_do_svg("logotipo.svg")
 
 
-# ---------------------------------------------------------------- utilidades
-def escurecer(cor: str, f: float = 0.8) -> str:
+# ------------------------------------------------------------------ utilidades
+def esc(cor: str, f: float = 0.8) -> str:
+    """Escurece (f < 1) ou clareia (f > 1) uma cor #RRGGBB."""
     cor = cor.lstrip("#")
     r, g, b = (int(cor[i : i + 2], 16) for i in (0, 2, 4))
-    return "#{:02X}{:02X}{:02X}".format(int(r * f), int(g * f), int(b * f))
+    if f <= 1:
+        r, g, b = (int(v * f) for v in (r, g, b))
+    else:
+        r, g, b = (int(v + (255 - v) * (f - 1)) for v in (r, g, b))
+    return "#{:02X}{:02X}{:02X}".format(r, g, b)
 
 
-def O(w: float = 4) -> str:
-    return f'stroke="{CONTORNO}" stroke-width="{w}"'
-
-
-def _bez(p0, p1, p2, t):
-    return tuple((1 - t) ** 2 * a + 2 * (1 - t) * t * b + t**2 * c for a, b, c in zip(p0, p1, p2))
-
-
-def _sub(p0, p1, p2, a, b):
-    """Trecho [a, b] de uma curva quadrática (via blossom)."""
-    q0 = _bez(p0, p1, p2, a)
-    q2 = _bez(p0, p1, p2, b)
-    q1 = tuple(
-        (1 - a) * (1 - b) * x0 + ((1 - a) * b + a * (1 - b)) * x1 + a * b * x2
-        for x0, x1, x2 in zip(p0, p1, p2)
-    )
-    return q0, q1, q2
-
-
-def _d(q0, q1, q2) -> str:
-    f = lambda p: f"{p[0]:.1f} {p[1]:.1f}"
-    return f"M{f(q0)} Q{f(q1)} {f(q2)}"
+def forma(d: str, cor: str, linha: str | None = None, w: float = 3.5, extra: str = "") -> str:
+    linha = linha or esc(cor, 0.55)
+    return f'<path d="{d}" fill="{cor}" stroke="{linha}" stroke-width="{w}" {extra}/>'
 
 
 def logo(x, y, w, cor="#FFFFFF", tipo="icone") -> str:
     vb_w, vb_h = (244, 225) if tipo == "icone" else (591, 150)
-    h = w * vb_h / vb_w
-    return f'<use href="#{tipo}" x="{x}" y="{y}" width="{w}" height="{h:.1f}" fill="{cor}"/>'
+    return f'<use href="#{tipo}" x="{x}" y="{y}" width="{w}" height="{w * vb_h / vb_w:.1f}" fill="{cor}"/>'
 
 
-# ---------------------------------------------------------------- partes
-BRACO_ESQ = ((110, 338), (86, 452), (84, 560))
-BRACO_DIR = ((290, 338), (314, 452), (316, 560))
+def espelho(d: str) -> str:
+    """Espelha um path horizontalmente em torno de x = 200 (só comandos absolutos M L C Q H V Z)."""
+    out, cmd, idx = [], "", 0
+    for tok in re.findall(r"[MLCQHVZ]|-?\d+\.?\d*", d):
+        if tok.isalpha():
+            cmd, idx = tok, 0
+            out.append(tok)
+            continue
+        v = float(tok)
+        if cmd == "H" or (cmd in "MLCQ" and idx % 2 == 0):
+            v = 400 - v
+        out.append(f"{v:g}")
+        idx += 1
+    return " ".join(out)
 
 
-def braco(id_, pele, pontos, manga=None, comprimento=0.9, mao=None, relogio=None, punho=None, largura=42, contas=None):
-    """Braço em traço grosso. comprimento = fração do braço coberta pela manga."""
-    s, e, w = pontos
-    cheio = _d(s, e, w)
+# curva quadrática
+def _b(s, e, w, t):
+    return tuple((1 - t) ** 2 * a + 2 * (1 - t) * t * b + t * t * c for a, b, c in zip(s, e, w))
+
+
+def _db(s, e, w, t):
+    return tuple(2 * (1 - t) * (b - a) + 2 * t * (c - b) for a, b, c in zip(s, e, w))
+
+
+def faixa(pts, t0, t1, w0, w1, extra=0.0, n=18) -> str:
+    """Polígono de um trecho do membro, afinando de w0 (ombro) a w1 (pulso)."""
+    s, e, w = pts
+    esq, dir_ = [], []
+    for i in range(n + 1):
+        t = t0 + (t1 - t0) * i / n
+        x, y = _b(s, e, w, t)
+        dx, dy = _db(s, e, w, t)
+        L = math.hypot(dx, dy) or 1
+        nx, ny = -dy / L, dx / L
+        hw = (w0 + (w1 - w0) * t) / 2 + extra
+        esq.append((x + nx * hw, y + ny * hw))
+        dir_.append((x - nx * hw, y - ny * hw))
+    p = esq + dir_[::-1]
+    return "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in p) + " Z"
+
+
+# ------------------------------------------------------------------ corpo
+BRACO_E = ((104, 374), (80, 486), (74, 590))
+BRACO_D = ((296, 374), (320, 486), (326, 590))
+
+
+def mao(x, y, cor, lado, linha=None):
+    """Mão em luva de cartoon com polegar apontando para o corpo."""
+    linha = linha or esc(cor, 0.6)
+    s = 1 if lado == "e" else -1
+    return (
+        f'<ellipse cx="{x}" cy="{y + 18}" rx="23" ry="27" fill="{cor}" stroke="{linha}" stroke-width="3.5"/>'
+        f'<ellipse cx="{x + 18 * s}" cy="{y + 9}" rx="9" ry="15" transform="rotate({-28 * s} {x + 18 * s} {y + 9})" '
+        f'fill="{cor}" stroke="{linha}" stroke-width="3.5"/>'
+        f'<path d="M{x - 10 * s} {y + 34} q{6 * s} 6 {15 * s} 4" fill="none" stroke="{linha}" stroke-width="2.5" stroke-linecap="round"/>'
+    )
+
+
+def braco(id_, pele, pts, lado, manga=None, ate=0.42, w0=44, w1=34, cor_mao=None, punho=None,
+          relogio=None, contas=None, frente=False):
     out = [f'<g id="{id_}">']
-    L = largura
-    out.append(f'<path d="{cheio}" fill="none" stroke="{CONTORNO}" stroke-width="{L+8}"/>')
-    out.append(f'<path d="{cheio}" fill="none" stroke="{pele}" stroke-width="{L}"/>')
-    if manga and comprimento > 0:
-        trecho = _d(*_sub(s, e, w, 0, comprimento))
-        out.append(f'<path d="{trecho}" fill="none" stroke="{CONTORNO}" stroke-width="{L+14}"/>')
-        out.append(f'<path d="{trecho}" fill="none" stroke="{manga}" stroke-width="{L+6}"/>')
+    sx, sy = pts[0]
+    tampa = manga if (manga and ate > 0) else pele
+    linha_t = (esc(tampa, 0.55) if tampa.startswith("#") else "#5A1E1A")
+    out.append(f'<circle cx="{sx}" cy="{sy}" r="{w0 / 2 + 4}" fill="{tampa}" stroke="{linha_t}" stroke-width="3.5"/>')
+    out.append(forma(faixa(pts, 0, 1, w0, w1), pele, esc(pele, 0.62)))
+    if manga and ate > 0:
+        linha = esc(manga, 0.55) if manga.startswith("#") else "#5A1E1A"
+        out.append(forma(faixa(pts, 0, ate, w0, w1, extra=4), manga, linha))
         if punho:
-            faixa = _d(*_sub(s, e, w, comprimento - 0.07, comprimento))
-            out.append(f'<path d="{faixa}" fill="none" stroke="{punho}" stroke-width="48" stroke-linecap="butt"/>')
+            out.append(forma(faixa(pts, ate - 0.06, ate, w0, w1, extra=4), punho, esc(punho, 0.6)))
+        x, y = pts[0]
+        out.append(f'<circle cx="{x}" cy="{y}" r="{w0 / 2 + 2}" fill="{manga}"/>')
     if relogio:
-        pulseira, mostrador = relogio
-        faixa = _d(*_sub(s, e, w, 0.84, 0.9))
-        out.append(f'<path d="{faixa}" fill="none" stroke="{CONTORNO}" stroke-width="46" stroke-linecap="butt"/>')
-        out.append(f'<path d="{faixa}" fill="none" stroke="{pulseira}" stroke-width="44" stroke-linecap="butt"/>')
-        cx, cy = _bez(s, e, w, 0.87)
-        out.append(f'<rect x="{cx-11:.1f}" y="{cy-12:.1f}" width="22" height="24" rx="6" fill="{mostrador}" {O(3)}/>')
-        out.append(f'<path d="M{cx:.1f} {cy-6:.1f} V{cy:.1f} H{cx+5:.1f}" fill="none" stroke="{CONTORNO}" stroke-width="2"/>')
+        pulseira, visor = relogio
+        out.append(forma(faixa(pts, 0.85, 0.92, w0, w1, extra=1), pulseira, esc(pulseira, 0.6), 2.5))
+        x, y = _b(*pts, 0.885)
+        out.append(f'<rect x="{x - 10:.1f}" y="{y - 10:.1f}" width="20" height="20" rx="6" fill="{visor}" stroke="{esc(pulseira, 0.6)}" stroke-width="3"/>')
     if contas:
-        # pulseira de contas no pulso
-        for t in (0.86, 0.875, 0.89):
-            px, py = _bez(s, e, w, t)
-            for dx in range(-L // 2 + 3, L // 2 - 1, 7):
-                out.append(f'<circle cx="{px+dx:.1f}" cy="{py:.1f}" r="3.4" fill="{contas}"/>')
-            break
-    cx, cy = w
-    cor_mao = mao or pele
-    out.append(f'<circle cx="{cx}" cy="{cy+6}" r="23" fill="{cor_mao}" {O()}/>')
-    out.append(f'<path d="M{cx-14} {cy+12} q4 8 12 9" fill="none" stroke="{escurecer(cor_mao, 0.7)}" stroke-width="3"/>')
+        x, y = _b(*pts, 0.9)
+        for dx in range(-14, 16, 6):
+            out.append(f'<circle cx="{x + dx:.1f}" cy="{y + abs(dx) * 0.08:.1f}" r="3.2" fill="{contas}"/>')
+    x, y = pts[2]
+    out.append(mao(x, y, cor_mao or pele, lado))
     out.append("</g>")
     return "\n".join(out)
 
 
-def tronco(cor, barriga=0, ombro=0):
-    """Camisa/corpo. barriga > 0 deixa a parte de baixo mais larga."""
-    l, r = 92 - ombro, 308 + ombro
-    b = barriga
+def tronco_d(ombro=112, cintura=96, topo=345, base=610, barriga=0):
+    lo, lc, b = ombro, cintura, barriga
     return (
-        f'<path id="tronco-base" d="M{l+28} 306 C160 294 240 294 {r-28} 306 '
-        f'C{r} 314 {r+8} 338 {r+6} 368 L{r+b} 470 C{r+b+6} 520 {r-4} 552 296 558 '
-        f'C240 566 160 566 104 558 C{l+4} 552 {l-b-6} 520 {l-b} 470 L{l-6} 368 '
-        f'C{l-8} 338 {l} 314 {l+28} 306 Z" fill="{cor}" {O()}/>'
+        f"M{200 - lo + 26} {topo} Q200 {topo - 10} {200 + lo - 26} {topo} "
+        f"Q{200 + lo} {topo + 4} {200 + lo} {topo + 46} "
+        f"L{200 + lc + b} {base - 60} Q{200 + lc + b + 6} {base} {200 + lc - 24} {base} "
+        f"L{200 - lc + 24} {base} Q{200 - lc - b - 6} {base} {200 - lc - b} {base - 60} "
+        f"L{200 - lo} {topo + 46} Q{200 - lo} {topo + 4} {200 - lo + 26} {topo} Z"
     )
 
 
-def pescoco(pele):
+def tronco(id_clip, cor, linha=None, sombra_cor=None, **kw):
+    d = tronco_d(**kw)
+    sombra_cor = sombra_cor or (esc(cor, 0.86) if cor.startswith("#") else "#000")
+    op = 1 if cor.startswith("#") else 0.15
     return (
-        f'<rect x="176" y="250" width="48" height="70" rx="14" fill="{pele}" {O()}/>'
-        f'<path d="M178 290 Q200 304 222 290" fill="none" stroke="{escurecer(pele, 0.82)}" stroke-width="7"/>'
+        f'<clipPath id="{id_clip}"><path d="{d}"/></clipPath>'
+        + forma(d, cor, linha or (esc(cor, 0.55) if cor.startswith("#") else "#5A1E1A"), extra='id="tronco"')
+        + f'<g clip-path="url(#{id_clip})"><path d="M262 330 Q300 470 268 640 L340 640 L340 330 Z" fill="{sombra_cor}" opacity="{op}"/></g>'
     )
 
 
-def calca(cor, cos=540):
-    escuro = escurecer(cor, 0.8)
+def pescoco(pele, larg=46):
+    x = 200 - larg / 2
     return (
-        f'<path id="calca" d="M104 {cos} H296 L290 832 H208 L200 640 L192 832 H110 Z" fill="{cor}" {O()}/>'
-        f'<path d="M200 600 V640" stroke="{escuro}" stroke-width="4"/>'
+        f'<rect x="{x}" y="296" width="{larg}" height="64" rx="16" fill="{pele}" stroke="{esc(pele, 0.62)}" stroke-width="3.5"/>'
+        f'<path d="M{x + 2} 318 Q200 340 {x + larg - 2} 318 L{x + larg - 2} 300 L{x + 2} 300 Z" fill="{esc(pele, 0.85)}"/>'
     )
 
 
-def sapatos(cor, sola="#2A2A2A", bico=None):
+def calca(cor, cintura=588):
+    d = f"M106 {cintura} H294 L284 840 H210 L200 668 L190 840 H116 Z"
+    return (
+        forma(d, cor, extra='id="calca"')
+        + f'<path d="M200 {cintura + 50} V668" stroke="{esc(cor, 0.55)}" stroke-width="3"/>'
+        + f'<path d="M258 {cintura + 20} L270 836" stroke="{esc(cor, 0.85)}" stroke-width="16" opacity="0.6"/>'
+    )
+
+
+SAPATO_E = "M110 852 Q106 826 134 824 H170 Q196 824 198 846 V858 Q198 864 192 864 H114 Q106 864 110 852 Z"
+
+
+def sapatos(cor, sola="#3A3A3A", bico=None, detalhe=None):
     out = ['<g id="sapatos">']
-    for x in (100, 202):
-        out.append(f'<path d="M{x+6} 826 H{x+92} Q{x+100} 826 {x+100} 846 V856 H{x} V846 Q{x} 826 {x+6} 826 Z" fill="{cor}" {O()}/>')
-        out.append(f'<rect x="{x-2}" y="852" width="104" height="12" rx="6" fill="{sola}" {O()}/>')
-        if bico:
-            out.append(f'<path d="M{x+60} 830 H{x+92} Q{x+98} 830 {x+98} 846 V852 H{x+60} Z" fill="{bico}" {O(3)}/>')
+    for d in (SAPATO_E, espelho(SAPATO_E)):
+        out.append(forma(d, cor))
+    out.append(f'<rect x="104" y="856" width="98" height="13" rx="6.5" fill="{sola}" stroke="{esc(sola, 0.6)}" stroke-width="3"/>')
+    out.append(f'<rect x="198" y="856" width="98" height="13" rx="6.5" fill="{sola}" stroke="{esc(sola, 0.6)}" stroke-width="3"/>')
+    if bico:
+        out.append(f'<path d="M112 852 Q110 832 132 830 H148 V856 H112 Z" fill="{bico}"/>')
+        out.append(f'<path d="M288 852 Q290 832 268 830 H252 V856 H288 Z" fill="{bico}"/>')
+    if detalhe:
+        out.append(f'<path d="M140 846 L176 834 M260 846 L224 834" stroke="{detalhe}" stroke-width="6" stroke-linecap="round"/>')
     out.append("</g>")
     return "\n".join(out)
 
 
-def sombra():
-    return '<ellipse cx="200" cy="876" rx="130" ry="14" fill="#000" opacity="0.13"/>'
+def sombra_chao():
+    return '<ellipse cx="200" cy="872" rx="128" ry="13" fill="#000" opacity="0.12"/>'
 
 
-def cabeca(pele, rosto_extra=""):
-    esc = escurecer(pele, 0.85)
+# ------------------------------------------------------------------ rosto
+def rosto_d(w=96, topo=105, queixo=322, mand=0.55):
+    my = 214
+    a = my + (queixo - my) * mand
+    return (
+        f"M200 {topo} C{200 + w * 0.62} {topo} {200 + w} {topo + 42} {200 + w} {my} "
+        f"C{200 + w} {a:.0f} {200 + w * 0.5:.0f} {queixo} 200 {queixo} "
+        f"C{200 - w * 0.5:.0f} {queixo} {200 - w} {a:.0f} {200 - w} {my} "
+        f"C{200 - w} {topo + 42} {200 - w * 0.62} {topo} 200 {topo} Z"
+    )
+
+
+def cabeca(pele, w=96, queixo=322, mand=0.55, extra_rosto=""):
+    """Orelhas + rosto + sombra lateral. extra_rosto é desenhado recortado no rosto."""
+    d = rosto_d(w, queixo=queixo, mand=mand)
+    linha = esc(pele, 0.62)
+    ox = 200 - w
     return (
         f'<g id="orelhas">'
-        f'<ellipse cx="114" cy="192" rx="15" ry="21" fill="{pele}" {O()}/>'
-        f'<ellipse cx="286" cy="192" rx="15" ry="21" fill="{pele}" {O()}/>'
-        f'<path d="M110 184 q8 6 2 16 M290 184 q-8 6 -2 16" fill="none" stroke="{esc}" stroke-width="4"/>'
+        f'<ellipse cx="{ox + 2}" cy="230" rx="16" ry="22" fill="{pele}" stroke="{linha}" stroke-width="3.5"/>'
+        f'<ellipse cx="{400 - ox - 2}" cy="230" rx="16" ry="22" fill="{pele}" stroke="{linha}" stroke-width="3.5"/>'
+        f'<path d="M{ox} 222 q8 6 2 16 M{400 - ox} 222 q-8 6 -2 16" fill="none" stroke="{esc(pele, 0.78)}" stroke-width="4" stroke-linecap="round"/>'
         f"</g>"
-        f'<ellipse id="rosto" cx="200" cy="180" rx="86" ry="94" fill="{pele}" {O()}/>'
-        f"{rosto_extra}"
-        f'<ellipse cx="150" cy="222" rx="13" ry="8" fill="#FF6B6B" opacity="0.22"/>'
-        f'<ellipse cx="250" cy="222" rx="13" ry="8" fill="#FF6B6B" opacity="0.22"/>'
-        f'<path id="nariz" d="M201 196 Q190 214 203 216" fill="none" stroke="{escurecer(pele, 0.7)}" stroke-width="4"/>'
+        f'<clipPath id="clip-rosto"><path d="{d}"/></clipPath>'
+        + forma(d, pele, linha, extra='id="rosto"')
+        + f'<g clip-path="url(#clip-rosto)">'
+        f'<ellipse cx="{200 + w + 8}" cy="236" rx="40" ry="130" fill="{esc(pele, 0.9)}"/>'
+        f"{extra_rosto}</g>"
     )
 
 
-def olhos(iris="#4A3020", sobrancelha="#2C1E14", cilios=False, esp_sob=7, sob_y=0):
+def olhos(cilios=False, dy=0, afastamento=36):
+    y = 222 + dy
     out = ['<g id="olhos">']
-    for x in (168, 232):
-        out.append(f'<ellipse cx="{x}" cy="186" rx="13" ry="15" fill="#FFF" {O(3)}/>')
-        out.append(f'<circle cx="{x+1}" cy="188" r="8.5" fill="{iris}"/>')
-        out.append(f'<circle cx="{x+1}" cy="188" r="4.5" fill="#111"/>')
-        out.append(f'<circle cx="{x+4}" cy="184" r="2.6" fill="#FFF"/>')
-    if cilios:
-        out.append(f'<path d="M156 178 l-7 -5 M158 174 l-4 -7 M244 178 l7 -5 M242 174 l4 -7" stroke="{CONTORNO}" stroke-width="3"/>')
+    for s in (-1, 1):
+        x = 200 + s * afastamento
+        out.append(f'<ellipse cx="{x}" cy="{y}" rx="10" ry="14" fill="{TINTA}"/>')
+        out.append(f'<circle cx="{x + 3}" cy="{y - 5}" r="4" fill="#FFF"/>')
+        out.append(f'<circle cx="{x - 3}" cy="{y + 6}" r="1.8" fill="#FFF"/>')
+        if cilios:
+            out.append(
+                f'<path d="M{x + s * 8} {y - 10} l{s * 9} -6 M{x + s * 10} {y - 4} l{s * 10} -2" '
+                f'stroke="{TINTA}" stroke-width="3.5" stroke-linecap="round"/>'
+            )
     out.append("</g>")
-    y = 158 + sob_y
-    out.append(
-        f'<path id="sobrancelhas" d="M152 {y+4} Q166 {y-6} 182 {y+2} M218 {y+2} Q234 {y-6} 248 {y+4}" '
-        f'fill="none" stroke="{sobrancelha}" stroke-width="{esp_sob}"/>'
-    )
     return "\n".join(out)
 
 
-def boca(labio=None):
-    contorno_labio = f'stroke="{labio}" stroke-width="5"' if labio else O(3)
+def sobrancelhas(cor, esp=9, dy=0, forma_="normal", afastamento=36):
+    y = 188 + dy
+    if forma_ == "reta":
+        d = (f"M{200 - afastamento - 18} {y + 2} L{200 - afastamento + 16} {y - 2} "
+             f"M{200 + afastamento - 16} {y - 2} L{200 + afastamento + 18} {y + 2}")
+    else:
+        d = (f"M{200 - afastamento - 18} {y + 4} Q{200 - afastamento} {y - 8} {200 - afastamento + 16} {y + 1} "
+             f"M{200 + afastamento - 16} {y + 1} Q{200 + afastamento} {y - 8} {200 + afastamento + 18} {y + 4}")
+    return f'<path id="sobrancelhas" d="{d}" fill="none" stroke="{cor}" stroke-width="{esp}" stroke-linecap="round"/>'
+
+
+def nariz(pele):
+    return f'<path id="nariz" d="M191 250 Q200 260 209 250" fill="none" stroke="{esc(pele, 0.68)}" stroke-width="4.5" stroke-linecap="round"/>'
+
+
+def boca(tipo="aberta", labio=None, dy=0):
+    y = 270 + dy
+    if tipo == "fechada":
+        return (f'<g id="boca"><path d="M180 {y + 2} Q200 {y + 18} 220 {y + 2}" fill="none" stroke="{labio or "#7A2E34"}" '
+                f'stroke-width="5" stroke-linecap="round"/></g>')
+    linha = labio or "#5A1A22"
     return (
         '<g id="boca">'
-        f'<path d="M174 228 Q200 256 226 228 Q200 236 174 228 Z" fill="#7A2430" {contorno_labio}/>'
-        '<path d="M182 231 Q200 236 218 231 L216 236 Q200 240 184 236 Z" fill="#FFF"/>'
-        '<path d="M190 244 Q200 248 210 244" fill="none" stroke="#E0707A" stroke-width="4"/>'
+        f'<clipPath id="clip-boca"><path d="M176 {y} Q200 {y + 32} 224 {y} Q200 {y + 6} 176 {y} Z"/></clipPath>'
+        f'<path d="M176 {y} Q200 {y + 32} 224 {y} Q200 {y + 6} 176 {y} Z" fill="#6E2630"/>'
+        f'<g clip-path="url(#clip-boca)"><rect x="170" y="{y - 2}" width="60" height="9" fill="#FFF"/>'
+        f'<ellipse cx="200" cy="{y + 20}" rx="13" ry="7" fill="#E0707A"/></g>'
+        f'<path d="M176 {y} Q200 {y + 32} 224 {y} Q200 {y + 6} 176 {y} Z" fill="none" stroke="{linha}" stroke-width="3.5" stroke-linejoin="round"/>'
         "</g>"
     )
 
 
+# ------------------------------------------------------------------ documento
 def svg(slug, titulo, camadas, defs_extra=""):
     corpo = "\n".join(camadas)
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 900" width="400" height="900">
@@ -203,396 +296,269 @@ def svg(slug, titulo, camadas, defs_extra=""):
 <defs>
 <symbol id="icone" viewBox="0 0 244 225"><path fill-rule="evenodd" clip-rule="evenodd" d="{ICONE_D}"/></symbol>
 <symbol id="logotipo" viewBox="0 0 591 150"><path fill-rule="evenodd" clip-rule="evenodd" d="{LOGO_D}"/></symbol>
-<clipPath id="clip-rosto"><ellipse cx="200" cy="180" rx="84" ry="92"/></clipPath>
 {defs_extra}
 </defs>
-<g id="{slug}" stroke-linejoin="round" stroke-linecap="round">
+<g id="{slug}" stroke-linejoin="round">
 {corpo}
 </g>
 </svg>
 """
 
 
-# ---------------------------------------------------------------- personagens
-def marcao():
-    pele = "#B9783F"
-    uniforme = MARINHO
-    colete = "#FF7A1A"
-    refletivo = "#DCE4EC"
-    luva = "#E9B43A"
-    c = [sombra(), calca("#1C2B3A"), sapatos("#4A3424", bico="#9AA5B1"), pescoco(pele), tronco(uniforme)]
-    # colete refletivo
-    c.append(
-        f'<path id="colete" d="M118 312 C140 304 160 302 172 302 L186 372 L200 396 L214 372 L228 302 '
-        f'C240 302 260 304 282 312 C300 320 308 340 306 370 L300 552 C240 560 160 560 100 552 L94 370 '
-        f'C92 340 100 320 118 312 Z" fill="{colete}" {O()}/>'
+# ------------------------------------------------------------------ personagens
+def vinicius():
+    """Apresentador geral: baseado no próprio Vinícius."""
+    pele, cabelo, camiseta = "#EEC5A4", "#1C1512", "#1A1C20"
+    c = [sombra_chao(), calca("#2A2E35"), sapatos("#F1EEE8", sola="#D3CEC4", detalhe="#C9C3B8")]
+    kw = dict(w0=52, w1=38)
+    be = ((100, 376), (72, 488), (66, 592))
+    bd = ((300, 376), (328, 488), (334, 592))
+    c.append(pescoco(pele, 58))
+    c.append(tronco("clip-tronco", camiseta, ombro=120, cintura=100, barriga=10))
+    c.append(f'<path d="M168 346 Q200 378 232 346" fill="none" stroke="#33373D" stroke-width="9" stroke-linecap="round"/>')
+    c.append('<rect x="212" y="396" width="54" height="54" rx="4" fill="none" stroke="#FFF" stroke-width="3"/>')
+    c.append(logo(220, 405, 38))
+    c.append('<path d="M132 520 Q156 530 178 522 M226 540 Q250 548 272 538" fill="none" stroke="#2C3036" stroke-width="4" stroke-linecap="round"/>')
+    barba = (
+        f'<path d="M96 214 C98 290 150 330 200 330 C250 330 302 290 304 214 C300 262 280 290 252 298 '
+        f'C236 302 224 292 200 290 C176 292 164 302 148 298 C120 290 100 262 96 214 Z" fill="{cabelo}" opacity="0.2"/>'
+        f'<path d="M178 300 Q200 292 222 300 Q218 324 200 326 Q182 324 178 300 Z" fill="{cabelo}" opacity="0.18"/>'
     )
-    c.append(f'<path d="M98 440 H302 M98 488 H302" stroke="{refletivo}" stroke-width="16" stroke-linecap="butt"/>')
-    c.append(f'<path d="M98 440 H302 M98 488 H302" stroke="{CONTORNO}" stroke-width="2" stroke-dasharray="0" opacity="0.25"/>')
-    c.append(f'<path d="M200 396 V552" stroke="{escurecer(colete, 0.75)}" stroke-width="4"/>')
-    c.append(logo(224, 330, 50, "#FFFFFF"))
-    # cinto de ferramentas
-    c.append(f'<rect x="96" y="528" width="208" height="26" rx="6" fill="#6B4423" {O()}/>')
-    c.append(f'<rect x="186" y="530" width="28" height="22" rx="4" fill="#C9CED4" {O(3)}/>')
-    c.append(f'<rect x="112" y="548" width="44" height="52" rx="8" fill="#7E5230" {O()}/>')
-    c.append(f'<rect x="244" y="548" width="44" height="52" rx="8" fill="#7E5230" {O()}/>')
-    c.append(f'<rect x="122" y="520" width="9" height="30" rx="3" fill="#E63946" {O(2)}/>')
-    c.append(f'<rect x="136" y="526" width="9" height="24" rx="3" fill="{AZUL}" {O(2)}/>')
-    c.append(f'<path d="M258 540 l10 -30 l8 4 l-8 28 Z" fill="#9AA5B1" {O(2)}/>')
-    c.append(braco("braco-esq", pele, BRACO_ESQ, uniforme, 0.86, mao=luva, punho=escurecer(uniforme, 0.8)))
-    c.append(braco("braco-dir", pele, BRACO_DIR, uniforme, 0.86, mao=luva, punho=escurecer(uniforme, 0.8)))
-    barba = f'<path d="M124 214 Q130 276 200 278 Q270 276 276 214 Q262 262 200 262 Q138 262 124 214 Z" fill="#2B1B12" opacity="0.22" clip-path="url(#clip-rosto)"/>'
-    c.append('<g id="cabeca">' + cabeca(pele, barba))
-    # cabelo (costeletas) e bigode
-    c.append(f'<path d="M116 170 Q114 196 122 206 L128 170 Z M284 170 Q286 196 278 206 L272 170 Z" fill="#1B120C" {O(2)}/>')
-    c.append(olhos(iris="#3B2414", sobrancelha="#1B120C", esp_sob=8))
+    c.append(braco("braco-esq", pele, be, "e", camiseta, 0.4, **kw))
+    c.append(braco("braco-dir", pele, bd, "d", camiseta, 0.4, contas="#4A4A4A", **kw))
+    c.append('<path d="M54 618 q12 6 24 2" fill="none" stroke="#D4A537" stroke-width="5" stroke-linecap="round"/>')
+    c.append('<g id="cabeca">' + cabeca(pele, w=100, queixo=326, mand=0.72, extra_rosto=barba))
+    c.append(nariz(pele))
+    c.append(olhos())
+    c.append(sobrancelhas(cabelo, esp=11, forma_="reta"))
     c.append(boca())
-    c.append(f'<path d="M172 226 Q186 214 200 222 Q214 214 228 226 Q214 224 200 230 Q186 224 172 226 Z" fill="#1B120C"/>')
+    c.append(f'<path d="M180 266 Q200 258 220 266" fill="none" stroke="{cabelo}" stroke-width="6" stroke-linecap="round" opacity="0.45"/>')
+    # cabelo liso penteado para trás, com volume em cima
+    cab = ("M98 214 C88 150 110 96 160 76 C200 60 256 64 286 92 C308 114 312 166 302 214 "
+           "C296 186 288 168 272 156 C250 140 226 136 200 138 C172 140 148 146 128 160 C112 172 102 192 98 214 Z")
+    c.append('<g id="cabelo">' + forma(cab, cabelo, "#0C0908"))
+    c.append('<path d="M140 150 C150 112 186 88 236 84 M172 142 C188 112 220 100 266 108 M220 138 C240 124 262 124 284 136 '
+             'M120 172 C122 136 140 108 170 94" fill="none" stroke="#3A2E28" stroke-width="4" stroke-linecap="round"/>')
+    c.append('<path d="M168 92 C196 78 230 76 256 84" fill="none" stroke="#5C4A40" stroke-width="7" stroke-linecap="round" opacity="0.7"/>')
+    c.append("</g></g>")
+    return svg("vinicius-apresentador", "Vinícius — Apresentador", c)
+
+
+def marcao():
+    pele, uniforme, colete, refl, luva = "#B97A45", MARINHO, "#FF7A1A", "#E3E9EF", "#F0B93A"
+    c = [sombra_chao(), calca("#1C2B3A"), sapatos("#5A3B26", sola="#2E2018", bico="#AEB6BF")]
+    c.append(pescoco(pele))
+    c.append(tronco("clip-tronco", uniforme, ombro=116, barriga=6))
+    vest = ("M124 352 Q150 344 172 344 L186 420 L200 446 L214 420 L228 344 Q250 344 276 352 "
+            "Q306 360 308 396 L300 600 Q200 616 100 600 L92 396 Q94 360 124 352 Z")
+    c.append('<clipPath id="clip-colete"><path d="' + vest + '"/></clipPath>')
+    c.append(forma(vest, colete, extra='id="colete"'))
+    c.append(f'<g clip-path="url(#clip-colete)"><rect x="80" y="494" width="240" height="18" fill="{refl}"/>'
+             f'<rect x="80" y="540" width="240" height="18" fill="{refl}"/>'
+             f'<path d="M262 330 Q300 470 268 640 L340 640 L340 330 Z" fill="#000" opacity="0.1"/></g>')
+    c.append(f'<path d="M200 446 V606" stroke="{esc(colete, 0.6)}" stroke-width="3"/>')
+    c.append(logo(226, 384, 46))
+    # cinto de ferramentas
+    c.append(f'<rect x="98" y="578" width="204" height="24" rx="6" fill="#6B4423" stroke="#3E2614" stroke-width="3"/>')
+    c.append(f'<rect x="186" y="578" width="28" height="24" rx="4" fill="#C9CED4" stroke="#7A828A" stroke-width="3"/>')
+    for x in (110, 246):
+        c.append(f'<rect x="{x}" y="596" width="44" height="50" rx="9" fill="#80542F" stroke="#3E2614" stroke-width="3"/>')
+    c.append('<rect x="120" y="568" width="9" height="30" rx="3" fill="#E63946"/><rect x="134" y="574" width="9" height="24" rx="3" fill="#2B7BB9"/>')
+    c.append('<path d="M258 588 l10 -30 l8 4 l-8 28 Z" fill="#9AA5B1" stroke="#5A646E" stroke-width="2"/>')
+    barba = f'<path d="M96 230 C100 300 150 330 200 330 C250 330 300 300 304 230 C296 280 260 304 200 304 C140 304 104 280 96 230 Z" fill="#2B1B12" opacity="0.2"/>'
+    c.append(braco("braco-esq", pele, BRACO_E, "e", uniforme, 0.9, cor_mao=luva, punho=esc(uniforme, 0.75)))
+    c.append(braco("braco-dir", pele, BRACO_D, "d", uniforme, 0.9, cor_mao=luva, punho=esc(uniforme, 0.75)))
+    c.append('<g id="cabeca">' + cabeca(pele, w=98, queixo=324, mand=0.68, extra_rosto=barba))
+    c.append(nariz(pele))
+    c.append(olhos())
+    c.append(sobrancelhas("#1B120C", esp=10, dy=-4))
+    c.append(boca())
+    c.append('<path d="M168 266 Q184 250 200 260 Q216 250 232 266 Q216 262 200 268 Q184 262 168 266 Z" fill="#1B120C"/>')
     # óculos de proteção
-    c.append(
-        f'<path id="oculos-protecao" d="M140 172 Q200 160 260 172 Q262 200 238 206 Q218 208 206 196 Q200 192 194 196 '
-        f'Q182 208 162 206 Q138 200 140 172 Z" fill="#A8DCFA" fill-opacity="0.45" stroke="{AZUL}" stroke-width="5"/>'
-    )
-    c.append(f'<path d="M150 176 Q160 172 170 174" stroke="#FFF" stroke-width="4" opacity="0.8"/>')
-    c.append(f'<path d="M140 180 L116 186 M260 180 L284 186" stroke="#3A4650" stroke-width="7"/>')
+    c.append(f'<path id="oculos-protecao" d="M144 204 Q200 192 256 204 Q260 240 234 244 Q214 246 206 232 Q200 226 194 232 '
+             f'Q186 246 166 244 Q140 240 144 204 Z" fill="#B4E0FA" fill-opacity="0.4" stroke="{AZUL}" stroke-width="5"/>')
+    c.append('<path d="M144 214 L102 222 M256 214 L298 222" stroke="#3A4650" stroke-width="8" stroke-linecap="round"/>')
+    c.append('<path d="M156 210 Q166 205 178 207" stroke="#FFF" stroke-width="4" stroke-linecap="round" opacity="0.8"/>')
     # capacete
-    c.append(
-        f'<g id="capacete"><path d="M106 150 C106 60 294 60 294 150 Z" fill="#F7F9FB" {O()}/>'
-        f'<path d="M200 90 V140" stroke="#D5DCE3" stroke-width="12" stroke-linecap="butt"/>'
-        f'<path d="M106 150 C106 60 294 60 294 150 Z" fill="none" {O()}/>'
-        f'<rect x="90" y="140" width="220" height="22" rx="11" fill="#E9EEF3" {O()}/>'
-        f"{logo(174, 98, 52, AZUL)}</g>"
-    )
+    c.append('<g id="capacete">' + forma("M94 172 C94 64 306 64 306 172 Z", "#F7F9FB", "#9AA6B2"))
+    c.append('<path d="M200 98 V168" stroke="#DCE3EA" stroke-width="14"/>')
+    c.append('<rect x="78" y="160" width="244" height="24" rx="12" fill="#E7ECF1" stroke="#9AA6B2" stroke-width="3.5"/>')
+    c.append(logo(170, 104, 60, AZUL) + "</g>")
     c.append("</g>")
     return svg("marcao-instalador", "Marcão — Instalador", c)
 
 
 def rodrigo():
-    pele = "#F2C6A0"
-    camisa = "#DCEBFA"
-    cabelo = "#5A3825"
-    c = [sombra(), calca("#2E3A48"), sapatos("#1B1B1B", sola="#0E0E0E"), pescoco(pele), tronco(camisa)]
-    c.append(f'<path d="M200 330 V548" stroke="{escurecer(camisa, 0.85)}" stroke-width="3"/>')
-    for y in (512,):
-        c.append(f'<circle cx="208" cy="{y}" r="3.5" fill="#FFF" {O(2)}/>')
-    # bolso com logo
-    c.append(f'<path d="M226 372 H272 V420 Q249 430 226 420 Z" fill="{escurecer(camisa, 0.93)}" {O(3)}/>')
-    c.append(logo(232, 380, 34, AZUL))
-    # gravata
-    c.append(f'<path id="gravata" d="M190 312 H210 L206 330 L216 470 L200 492 L184 470 L194 330 Z" fill="{MARINHO}" {O(3)}/>')
-    c.append(f'<path d="M190 312 H210 L206 330 H194 Z" fill="{escurecer(MARINHO, 0.8)}" {O(3)}/>')
-    c.append(f'<clipPath id="clip-gravata"><path d="M194 330 L206 330 L216 470 L200 492 L184 470 Z"/></clipPath>'
-             f'<path d="M180 370 L220 340 M180 410 L222 378 M180 450 L222 418" stroke="{AZUL}" stroke-width="5" clip-path="url(#clip-gravata)"/>')
-    # colarinho
-    c.append(f'<path d="M176 298 L190 312 L170 336 L158 304 Z M224 298 L210 312 L230 336 L242 304 Z" fill="#FFFFFF" {O(3)}/>')
-    # cinto
-    c.append(f'<rect x="102" y="534" width="196" height="18" rx="5" fill="#1B1B1B" {O(3)}/>')
-    c.append(f'<rect x="188" y="532" width="24" height="22" rx="4" fill="#C8A24A" {O(3)}/>')
-    c.append(braco("braco-esq", pele, BRACO_ESQ, camisa, 0.9, punho="#FFFFFF"))
-    c.append(braco("braco-dir", pele, BRACO_DIR, camisa, 0.78, punho="#FFFFFF", relogio=("#C8A24A", "#F4F1E8")))
+    pele, camisa, cabelo = "#F3C9A5", "#DCEBFA", "#6B4128"
+    c = [sombra_chao(), calca("#2E3A48"), sapatos("#1F1F1F", sola="#0E0E0E")]
+    c.append(pescoco(pele))
+    c.append(tronco("clip-tronco", camisa, linha="#7F9AB5"))
+    c.append(f'<path d="M226 404 H274 V450 Q250 460 226 450 Z" fill="{esc(camisa, 0.94)}" stroke="#7F9AB5" stroke-width="3"/>')
+    c.append(logo(234, 412, 32, AZUL))
+    gravata = "M190 352 H210 L206 372 L216 520 L200 544 L184 520 L194 372 Z"
+    c.append('<clipPath id="clip-gravata"><path d="' + gravata + '"/></clipPath>')
+    c.append(forma(gravata, MARINHO, "#0F1C28", 3))
+    c.append(f'<g clip-path="url(#clip-gravata)"><path d="M178 410 L222 380 M178 452 L222 422 M178 494 L222 464" stroke="{AZUL}" stroke-width="6"/></g>')
+    c.append(forma("M190 352 H210 L206 372 H194 Z", "#16283A", "#0F1C28", 3))
+    c.append(forma("M174 340 L192 356 L170 384 L156 350 Z", "#FFFFFF", "#7F9AB5", 3))
+    c.append(forma(espelho("M174 340 L192 356 L170 384 L156 350 Z"), "#FFFFFF", "#7F9AB5", 3))
+    c.append('<rect x="104" y="584" width="192" height="18" rx="5" fill="#1B1B1B"/><rect x="188" y="582" width="24" height="22" rx="4" fill="#C8A24A" stroke="#8A6A22" stroke-width="2.5"/>')
+    c.append(braco("braco-esq", pele, BRACO_E, "e", camisa, 0.9, punho="#FFFFFF"))
+    c.append(braco("braco-dir", pele, BRACO_D, "d", camisa, 0.8, punho="#FFFFFF", relogio=("#C8A24A", "#F7F3E6")))
     c.append('<g id="cabeca">' + cabeca(pele))
-    c.append(
-        f'<path id="cabelo" d="M112 176 C96 92 156 62 214 70 C268 76 304 112 288 176 '
-        f'C280 140 262 122 236 116 C204 110 176 132 146 126 C128 134 118 150 112 176 Z" fill="{cabelo}" {O()}/>'
-    )
-    c.append(f'<path d="M150 98 Q186 84 226 92" fill="none" stroke="{escurecer(cabelo, 1.35)}" stroke-width="5" opacity="0.6"/>')
-    c.append(olhos(iris="#4F7A3A", sobrancelha=cabelo))
+    c.append(nariz(pele))
+    c.append(olhos())
+    c.append(sobrancelhas(cabelo, esp=8))
     c.append(boca())
-    # óculos de armação fina
-    c.append(
-        f'<g id="oculos" fill="#FFFFFF" fill-opacity="0.12" stroke="{CONTORNO}" stroke-width="4">'
-        f'<rect x="146" y="170" width="44" height="32" rx="9"/><rect x="210" y="170" width="44" height="32" rx="9"/>'
-        f'<path d="M190 182 Q200 176 210 182 M146 180 L118 176 M254 180 L282 176" fill="none"/></g>'
-    )
+    cab = ("M100 212 C88 130 140 82 206 82 C268 84 310 126 300 208 C292 176 278 158 258 150 "
+           "C228 140 200 158 162 148 C136 150 112 172 100 212 Z")
+    c.append('<g id="cabelo">' + forma(cab, cabelo) +
+             f'<path d="M150 104 Q186 90 230 98" fill="none" stroke="{esc(cabelo, 1.4)}" stroke-width="6" stroke-linecap="round" opacity="0.6"/></g>')
+    c.append('<g id="oculos" fill="#FFF" fill-opacity="0.15" stroke="#2A2A2A" stroke-width="4.5">'
+             '<rect x="138" y="200" width="54" height="42" rx="11"/><rect x="208" y="200" width="54" height="42" rx="11"/>'
+             '<path d="M192 216 Q200 210 208 216 M138 214 L106 208 M262 214 L294 208" fill="none" stroke-linecap="round"/></g>')
     c.append("</g>")
     return svg("rodrigo-vendedor", "Rodrigo — Vendedor", c)
 
 
 def luana():
-    pele = "#A8694A"
-    polo = VERDE
-    cabelo = "#1A1210"
-    c = [sombra()]
-    # rabo de cavalo (atrás da cabeça)
-    c.append(
-        f'<path id="rabo-de-cavalo" d="M262 120 C330 120 338 210 314 270 C306 292 286 296 290 270 '
-        f'C300 220 296 170 252 150 Z" fill="{cabelo}" {O()}/>'
-    )
-    c += [calca("#8C7B5E"), sapatos("#2B2B2B", bico="#E9B43A"), pescoco(pele), tronco(polo, ombro=-4)]
-    # bolsos laterais da calça cargo
-    c.append(f'<rect x="112" y="640" width="40" height="50" rx="6" fill="#7C6C50" {O(3)}/>')
-    c.append(f'<rect x="248" y="640" width="40" height="50" rx="6" fill="#7C6C50" {O(3)}/>')
-    # gola polo e botões
-    c.append(f'<path d="M176 298 L200 330 L224 298 L240 306 L224 336 L200 324 L176 336 L160 306 Z" fill="{escurecer(polo, 0.85)}" {O(3)}/>')
-    c.append(f'<path d="M200 326 V380" stroke="{escurecer(polo, 0.7)}" stroke-width="3"/>')
-    c.append(f'<circle cx="200" cy="346" r="3" fill="#FFF"/><circle cx="200" cy="366" r="3" fill="#FFF"/>')
-    c.append(logo(226, 352, 42, "#FFFFFF"))
-    c.append(f'<rect x="104" y="534" width="192" height="16" rx="5" fill="#3B2F22" {O(3)}/>')
-    # braço esquerdo segura o leitor de código de barras
-    c.append(
-        f'<g id="leitor"><path d="M40 520 L104 506 Q118 504 118 518 L116 534 Q114 544 102 544 L86 546 L80 586 '
-        f'Q78 594 70 592 L62 590 Q56 588 58 580 L64 548 L46 550 Q36 548 36 538 Z" fill="#F2C230" {O()}/>'
-        f'<path d="M40 520 L58 516 L60 548 L46 550 Q36 548 36 538 Z" fill="#33393F"/><rect x="74" y="516" width="26" height="14" rx="3" fill="#33393F"/>'
-        f'<path d="M38 528 L4 520 M38 534 L6 540" stroke="#FF3B3B" stroke-width="3" opacity="0.8"/></g>'
-    )
-    c.append(braco("braco-esq", pele, BRACO_ESQ, polo, 0.42))
-    c.append(braco("braco-dir", pele, BRACO_DIR, polo, 0.42, relogio=("#2B2B2B", "#9AD7B4")))
-    c.append('<g id="cabeca">' + cabeca(pele))
-    # cabelo nas laterais por baixo do boné
-    c.append(
-        f'<path d="M110 150 Q104 210 120 236 L128 160 Z M290 150 Q298 200 284 226 L274 158 Z" fill="{cabelo}" {O(3)}/>'
-    )
-    c.append(olhos(iris="#3A2416", sobrancelha=cabelo, cilios=True, esp_sob=6))
-    c.append(boca(labio="#8E3B3B"))
-    # boné
-    c.append(
-        f'<g id="bone"><path d="M108 148 C108 64 292 64 292 148 Z" fill="{polo}" {O()}/>'
-        f'<path d="M200 90 V138" stroke="{escurecer(polo, 0.85)}" stroke-width="4"/>'
-        f'<ellipse cx="200" cy="150" rx="104" ry="16" fill="{escurecer(polo, 0.8)}" {O()}/>'
-        f"{logo(178, 96, 44, '#FFFFFF')}</g>"
-    )
+    pele, polo, cabelo = "#A86A4A", VERDE, "#1E1512"
+    c = [sombra_chao()]
+    c.append('<g id="rabo-de-cavalo">' + forma("M262 150 C350 150 362 262 332 334 C322 356 300 354 306 330 C318 272 312 214 258 184 Z", cabelo) + "</g>")
+    c.append(calca("#8C7B5E"))
+    c.append('<rect x="114" y="690" width="40" height="52" rx="7" fill="#7C6C50" stroke="#4E4332" stroke-width="3"/>'
+             '<rect x="246" y="690" width="40" height="52" rx="7" fill="#7C6C50" stroke="#4E4332" stroke-width="3"/>')
+    c.append(sapatos("#2F2F2F", sola="#1A1A1A", bico="#E9B43A"))
+    # leitor de código de barras (fica atrás da mão)
+    c.append('<g id="leitor"><path d="M14 560 L90 552 Q102 552 102 564 L100 578 Q98 588 88 588 L80 588 L84 628 Q84 636 76 636 L66 636 Q60 636 60 628 L58 592 L20 594 Q10 592 10 582 Z" fill="#F2C230" stroke="#8A6A10" stroke-width="3.5"/>'
+             '<path d="M14 562 L36 560 L38 592 L20 594 Q10 592 10 582 Z" fill="#33393F"/>'
+             '<path d="M8 572 L-30 562 M8 582 L-28 594" stroke="#FF3B3B" stroke-width="3" opacity="0.85"/></g>')
+    c.append(pescoco(pele))
+    c.append(tronco("clip-tronco", polo, ombro=106, cintura=92))
+    c.append(forma("M176 340 L200 374 L224 340 L242 348 L224 380 L200 366 L176 380 L158 348 Z", esc(polo, 0.85)))
+    c.append(f'<path d="M200 370 V424" stroke="{esc(polo, 0.6)}" stroke-width="3"/><circle cx="200" cy="390" r="3.5" fill="#FFF"/><circle cx="200" cy="410" r="3.5" fill="#FFF"/>')
+    c.append(logo(230, 396, 40))
+    c.append('<rect x="106" y="584" width="188" height="16" rx="5" fill="#3B2F22"/>')
+    c.append(braco("braco-esq", pele, BRACO_E, "e", polo, 0.4))
+    c.append(braco("braco-dir", pele, BRACO_D, "d", polo, 0.4, relogio=("#2B2B2B", "#9AD7B4")))
+    c.append('<g id="cabeca">' + cabeca(pele, w=94, queixo=318, mand=0.5))
+    c.append(forma("M106 170 Q98 240 116 280 L130 180 Z", cabelo) + forma(espelho("M106 170 Q98 240 116 280 L130 180 Z"), cabelo))
+    c.append(nariz(pele))
+    c.append(olhos(cilios=True))
+    c.append(sobrancelhas(cabelo, esp=7))
+    c.append(boca(labio="#7A2E34"))
+    c.append('<g id="bone">' + forma("M96 176 C96 74 304 74 304 176 Z", polo))
+    c.append(f'<path d="M200 106 V170" stroke="{esc(polo, 0.85)}" stroke-width="4"/>')
+    c.append(f'<ellipse cx="200" cy="178" rx="116" ry="18" fill="{esc(polo, 0.78)}" stroke="{esc(polo, 0.5)}" stroke-width="3.5"/>')
+    c.append(logo(174, 106, 52) + "</g>")
     c.append("</g>")
     return svg("luana-estoquista", "Luana — Estoquista", c)
 
 
 def caio():
-    pele = "#F6D3B8"
-    camiseta = "#141619"
-    cabelo = "#3A281C"
-    c = [sombra(), calca("#3D5A80"), sapatos("#F4F6F8", sola="#D0D6DC"), pescoco(pele), tronco(camiseta, ombro=-6)]
-    c.append('<path d="M112 618 L124 604 M276 700 L288 690" stroke="#2C4462" stroke-width="4"/>')
-    # listras verdes no tênis
-    c.append(f'<path d="M126 840 L150 832 M228 840 L252 832" stroke="{VERDE}" stroke-width="6"/>')
-    # gola
-    c.append(f'<path d="M172 300 Q200 330 228 300" fill="none" stroke="#2A2E33" stroke-width="10"/>')
-    c.append(logo(134, 376, 132, "#FFFFFF", "logotipo"))
-    c.append(braco("braco-esq", pele, BRACO_ESQ, camiseta, 0.44))
-    c.append(braco("braco-dir", pele, BRACO_DIR, camiseta, 0.44, relogio=("#111111", "#2B7BB9")))
-    sardas = "".join(
-        f'<circle cx="{x}" cy="{y}" r="2.2" fill="#C98A64" opacity="0.7"/>'
-        for x, y in ((140, 210), (150, 216), (146, 204), (254, 210), (260, 202), (250, 216))
-    )
-    c.append('<g id="cabeca">' + cabeca(pele, sardas))
-    # cabelo bagunçado
-    c.append(
-        f'<path id="cabelo" d="M114 168 C96 130 112 96 140 94 C138 70 170 58 190 74 C204 50 240 56 246 80 '
-        f'C272 72 300 98 286 126 C300 140 292 162 286 170 C274 140 250 128 232 132 C226 118 212 116 204 128 '
-        f'C188 116 168 122 162 136 C146 128 122 140 114 168 Z" fill="{cabelo}" {O()}/>'
-    )
-    c.append(f'<path d="M196 76 Q212 52 232 62" fill="none" stroke="{cabelo}" stroke-width="8"/>')
-    c.append(olhos(iris="#5A7FA8", sobrancelha=cabelo, sob_y=-4))
+    pele, camiseta, cabelo = "#F7D5BB", "#16181B", "#3D2A1E"
+    c = [sombra_chao(), calca("#3D5A80"), sapatos("#F7F8FA", sola="#D3D9DF", detalhe=VERDE)]
+    c.append(pescoco(pele))
+    c.append(tronco("clip-tronco", camiseta, ombro=106, cintura=92))
+    c.append('<path d="M170 346 Q200 378 230 346" fill="none" stroke="#2E3237" stroke-width="9" stroke-linecap="round"/>')
+    c.append(logo(132, 416, 136, "#FFFFFF", "logotipo"))
+    sardas = "".join(f'<circle cx="{x}" cy="{y}" r="2.6" fill="#D49A74"/>' for x, y in
+                     ((146, 252), (156, 258), (150, 244), (254, 252), (244, 258), (250, 244)))
+    c.append(braco("braco-esq", pele, BRACO_E, "e", camiseta, 0.42))
+    c.append(braco("braco-dir", pele, BRACO_D, "d", camiseta, 0.42, relogio=("#111111", AZUL)))
+    c.append('<g id="cabeca">' + cabeca(pele, w=94, extra_rosto=sardas))
+    c.append(nariz(pele))
+    c.append(olhos())
+    c.append(sobrancelhas(cabelo, esp=7, dy=-8))
     c.append(boca())
-    # óculos redondos grandes
-    c.append(
-        f'<g id="oculos" fill="#FFFFFF" fill-opacity="0.15" stroke="#111" stroke-width="7">'
-        f'<circle cx="166" cy="188" r="25"/><circle cx="234" cy="188" r="25"/>'
-        f'<path d="M191 186 Q200 178 209 186 M141 184 L118 178 M259 184 L282 178" fill="none"/></g>'
-    )
-    # headset
-    c.append(
-        f'<g id="headset"><path d="M110 186 C100 50 300 50 290 186" fill="none" stroke="#222" stroke-width="12"/>'
-        f'<rect x="96" y="166" width="26" height="50" rx="12" fill="#2A2A2A" {O(3)}/>'
-        f'<rect x="278" y="166" width="26" height="50" rx="12" fill="#2A2A2A" {O(3)}/>'
-        f'<path d="M110 212 Q118 250 166 246" fill="none" stroke="#222" stroke-width="6"/>'
-        f'<rect x="162" y="239" width="18" height="12" rx="6" fill="{VERDE}" {O(2)}/></g>'
-    )
+    cab = ("M100 214 C88 160 100 120 128 110 C126 82 158 66 182 82 C196 56 240 60 246 88 C272 76 304 102 292 136 "
+           "C306 150 304 190 298 214 C288 180 270 160 248 162 C240 146 222 142 210 156 C192 142 166 148 160 164 "
+           "C140 156 112 172 100 214 Z")
+    c.append('<g id="cabelo">' + forma(cab, cabelo) + "</g>")
+    c.append('<g id="oculos" fill="#FFF" fill-opacity="0.15" stroke="#151515" stroke-width="7">'
+             '<circle cx="164" cy="222" r="29"/><circle cx="236" cy="222" r="29"/>'
+             '<path d="M193 218 Q200 212 207 218 M135 216 L108 210 M265 216 L292 210" fill="none" stroke-linecap="round"/></g>')
+    c.append('<g id="headset"><path d="M98 236 C86 56 314 56 302 236" fill="none" stroke="#242424" stroke-width="14" stroke-linecap="round"/>'
+             '<rect x="82" y="206" width="30" height="56" rx="13" fill="#2C2C2C" stroke="#111" stroke-width="3"/>'
+             '<rect x="288" y="206" width="30" height="56" rx="13" fill="#2C2C2C" stroke="#111" stroke-width="3"/>'
+             '<path d="M98 258 Q108 296 168 292" fill="none" stroke="#242424" stroke-width="6" stroke-linecap="round"/>'
+             f'<rect x="164" y="284" width="20" height="14" rx="7" fill="{VERDE}" stroke="#137A3E" stroke-width="2"/></g>')
     c.append("</g>")
     return svg("caio-suporte", "Caio — Suporte técnico", c)
 
 
 def antonio():
-    pele = "#F0BFA0"
-    branco = "#ECEDEF"
-    defs = (
-        '<pattern id="xadrez" width="36" height="36" patternUnits="userSpaceOnUse">'
-        '<rect width="36" height="36" fill="#B23A35"/>'
-        '<rect x="0" y="12" width="36" height="12" fill="#F3E3C3" opacity="0.55"/>'
-        '<rect x="12" y="0" width="12" height="36" fill="#F3E3C3" opacity="0.55"/>'
-        '<path d="M0 18 H36 M18 0 V36" stroke="#6E1E1B" stroke-width="2"/></pattern>'
-    )
-    c = [sombra(), calca("#A89272"), sapatos("#5B3A22", sola="#3A2416"), pescoco(pele), tronco("url(#xadrez)", barriga=22)]
-    c.append(f'<path d="M176 298 L190 316 L172 336 L160 306 Z M224 298 L210 316 L228 336 L240 306 Z" fill="#B23A35" {O(3)}/>')
-    c.append(f'<path d="M200 318 V560" stroke="#6E1E1B" stroke-width="3"/>')
-    for y in (350, 400, 450, 500):
-        c.append(f'<circle cx="207" cy="{y}" r="3.5" fill="#F3E3C3" {O(2)}/>')
-    c.append(f'<path d="M90 548 Q200 572 310 548 L308 566 Q200 588 92 566 Z" fill="#4A2E1A" {O(3)}/>')
-    c.append(f'<rect x="188" y="556" width="24" height="20" rx="4" fill="#C8A24A" {O(3)}/>')
-    c.append(braco("braco-esq", pele, BRACO_ESQ, "url(#xadrez)", 0.44))
-    c.append(braco("braco-dir", pele, BRACO_DIR, "url(#xadrez)", 0.44))
-    rugas = (
-        f'<path d="M160 128 Q200 120 240 128 M168 140 Q200 134 232 140" fill="none" stroke="{escurecer(pele, 0.78)}" stroke-width="3"/>'
-        f'<path d="M144 194 l-8 4 M256 194 l8 4" stroke="{escurecer(pele, 0.75)}" stroke-width="3"/>'
-        '<ellipse cx="176" cy="112" rx="26" ry="10" fill="#FFF" opacity="0.35" transform="rotate(-15 176 112)"/>'
-    )
-    c.append('<g id="cabeca">' + cabeca(pele, rugas))
-    # cabelo branco nas laterais
-    c.append(
-        f'<path d="M114 196 C100 160 112 128 132 118 C130 142 128 160 130 190 Z '
-        f'M286 196 C300 160 288 128 268 118 C270 142 272 160 270 190 Z" fill="{branco}" {O(3)}/>'
-    )
-    c.append(olhos(iris="#5C7F9C", sobrancelha=branco, esp_sob=10))
-    c.append(boca())
-    # bigodão branco
-    c.append(
-        f'<path id="bigode" d="M160 232 Q170 204 200 214 Q230 204 240 232 Q222 222 200 228 Q178 222 160 232 Z" '
-        f'fill="{branco}" {O(3)}/>'
-    )
+    pele, branco = "#F1C3A4", "#EEEFF1"
+    defs = ('<pattern id="xadrez" width="36" height="36" patternUnits="userSpaceOnUse">'
+            '<rect width="36" height="36" fill="#B5413A"/>'
+            '<rect x="0" y="12" width="36" height="12" fill="#F3E3C3" opacity="0.5"/>'
+            '<rect x="12" y="0" width="12" height="36" fill="#F3E3C3" opacity="0.5"/>'
+            '<path d="M0 18 H36 M18 0 V36" stroke="#6E1E1B" stroke-width="2"/></pattern>')
+    c = [sombra_chao(), calca("#A89272"), sapatos("#5B3A22", sola="#3A2416")]
+    c.append(pescoco(pele))
+    c.append(tronco("clip-tronco", "url(#xadrez)", barriga=22))
+    c.append(forma("M174 340 L190 358 L170 384 L158 350 Z", "#B5413A", "#5A1E1A", 3) + forma(espelho("M174 340 L190 358 L170 384 L158 350 Z"), "#B5413A", "#5A1E1A", 3))
+    c.append('<path d="M200 360 V606" stroke="#6E1E1B" stroke-width="3"/>' + "".join(
+        f'<circle cx="208" cy="{y}" r="4" fill="#F3E3C3" stroke="#6E1E1B" stroke-width="2"/>' for y in (390, 440, 490, 540)))
+    c.append('<path d="M84 594 Q200 618 316 594 L314 612 Q200 636 86 612 Z" fill="#4A2E1A"/><rect x="188" y="602" width="24" height="20" rx="4" fill="#C8A24A" stroke="#8A6A22" stroke-width="2.5"/>')
+    rugas = (f'<path d="M160 150 Q200 140 240 150 M170 164 Q200 156 230 164" fill="none" stroke="{esc(pele, 0.78)}" stroke-width="3.5" stroke-linecap="round"/>'
+             '<ellipse cx="170" cy="130" rx="30" ry="12" fill="#FFF" opacity="0.4" transform="rotate(-18 170 130)"/>')
+    c.append(braco("braco-esq", pele, BRACO_E, "e", "url(#xadrez)", 0.42))
+    c.append(braco("braco-dir", pele, BRACO_D, "d", "url(#xadrez)", 0.42))
+    c.append('<g id="cabeca">' + cabeca(pele, extra_rosto=rugas))
+    tufo = "M102 236 C88 196 100 158 126 146 C124 176 124 200 130 230 Z"
+    c.append('<g id="cabelo">' + forma(tufo, branco, "#B9BEC4") + forma(espelho(tufo), branco, "#B9BEC4") + "</g>")
+    c.append(nariz(pele))
+    c.append(olhos())
+    c.append(sobrancelhas(branco, esp=12, dy=-2))
+    c.append(boca("fechada", dy=8))
+    c.append('<path id="bigode" d="M158 270 Q166 238 200 250 Q234 238 242 270 Q222 258 200 266 Q178 258 158 270 Z" fill="#EEEFF1" stroke="#B9BEC4" stroke-width="3"/>')
     c.append("</g>")
     return svg("seu-antonio-cliente", "Seu Antônio — Cliente", c, defs)
 
 
 def fernanda():
-    pele = "#6B4226"
-    blusa = "#F4B942"
-    saia = "#2A9D8F"
-    cabelo = "#1E1410"
-    import math
-
+    pele, blusa, saia, cabelo = "#6E4428", "#F4B942", "#2A9D8F", "#1E1410"
+    c = [sombra_chao()]
     cachos = []
-    for i in range(22):
-        a = 2 * math.pi * i / 22
-        x = 200 + 122 * math.cos(a)
-        y = 168 + 112 * math.sin(a)
-        if y > 250:
-            continue
-        cachos.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="34"/>')
-    c = [sombra()]
-    c.append(
-        f'<g id="cabelo-volume" fill="{cabelo}" {O()}>{"".join(cachos)}</g>'
-        f'<ellipse cx="200" cy="168" rx="124" ry="110" fill="{cabelo}"/>'
-    )
-    # pernas, tênis e saia
-    c.append(f'<rect x="146" y="680" width="44" height="160" rx="18" fill="{pele}" {O()}/>')
-    c.append(f'<rect x="210" y="680" width="44" height="160" rx="18" fill="{pele}" {O()}/>')
-    c.append(sapatos("#FFFFFF", sola="#E2E6EA", bico=None))
-    c.append(f'<path d="M126 836 L150 830 M228 836 L252 830" stroke="#E76F51" stroke-width="6"/>')
+    for i in range(24):
+        a = 2 * math.pi * i / 24
+        x, y = 200 + 128 * math.cos(a), 190 + 118 * math.sin(a)
+        if y < 300:
+            cachos.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="36"/>')
+    c.append(f'<g id="cabelo-volume" fill="{cabelo}" stroke="#0A0605" stroke-width="3.5">{"".join(cachos)}</g>'
+             f'<ellipse cx="200" cy="190" rx="130" ry="118" fill="{cabelo}"/>')
+    for x in (148, 210):
+        c.append(f'<rect x="{x}" y="720" width="42" height="124" rx="18" fill="{pele}" stroke="{esc(pele, 0.62)}" stroke-width="3.5"/>')
+    c.append(sapatos("#FFFFFF", sola="#E2E6EA", detalhe="#E76F51"))
     c.append(pescoco(pele))
-    c.append(tronco(blusa, ombro=-8))
-    c.append(f'<path id="saia" d="M106 536 H294 L320 740 Q200 758 80 740 Z" fill="{saia}" {O()}/>')
-    c.append(f'<path d="M150 560 L136 740 M200 560 V748 M250 560 L264 740" stroke="{escurecer(saia, 0.8)}" stroke-width="3"/>')
-    c.append(f'<path d="M168 300 Q200 340 232 300" fill="{escurecer(blusa, 0.9)}" {O(3)}/>')
-    # colar
-    c.append(f'<path d="M178 302 Q200 330 222 302" fill="none" stroke="#D4A537" stroke-width="3"/>')
-    c.append(braco("braco-esq", pele, BRACO_ESQ, blusa, 0.4))
+    c.append(tronco("clip-tronco", blusa, ombro=104, cintura=88))
+    c.append('<clipPath id="clip-saia"><path d="M108 578 H292 L320 770 Q200 788 80 770 Z"/></clipPath>')
+    c.append(forma("M108 578 H292 L320 770 Q200 788 80 770 Z", saia, extra='id="saia"'))
+    c.append(f'<g clip-path="url(#clip-saia)"><path d="M150 600 L134 780 M200 600 V790 M250 600 L266 780" stroke="{esc(saia, 0.8)}" stroke-width="3"/>'
+             f'<path d="M262 560 L340 800 L340 560 Z" fill="#000" opacity="0.1"/></g>')
+    c.append(f'<path d="M172 346 Q200 382 228 346" fill="{esc(blusa, 0.9)}" stroke="{esc(blusa, 0.55)}" stroke-width="3"/>')
+    c.append('<path d="M180 350 Q200 378 220 350" fill="none" stroke="#D4A537" stroke-width="3"/>')
     # braço direito dobrado segurando o celular na frente do corpo
-    pontos = ((290, 338), (330, 470), (262, 462))
-    c.append(braco("braco-dir", pele, pontos, blusa, 0.36, relogio=("#D4A537", "#FFF6E0")))
-    c.append(
-        f'<g id="celular"><rect x="232" y="404" width="40" height="70" rx="8" fill="#20252B" {O(3)}/>'
-        f'<rect x="237" y="412" width="30" height="52" rx="3" fill="{AZUL}"/>'
-        f'<rect x="240" y="416" width="24" height="16" rx="2" fill="#9FD3F5"/>'
-        f'<rect x="240" y="436" width="11" height="10" rx="2" fill="#9FD3F5"/>'
-        f'<rect x="253" y="436" width="11" height="10" rx="2" fill="#9FD3F5"/></g>'
-    )
-    c.append(f'<circle cx="262" cy="474" r="23" fill="{pele}" {O()}/>')
-    c.append(f'<ellipse cx="244" cy="452" rx="9" ry="13" fill="{pele}" {O(3)}/>')
-    c.append('<g id="cabeca">' + cabeca(pele))
-    # franja de cachos
-    franja = "".join(
-        f'<circle cx="{x}" cy="{y}" r="{r}"/>'
-        for x, y, r in ((132, 112, 26), (162, 92, 28), (200, 84, 30), (238, 92, 28), (268, 112, 26))
-    )
-    c.append(f'<g id="franja" fill="{cabelo}" {O()}>{franja}</g>')
-    c.append(f'<ellipse cx="200" cy="112" rx="84" ry="24" fill="{cabelo}"/>')
-    c.append(olhos(iris="#2A1A10", sobrancelha=cabelo, cilios=True, esp_sob=6))
-    c.append(boca(labio="#5A2228"))
-    # brincos de argola
-    c.append('<circle cx="112" cy="226" r="13" fill="none" stroke="#D4A537" stroke-width="5"/>')
-    c.append('<circle cx="288" cy="226" r="13" fill="none" stroke="#D4A537" stroke-width="5"/>')
+    pts = ((298, 388), (338, 520), (266, 506))
+    c.append(braco("braco-dir", pele, pts, "d", blusa, 0.34, relogio=("#D4A537", "#FFF6E0"), frente=True))
+    c.append('<g id="celular"><rect x="232" y="440" width="44" height="76" rx="9" fill="#20252B" stroke="#0E1114" stroke-width="3"/>'
+             f'<rect x="237" y="448" width="34" height="58" rx="4" fill="{AZUL}"/>'
+             '<rect x="241" y="453" width="26" height="18" rx="2" fill="#9FD3F5"/><rect x="241" y="475" width="12" height="11" rx="2" fill="#9FD3F5"/>'
+             '<rect x="255" y="475" width="12" height="11" rx="2" fill="#9FD3F5"/></g>')
+    c.append(mao(266, 500, pele, "d"))
+    c.append(braco("braco-esq", pele, BRACO_E, "e", blusa, 0.4))
+    c.append('<g id="cabeca">' + cabeca(pele, w=94, queixo=318, mand=0.5))
+    franja = "".join(f'<circle cx="{x}" cy="{y}" r="{r}"/>' for x, y, r in
+                     ((128, 132, 30), (160, 108, 32), (200, 98, 34), (240, 108, 32), (272, 132, 30)))
+    c.append(f'<g id="franja" fill="{cabelo}" stroke="#0A0605" stroke-width="3.5">{franja}</g><ellipse cx="200" cy="132" rx="90" ry="26" fill="{cabelo}"/>')
+    c.append(nariz(pele))
+    c.append(olhos(cilios=True))
+    c.append(sobrancelhas(cabelo, esp=7))
+    c.append(boca(labio="#4A1820"))
+    c.append('<circle cx="104" cy="266" r="14" fill="none" stroke="#D4A537" stroke-width="5"/><circle cx="296" cy="266" r="14" fill="none" stroke="#D4A537" stroke-width="5"/>')
     c.append("</g>")
     return svg("fernanda-cliente", "Fernanda — Cliente", c)
-
-
-def vinicius():
-    """Apresentador geral: baseado no próprio Vinícius."""
-    pele = "#EDC3A2"
-    camiseta = "#15171A"
-    cabelo = "#17110D"
-    import math
-
-    esq = ((102, 340), (72, 455), (70, 562))
-    dir_ = ((298, 340), (328, 455), (330, 562))
-    c = [sombra(), calca("#262A31"), sapatos("#EEEBE4", sola="#CFCAC0"), pescoco(pele).replace('x="176" y="250" width="48"', 'x="168" y="250" width="64"'), tronco(camiseta, barriga=14, ombro=8)]
-    # detalhes do tênis robusto
-    c.append('<path d="M118 840 Q138 832 160 840 M220 840 Q240 832 262 840" fill="none" stroke="#B9B3A8" stroke-width="4"/>')
-    # gola careca
-    c.append('<path d="M170 300 Q200 334 230 300" fill="none" stroke="#2A2E33" stroke-width="10"/>')
-    # selo da Protemaxxi no peito
-    c.append('<rect x="204" y="356" width="56" height="56" rx="3" fill="none" stroke="#FFFFFF" stroke-width="3"/>')
-    c.append(logo(213, 366, 38, "#FFFFFF"))
-    # dobras da camiseta justa
-    c.append(f'<path d="M126 470 Q150 480 170 474 M236 492 Q258 500 278 490" fill="none" stroke="#2A2E33" stroke-width="4"/>')
-    c.append(braco("braco-esq", pele, esq, camiseta, 0.4, largura=50))
-    c.append(braco("braco-dir", pele, dir_, camiseta, 0.4, largura=50, contas="#3A3A3A"))
-    # aliança na mão esquerda (lado do observador)
-    c.append('<path d="M60 578 q8 6 18 4" fill="none" stroke="#D4A537" stroke-width="5"/>')
-    # rosto adulto: maxilar marcado em vez da cabeça oval padrão, sem bochecha rosada
-    ROSTO = (
-        "M200 96 C254 96 286 128 286 182 C286 224 276 252 252 270 C234 283 218 288 200 288 "
-        "C182 288 166 283 148 270 C124 252 114 224 114 182 C114 128 146 96 200 96 Z"
-    )
-    sombra_pele = escurecer(pele, 0.86)
-    linha = escurecer(pele, 0.62)
-    c.append(f'<clipPath id="clip-rosto-v"><path d="{ROSTO}"/></clipPath>')
-    c.append('<g id="cabeca">')
-    c.append(
-        f'<g id="orelhas"><ellipse cx="116" cy="192" rx="14" ry="20" fill="{pele}" {O()}/>'
-        f'<ellipse cx="284" cy="192" rx="14" ry="20" fill="{pele}" {O()}/>'
-        f'<path d="M112 184 q8 6 3 15 M288 184 q-8 6 -3 15" fill="none" stroke="{sombra_pele}" stroke-width="4"/></g>'
-    )
-    c.append(f'<path id="rosto" d="{ROSTO}" fill="{pele}" {O()}/>')
-    # sombra suave de um lado do rosto e embaixo do queixo
-    c.append(
-        f'<g clip-path="url(#clip-rosto-v)">'
-        f'<path d="M262 120 C292 170 286 250 220 292 L300 300 L300 110 Z" fill="{sombra_pele}" opacity="0.45"/>'
-        # barba rala acompanhando o maxilar
-        f'<path d="M114 182 C116 236 150 276 200 280 C250 276 284 236 286 182 '
-        f'C280 222 266 244 246 252 C232 256 222 250 214 246 C206 244 194 244 186 246 '
-        f'C178 250 168 256 154 252 C134 244 120 222 114 182 Z" fill="#2A2420" opacity="0.26"/>'
-        f'<path d="M184 256 Q200 250 216 256 Q214 276 200 279 Q186 276 184 256 Z" fill="#2A2420" opacity="0.12"/>'
-        f'</g>'
-    )
-    # nariz
-    c.append(
-        f'<path id="nariz" d="M197 186 Q194 206 186 216 Q192 224 200 221 Q208 224 214 216" '
-        f'fill="none" stroke="{linha}" stroke-width="3.5"/>'
-    )
-    # olhos amendoados com pálpebra
-    olhos_v = ['<g id="olhos">']
-    for x in (167, 233):
-        olhos_v.append(f'<clipPath id="olho{x}"><ellipse cx="{x}" cy="188" rx="15" ry="9"/></clipPath>')
-        olhos_v.append(f'<ellipse cx="{x}" cy="188" rx="15" ry="9" fill="#FFFFFF"/>')
-        olhos_v.append(
-            f'<g clip-path="url(#olho{x})"><circle cx="{x+1}" cy="189" r="8" fill="#3A2416"/>'
-            f'<circle cx="{x+1}" cy="189" r="4" fill="#0E0A08"/><circle cx="{x+4}" cy="186" r="2" fill="#FFFFFF"/></g>'
-        )
-        olhos_v.append(f'<path d="M{x-16} 189 Q{x} 174 {x+16} 187" fill="none" stroke="{CONTORNO}" stroke-width="4"/>')
-        olhos_v.append(f'<path d="M{x-12} 194 Q{x} 199 {x+12} 193" fill="none" stroke="{linha}" stroke-width="2"/>')
-    olhos_v.append("</g>")
-    c.append("".join(olhos_v))
-    # sobrancelhas grossas e retas
-    c.append(
-        f'<path id="sobrancelhas" d="M146 168 Q166 158 186 163 L185 171 Q166 167 148 175 Z '
-        f'M254 168 Q234 158 214 163 L215 171 Q234 167 252 175 Z" fill="{cabelo}" stroke="{cabelo}" stroke-width="2"/>'
-    )
-    # boca: sorriso discreto, lábios fechados
-    c.append(
-        f'<g id="boca"><path d="M178 241 Q200 254 222 241" fill="none" stroke="#6E3A32" stroke-width="4"/>'
-        f'<path d="M188 250 Q200 255 212 250" fill="none" stroke="{linha}" stroke-width="2.5"/></g>'
-    )
-    # bigode ralo
-    c.append(f'<path d="M176 236 Q188 228 200 231 Q212 228 224 236 Q212 233 200 236 Q188 233 176 236 Z" fill="{cabelo}" opacity="0.45"/>')
-    # cabelo liso penteado para trás
-    c.append(
-        f'<g id="cabelo"><path d="M114 182 C106 132 120 92 150 72 C176 52 226 48 258 62 C286 76 296 118 286 182 '
-        f'C282 160 276 144 264 134 C246 122 222 118 200 120 C176 122 152 130 138 142 C126 152 118 166 114 182 Z" '
-        f'fill="{cabelo}" {O()}/>'
-        f'<path d="M148 132 C156 96 192 70 240 70 M176 122 C190 94 224 82 264 92 M214 118 C234 102 258 104 278 120 '
-        f'M132 150 C134 116 150 88 180 74" fill="none" stroke="#3B2E26" stroke-width="4"/>'
-        f'<path d="M164 84 C190 66 224 62 250 70" fill="none" stroke="#5A4A40" stroke-width="5" opacity="0.6"/></g>'
-    )
-    c.append("</g>")
-    return svg("vinicius-apresentador", "Vinícius — Apresentador", c)
 
 
 PERSONAGENS = {
@@ -606,11 +572,8 @@ PERSONAGENS = {
 }
 
 
+# ------------------------------------------------------------------ folha de revisão
 def folha():
-    """Página de revisão com todos os personagens lado a lado."""
-    import html
-    import json
-
     dados = json.loads((RAIZ / "personagens" / "personagens.json").read_text(encoding="utf-8"))
     cartoes = []
     for p in dados["personagens"]:
