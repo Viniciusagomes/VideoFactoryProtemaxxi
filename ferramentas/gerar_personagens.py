@@ -512,7 +512,7 @@ def vinicius():
 
     esq = ((102, 340), (72, 455), (70, 562))
     dir_ = ((298, 340), (328, 455), (330, 562))
-    c = [sombra(), calca("#262A31"), sapatos("#EEEBE4", sola="#CFCAC0"), pescoco(pele), tronco(camiseta, barriga=14, ombro=8)]
+    c = [sombra(), calca("#262A31"), sapatos("#EEEBE4", sola="#CFCAC0"), pescoco(pele).replace('x="176" y="250" width="48"', 'x="168" y="250" width="64"'), tronco(camiseta, barriga=14, ombro=8)]
     # detalhes do tênis robusto
     c.append('<path d="M118 840 Q138 832 160 840 M220 840 Q240 832 262 840" fill="none" stroke="#B9B3A8" stroke-width="4"/>')
     # gola careca
@@ -526,41 +526,71 @@ def vinicius():
     c.append(braco("braco-dir", pele, dir_, camiseta, 0.4, largura=50, contas="#3A3A3A"))
     # aliança na mão esquerda (lado do observador)
     c.append('<path d="M60 578 q8 6 18 4" fill="none" stroke="#D4A537" stroke-width="5"/>')
-    barba = (
-        f'<path d="M112 176 Q114 250 160 270 Q200 286 240 270 Q286 250 288 176 '
-        f'Q282 226 256 240 Q232 246 222 236 Q200 230 178 236 Q168 246 144 240 Q118 226 112 176 Z" '
-        f'fill="{cabelo}" opacity="0.3" clip-path="url(#clip-rosto)"/>'
-        f'<path d="M186 252 Q200 262 214 252 Q212 268 200 270 Q188 268 186 252 Z" fill="{cabelo}" opacity="0.45"/>'
+    # rosto adulto: maxilar marcado em vez da cabeça oval padrão, sem bochecha rosada
+    ROSTO = (
+        "M200 96 C254 96 286 128 286 182 C286 224 276 252 252 270 C234 283 218 288 200 288 "
+        "C182 288 166 283 148 270 C124 252 114 224 114 182 C114 128 146 96 200 96 Z"
     )
-    c.append('<g id="cabeca">' + cabeca(pele, barba))
-    # laterais curtas (degradê), sem contorno
+    sombra_pele = escurecer(pele, 0.86)
+    linha = escurecer(pele, 0.62)
+    c.append(f'<clipPath id="clip-rosto-v"><path d="{ROSTO}"/></clipPath>')
+    c.append('<g id="cabeca">')
     c.append(
-        f'<path d="M116 196 C110 160 112 132 128 118 C126 146 126 170 130 196 Z '
-        f'M284 196 C290 160 288 132 272 118 C274 146 274 170 270 196 Z" fill="{cabelo}" opacity="0.55"/>'
+        f'<g id="orelhas"><ellipse cx="116" cy="192" rx="14" ry="20" fill="{pele}" {O()}/>'
+        f'<ellipse cx="284" cy="192" rx="14" ry="20" fill="{pele}" {O()}/>'
+        f'<path d="M112 184 q8 6 3 15 M288 184 q-8 6 -3 15" fill="none" stroke="{sombra_pele}" stroke-width="4"/></g>'
     )
-    # topo cacheado e volumoso: círculos contornados e, por cima, os mesmos sem contorno
-    cachos = []
-    for i in range(9):
-        a = math.pi * (1.08 + 0.84 * i / 8)
-        cachos.append((200 + 76 * math.cos(a), 126 + 50 * math.sin(a), 21 if i % 2 else 24))
-    cachos += [(170, 86, 26), (204, 78, 27), (234, 88, 24), (186, 104, 26), (222, 104, 26)]
-    contornados = "".join(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r}"/>' for x, y, r in cachos)
-    preenchidos = "".join(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r-4}"/>' for x, y, r in cachos)
+    c.append(f'<path id="rosto" d="{ROSTO}" fill="{pele}" {O()}/>')
+    # sombra suave de um lado do rosto e embaixo do queixo
     c.append(
-        f'<g id="cabelo"><g fill="{cabelo}" {O()}>{contornados}</g>'
-        f'<path d="M118 150 C122 108 160 92 200 92 C240 92 278 108 282 150 C266 134 238 128 216 134 '
-        f'C196 126 170 128 152 138 C140 134 126 138 118 150 Z" fill="{cabelo}"/>'
-        f'<g fill="{cabelo}">{preenchidos}</g></g>'
+        f'<g clip-path="url(#clip-rosto-v)">'
+        f'<path d="M262 120 C292 170 286 250 220 292 L300 300 L300 110 Z" fill="{sombra_pele}" opacity="0.45"/>'
+        # barba rala acompanhando o maxilar
+        f'<path d="M114 182 C116 236 150 276 200 280 C250 276 284 236 286 182 '
+        f'C280 222 266 244 246 252 C232 256 222 250 214 246 C206 244 194 244 186 246 '
+        f'C178 250 168 256 154 252 C134 244 120 222 114 182 Z" fill="#2A2420" opacity="0.26"/>'
+        f'<path d="M184 256 Q200 250 216 256 Q214 276 200 279 Q186 276 184 256 Z" fill="#2A2420" opacity="0.12"/>'
+        f'</g>'
     )
-    # mechas
+    # nariz
     c.append(
-        f'<path d="M156 100 q10 -10 20 -2 M196 86 q12 -9 22 0 M232 100 q9 -7 18 2 M174 120 q10 -8 20 0" '
-        f'fill="none" stroke="#4A3A30" stroke-width="4"/>'
+        f'<path id="nariz" d="M197 186 Q194 206 186 216 Q192 224 200 221 Q208 224 214 216" '
+        f'fill="none" stroke="{linha}" stroke-width="3.5"/>'
     )
-    c.append(olhos(iris="#3A2416", sobrancelha=cabelo, esp_sob=10))
-    c.append(boca())
+    # olhos amendoados com pálpebra
+    olhos_v = ['<g id="olhos">']
+    for x in (167, 233):
+        olhos_v.append(f'<clipPath id="olho{x}"><ellipse cx="{x}" cy="188" rx="15" ry="9"/></clipPath>')
+        olhos_v.append(f'<ellipse cx="{x}" cy="188" rx="15" ry="9" fill="#FFFFFF"/>')
+        olhos_v.append(
+            f'<g clip-path="url(#olho{x})"><circle cx="{x+1}" cy="189" r="8" fill="#3A2416"/>'
+            f'<circle cx="{x+1}" cy="189" r="4" fill="#0E0A08"/><circle cx="{x+4}" cy="186" r="2" fill="#FFFFFF"/></g>'
+        )
+        olhos_v.append(f'<path d="M{x-16} 189 Q{x} 174 {x+16} 187" fill="none" stroke="{CONTORNO}" stroke-width="4"/>')
+        olhos_v.append(f'<path d="M{x-12} 194 Q{x} 199 {x+12} 193" fill="none" stroke="{linha}" stroke-width="2"/>')
+    olhos_v.append("</g>")
+    c.append("".join(olhos_v))
+    # sobrancelhas grossas e retas
+    c.append(
+        f'<path id="sobrancelhas" d="M146 168 Q166 158 186 163 L185 171 Q166 167 148 175 Z '
+        f'M254 168 Q234 158 214 163 L215 171 Q234 167 252 175 Z" fill="{cabelo}" stroke="{cabelo}" stroke-width="2"/>'
+    )
+    # boca: sorriso discreto, lábios fechados
+    c.append(
+        f'<g id="boca"><path d="M178 241 Q200 254 222 241" fill="none" stroke="#6E3A32" stroke-width="4"/>'
+        f'<path d="M188 250 Q200 255 212 250" fill="none" stroke="{linha}" stroke-width="2.5"/></g>'
+    )
     # bigode ralo
-    c.append(f'<path d="M176 226 Q200 216 224 226 Q200 222 176 226 Z" fill="{cabelo}" opacity="0.55"/>')
+    c.append(f'<path d="M176 236 Q188 228 200 231 Q212 228 224 236 Q212 233 200 236 Q188 233 176 236 Z" fill="{cabelo}" opacity="0.45"/>')
+    # cabelo liso penteado para trás
+    c.append(
+        f'<g id="cabelo"><path d="M114 182 C106 132 120 92 150 72 C176 52 226 48 258 62 C286 76 296 118 286 182 '
+        f'C282 160 276 144 264 134 C246 122 222 118 200 120 C176 122 152 130 138 142 C126 152 118 166 114 182 Z" '
+        f'fill="{cabelo}" {O()}/>'
+        f'<path d="M148 132 C156 96 192 70 240 70 M176 122 C190 94 224 82 264 92 M214 118 C234 102 258 104 278 120 '
+        f'M132 150 C134 116 150 88 180 74" fill="none" stroke="#3B2E26" stroke-width="4"/>'
+        f'<path d="M164 84 C190 66 224 62 250 70" fill="none" stroke="#5A4A40" stroke-width="5" opacity="0.6"/></g>'
+    )
     c.append("</g>")
     return svg("vinicius-apresentador", "Vinícius — Apresentador", c)
 
