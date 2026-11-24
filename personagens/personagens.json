@@ -2,9 +2,9 @@
   "versao": 1,
   "estilo": "2D cartoon, cabeça grande (aprox. 3,5 cabeças de altura), contorno fino na cor de cada peça, sombreado chapado, visão frontal",
   "elevenlabs": {
-    "modelo_recomendado": "eleven_multilingual_v2",
+    "modelo_recomendado": "eleven_v4",
     "idioma": "pt-BR",
-    "observacao": "Criar cada voz no Voice Design do ElevenLabs com o prompt abaixo e colar o voice_id gerado aqui. A chave da API fica só no .env (nunca no repositório)."
+    "observacao": "Todas as vozes já têm voice_id (biblioteca do ElevenLabs ou clone). Usar o modelo eleven_v4 e começar a fala com uma direção de tom entre colchetes, ex.: [calmo, conversando]. O prompt_voice_design fica como referência do perfil de cada voz. A chave da API fica só no .env (nunca no repositório)."
   },
   "personagens": [
     {
@@ -38,7 +38,10 @@
       "visual": "Uniforme azul-marinho de manga longa, colete laranja refletivo com a logo, capacete branco com a logo, óculos de proteção, luvas, cinto de ferramentas e botina com biqueira.",
       "personalidade": "Experiente, prático e tranquilo. Explica o passo a passo da instalação sem enrolar e sempre lembra da segurança.",
       "voz": {
-        "voice_id": "",
+        "voice_id": "15FQjYeoA49o29t8uMwd",
+        "tipo": "biblioteca",
+        "nome_biblioteca": "escolhida pelo Vinícius",
+        "modelo": "eleven_v4",
         "genero": "masculino",
         "idade": "40-45",
         "prompt_voice_design": "Brazilian Portuguese male voice, around 42 years old, deep and slightly raspy, calm and confident, friendly working-class tone from the interior of São Paulo state, speaks at a steady, unhurried pace like an experienced technician explaining a job.",
@@ -59,7 +62,10 @@
       "visual": "Camisa social azul-clara com a logo no bolso, gravata azul-marinho, calça social, sapato, relógio dourado e óculos de armação fina.",
       "personalidade": "Carismático, sorridente e consultivo. Entende o problema do cliente antes de oferecer o produto.",
       "voz": {
-        "voice_id": "",
+        "voice_id": "xNGAXaCH8MaasNuo7Hr7",
+        "tipo": "biblioteca",
+        "nome_biblioteca": "Beto",
+        "modelo": "eleven_v4",
         "genero": "masculino",
         "idade": "30-35",
         "prompt_voice_design": "Brazilian Portuguese male voice, around 32 years old, warm, bright and charismatic, smiling tone, clear diction, energetic but trustworthy, like a friendly consultant salesman talking to a customer.",
@@ -80,7 +86,10 @@
       "visual": "Camisa polo verde com a logo, boné verde da empresa, rabo de cavalo, calça cargo, botina e leitor de código de barras na mão.",
       "personalidade": "Organizada, ágil e bem-humorada. Sabe onde está cada peça e garante que o pedido sai completo.",
       "voz": {
-        "voice_id": "",
+        "voice_id": "GDzHdQOi6jjf8zaXhCYD",
+        "tipo": "biblioteca",
+        "nome_biblioteca": "Raquel - For Conversational",
+        "modelo": "eleven_v4",
         "genero": "feminino",
         "idade": "24-28",
         "prompt_voice_design": "Brazilian Portuguese female voice, around 26 years old, energetic, upbeat and direct, slightly fast pace, cheerful and practical, like a young warehouse team leader who is always on the move.",
@@ -101,7 +110,10 @@
       "visual": "Jeito nerd: óculos redondos grandes, headset com microfone, smartwatch, cabelo bagunçado, camiseta preta da Protemaxxi, jeans e tênis.",
       "personalidade": "Didático, curioso e paciente. Adora tecnologia e transforma configuração difícil em passo simples.",
       "voz": {
-        "voice_id": "",
+        "voice_id": "36rVQA1AOIPwpA3Hg1tC",
+        "tipo": "biblioteca",
+        "nome_biblioteca": "Matheus - Energic Young Voice",
+        "modelo": "eleven_v4",
         "genero": "masculino",
         "idade": "25-28",
         "prompt_voice_design": "Brazilian Portuguese young male voice, around 26 years old, slightly nasal and light, enthusiastic and nerdy, patient and didactic, medium-fast pace, sounds like a tech support specialist who loves explaining gadgets.",
@@ -122,7 +134,10 @@
       "visual": "Senhor de uns 65 anos, careca com cabelo branco nas laterais, bigode branco, camisa xadrez de manga curta, barriguinha, calça cáqui com cinto.",
       "personalidade": "Dono de comércio de bairro, desconfiado com tecnologia mas preocupado com a segurança da loja. Faz as perguntas que todo cliente faz.",
       "voz": {
-        "voice_id": "",
+        "voice_id": "rnJZLKxtlBZt77uIED10",
+        "tipo": "biblioteca",
+        "nome_biblioteca": "Sergio",
+        "modelo": "eleven_v4",
         "genero": "masculino",
         "idade": "60-68",
         "prompt_voice_design": "Brazilian Portuguese elderly male voice, around 65 years old, warm and a little hoarse, slow and deliberate pace, folksy and good-humored, slightly skeptical tone, like a neighborhood shop owner.",
@@ -143,7 +158,10 @@
       "visual": "Mulher de uns 35 anos, cabelo crespo volumoso, brincos de argola dourados, blusa amarela, saia midi verde-água, tênis e celular na mão.",
       "personalidade": "Conectada, decidida e prática. Quer ver tudo pelo celular e entender o custo-benefício.",
       "voz": {
-        "voice_id": "",
+        "voice_id": "KHmfNHtEjHhLK9eER20w",
+        "tipo": "biblioteca",
+        "nome_biblioteca": "Fernanda - Natural Conversations",
+        "modelo": "eleven_v4",
         "genero": "feminino",
         "idade": "32-38",
         "prompt_voice_design": "Brazilian Portuguese female voice, around 35 years old, clear, confident and warm, medium pace, modern and articulate, curious and decisive, like a busy entrepreneur asking smart questions.",

@@ -34,6 +34,8 @@ Fábrica de vídeos 2D da Protemaxxi: personagens, roteiros e vozes (ElevenLabs)
 
 ## Vozes (ElevenLabs)
 
-1. No ElevenLabs, abra **Voices → Voice Design** e cole o `prompt_voice_design` do personagem.
-2. Teste com a `frase_teste`, salve a voz e copie o **Voice ID** para o campo `voice_id` no `personagens.json`.
-3. A chave da API fica no `.env` (`ELEVENLABS_API_KEY=...`), que nunca vai para o Git: este repositório é público.
+Todos os personagens já têm `voice_id` no `personagens.json`: o Vinícius usa a voz clonada, e os outros usam vozes brasileiras da biblioteca do ElevenLabs. Gere as falas com o modelo `eleven_v4` e comece cada fala com uma direção de tom entre colchetes, ex.: `[calmo, conversando]`.
+
+Para trocar uma voz, troque o `voice_id` na ficha do personagem. O `prompt_voice_design` descreve o perfil de voz buscado e serve para procurar outra na biblioteca ou criar uma no Voice Design.
+
+A chave da API fica no `.env` (`ELEVENLABS_API_KEY=...`), que nunca vai para o Git: este repositório é público.
