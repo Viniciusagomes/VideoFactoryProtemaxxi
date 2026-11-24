@@ -1,0 +1,22 @@
+{
+  "slug": "01-configura-na-bancada",
+  "titulo": "Configura na bancada, instala na altura",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar ao instalador que a câmera Wi-Fi deve ser configurada na bancada, perto do roteador, e só depois levada para a fixação no alto.",
+  "modelo_voz": "eleven_v4",
+  "falas": [
+    {"id": "f01", "cena": "campo-1", "personagem": "marcao-instalador", "texto": "[frustrado, bufando] Ué... de novo?! Seis metros de altura e essa câmera não conecta no Wi-Fi de jeito nenhum!"},
+    {"id": "f02", "cena": "campo-1", "personagem": "seu-antonio-cliente", "texto": "[desconfiado, bem-humorado] Ô, Marcão... vai ficar aí em cima até amanhã, meu filho?"},
+    {"id": "f03", "cena": "campo-1", "personagem": "vinicius-apresentador", "texto": "[firme, descontraído] Para tudo, Marcão! Esse é o erro mais comum de quem instala câmera Wi-Fi."},
+    {"id": "f04", "cena": "campo-1", "personagem": "vinicius-apresentador", "texto": "[explicando, ritmo rápido] Lá em cima o sinal oscila, você tá com uma mão na escada... e qualquer reset vira novela."},
+    {"id": "f05", "cena": "bancada", "personagem": "vinicius-apresentador", "texto": "[animado] O certo é configurar tudo na bancada, antes de subir. Olha só!"},
+    {"id": "f06", "cena": "bancada", "personagem": "vinicius-apresentador", "passo": 1, "texto": "[didático] Um: liga a câmera na fonte, pertinho do roteador."},
+    {"id": "f07", "cena": "bancada", "personagem": "vinicius-apresentador", "passo": 2, "texto": "[didático] Dois: adiciona no aplicativo pelo QR Code."},
+    {"id": "f08", "cena": "bancada", "personagem": "vinicius-apresentador", "passo": 3, "texto": "[didático] Três: conecta no Wi-Fi do cliente, na rede de dois ponto quatro."},
+    {"id": "f09", "cena": "bancada", "personagem": "vinicius-apresentador", "passo": 4, "texto": "[didático] Quatro: testa a imagem, dá um nome pra câmera e confere a gravação."},
+    {"id": "f10", "cena": "bancada", "personagem": "marcao-instalador", "texto": "[surpreso, animado] Opa! Conectou de primeira!"},
+    {"id": "f11", "cena": "campo-2", "personagem": "marcao-instalador", "texto": "[satisfeito, tranquilo] Agora é só subir, fixar... e pronto. Já tá gravando!"},
+    {"id": "f12", "cena": "campo-2", "personagem": "seu-antonio-cliente", "texto": "[surpreso, rindo] Ué, já terminou? Isso que é serviço!"},
+    {"id": "f13", "cena": "campo-2", "personagem": "vinicius-apresentador", "texto": "[confiante, fechando] Configura na bancada, instala na altura. Salva esse vídeo e manda pro seu instalador!"}
+  ]
+}

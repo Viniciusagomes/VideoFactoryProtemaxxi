@@ -19,6 +19,22 @@ Fábrica de vídeos 2D da Protemaxxi: personagens, roteiros e vozes (ElevenLabs)
   - `folha.html` — revisão de todos os cenários.
 - `ferramentas/gerar_cenarios.py` — gera os cenários e a folha.
 - `assets/marca/` — ícone e logotipo da Protemaxxi usados nos uniformes.
+- `ferramentas/video.py` — motor dos vídeos: rasteriza cenários e personagens no Chrome, anima boca (pelo áudio) e piscadas, move a câmera virtual, desenha legendas e cartões e codifica o MP4.
+- `videos/<slug>/` — um vídeo por pasta:
+  - `roteiro.json` — falas (personagem, cena e texto com a direção de tom para o `eleven_v4`).
+  - `montagem.py` — coreografia: câmera, posição dos personagens, cartões e legendas.
+
+## Vídeos
+
+Precisa de Google Chrome, Python com `pillow`, `numpy` e `imageio-ffmpeg` (`pip install pillow numpy imageio-ffmpeg`).
+
+1. Gere cada fala do `roteiro.json` no ElevenLabs com a voz do personagem e salve em `saida/<slug>/audio/f01.mp3`, `f02.mp3`...
+2. Revise alguns quadros: `python videos/<slug>/montagem.py --quadros 3,20,45`
+3. Gere o vídeo: `python videos/<slug>/montagem.py` → `saida/<slug>/video.mp4` (a pasta `saida/` não vai para o Git).
+
+| Vídeo | Tema | Duração |
+|---|---|---|
+| `01-configura-na-bancada` | Instalador: configurar a câmera Wi-Fi na bancada antes de fixar no alto | ~1 min |
 
 ## Elenco
 
