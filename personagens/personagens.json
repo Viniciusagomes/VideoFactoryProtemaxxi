@@ -17,7 +17,7 @@
       "voz": {
         "voice_id": "dGFmpMIdV1UnSahbGwTn",
         "tipo": "clone",
-        "observacao": "Voz clonada do próprio Vinícius no ElevenLabs.",
+        "observacao": "Voz clonada do próprio Vinícius no ElevenLabs. Usar o modelo eleven_v4, que soou mais natural que o multilingual_v2 e o v3 no teste de 24/11/2026. Ajuda começar a fala com uma direção de tom, por exemplo [tom descontraído, conversando], e usar reticências para pausas.",
         "genero": "masculino",
         "idade": "25-30",
         "configuracao": {
@@ -26,7 +26,8 @@
           "style": 0.3,
           "speed": 1.0
         },
-        "frase_teste": "Fala, pessoal! Eu sou o Vinícius, da Protemaxxi. Hoje a gente vai te mostrar como proteger o que é seu, do jeito certo."
+        "frase_teste": "Fala, pessoal! Eu sou o Vinícius, da Protemaxxi. Hoje a gente vai te mostrar como proteger o que é seu, do jeito certo.",
+        "modelo": "eleven_v4"
       }
     },
     {
