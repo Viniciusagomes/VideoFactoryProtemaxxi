@@ -35,6 +35,7 @@ Precisa de Google Chrome, Python com `pillow`, `numpy` e `imageio-ffmpeg` (`pip 
 | Vídeo | Tema | Duração |
 |---|---|---|
 | `01-configura-na-bancada` | Instalador: configurar a câmera Wi-Fi na bancada antes de fixar no alto | ~1 min |
+| `02-poe-um-cabo-so` | Caio (suporte) explica o PoE com o switch HAIZ HZ-1006P-EA2 | ~1 min |
 
 ## Elenco
 

@@ -1,0 +1,26 @@
+{
+  "slug": "02-poe-um-cabo-so",
+  "titulo": "PoE: um cabo só, imagem e energia",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar ao instalador como o PoE (Power over Ethernet) leva imagem e energia pelo mesmo cabo de rede, usando o switch HAIZ HZ-1006P-EA2 como exemplo.",
+  "produto": {
+    "nome": "Switch HAIZ HZ-1006P-EA2",
+    "fonte": "ficha técnica do fabricante",
+    "dados": ["4 portas PoE 10/100", "2 portas uplink", "comutação de 1,6 Gbps", "modo Extend: até 250 metros", "plug and play"]
+  },
+  "modelo_voz": "eleven_v4",
+  "observacao": "'texto' é o que a voz fala (com a direção de tom). 'legenda' aparece na tela quando a escrita é diferente da pronúncia (PoE, nome do modelo).",
+  "falas": [
+    {"id": "f01", "cena": "campo-1", "personagem": "marcao-instalador", "texto": "[preocupado, falando rápido] Caio, me ajuda! Quatro câmeras IP pra instalar e nenhuma tomada perto. Vou ter que puxar energia pra cada uma?"},
+    {"id": "f02", "cena": "suporte", "personagem": "caio-suporte", "texto": "[animado, sorrindo] Calma, Marcão! Pra isso existe o pê-ó-é: Power over Ethernet.", "legenda": "Calma, Marcão! Pra isso existe o PoE: Power over Ethernet."},
+    {"id": "f03", "cena": "suporte", "personagem": "caio-suporte", "texto": "[explicando, didático] Pelo mesmo cabo de rede vai a imagem da câmera... e a energia pra ela funcionar."},
+    {"id": "f04", "cena": "suporte", "personagem": "caio-suporte", "texto": "[explicando, ritmo rápido] Sem fonte em cada câmera, sem tomada lá no alto. Um cabo só e pronto."},
+    {"id": "f05", "cena": "suporte", "personagem": "caio-suporte", "texto": "[didático] Olha esse exemplo: o switch Haiz, modelo agá zê, mil e seis pê, é á dois.", "legenda": "Olha esse exemplo: o switch HAIZ, modelo HZ-1006P-EA2."},
+    {"id": "f06", "cena": "suporte", "personagem": "caio-suporte", "passo": 1, "texto": "[didático] São quatro portas pê-ó-é: cada uma alimenta uma câmera e já traz a imagem.", "legenda": "São quatro portas PoE: cada uma alimenta uma câmera e já traz a imagem."},
+    {"id": "f07", "cena": "suporte", "personagem": "caio-suporte", "passo": 2, "texto": "[didático] Mais duas portas de uplink, pra ligar o gravador e a rede."},
+    {"id": "f08", "cena": "suporte", "personagem": "caio-suporte", "passo": 3, "texto": "[empolgado] E tem o modo Extend: liga a chavinha e a câmera pode ficar a até duzentos e cinquenta metros, em vez dos cem de sempre.", "legenda": "E tem o modo Extend: liga a chavinha e a câmera pode ficar a até 250 metros, em vez dos 100 de sempre."},
+    {"id": "f09", "cena": "suporte", "personagem": "caio-suporte", "passo": 4, "texto": "[tranquilo] É plug and play, não precisa configurar nada. Só confere se a câmera é pê-ó-é, tá?", "legenda": "É plug and play, não precisa configurar nada. Só confere se a câmera é PoE, tá?"},
+    {"id": "f10", "cena": "campo-2", "personagem": "marcao-instalador", "texto": "[aliviado, rindo] Um cabo só por câmera? Já ganhei metade do dia!"},
+    {"id": "f11", "cena": "suporte-2", "personagem": "caio-suporte", "texto": "[confiante, fechando] Câmera IP com pê-ó-é: um cabo, imagem e energia. Salva esse vídeo e marca aquele parceiro instalador!", "legenda": "Câmera IP com PoE: um cabo, imagem e energia. Salva esse vídeo e marca aquele parceiro instalador!"}
+  ]
+}
