@@ -13,6 +13,11 @@ Fábrica de vídeos 2D da Protemaxxi: personagens, roteiros e vozes (ElevenLabs)
   ```
   python ferramentas/gerar_personagens.py
   ```
+- `cenarios/` — cenários 2D (1920x1080) no mesmo estilo dos personagens.
+  - `cenarios.json` — nome, descrição, personagens sugeridos e `chao_y` (altura onde ficam os pés).
+  - `svg/` — loja (interior e painel de demonstração), estoque/expedição, fachada, casa da Fernanda, casa do Seu Antônio, campo do instalador e central de suporte.
+  - `folha.html` — revisão de todos os cenários.
+- `ferramentas/gerar_cenarios.py` — gera os cenários e a folha.
 - `assets/marca/` — ícone e logotipo da Protemaxxi usados nos uniformes.
 
 ## Elenco
