@@ -19,6 +19,7 @@ Fábrica de vídeos 2D da Protemaxxi: personagens, roteiros e vozes (ElevenLabs)
 
 | Personagem | Papel | Voz |
 |---|---|---|
+| Vinícius | Apresentador geral | voz clonada do próprio Vinícius |
 | Marcão | Instalador | masculina, 40-45, grave e calma |
 | Rodrigo | Vendedor | masculina, 30-35, carismática |
 | Luana | Estoquista | feminina, 24-28, enérgica |

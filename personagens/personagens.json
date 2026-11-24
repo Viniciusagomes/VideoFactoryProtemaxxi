@@ -8,6 +8,24 @@
   },
   "personagens": [
     {
+      "slug": "vinicius-apresentador",
+      "nome": "Vinícius",
+      "papel": "Apresentador geral",
+      "arquivo": "svg/vinicius-apresentador.svg",
+      "visual": "Baseado no próprio Vinícius: cabelo escuro cacheado e volumoso no topo, laterais curtas, barba rala, sobrancelhas grossas, porte forte, camiseta preta justa com o selo da Protemaxxi no peito, calça preta, tênis claro robusto, pulseira de contas e aliança.",
+      "personalidade": "Dono e cara da Protemaxxi. Abre e fecha os vídeos, chama os outros personagens e fala direto com o cliente, com confiança e sem enrolação.",
+      "voz": {
+        "voice_id": "",
+        "tipo": "clone",
+        "observacao": "Ideal: clonar a voz do próprio Vinícius (ElevenLabs > Voices > Instant Voice Cloning, ou Professional Voice Cloning para mais fidelidade) com 1 a 3 minutos de áudio limpo. O prompt abaixo é só um plano B.",
+        "genero": "masculino",
+        "idade": "25-30",
+        "prompt_voice_design": "Brazilian Portuguese young male voice, around 27 years old, confident and direct, medium-deep, warm but assertive, natural São Paulo accent, sounds like a young business owner presenting his company on video.",
+        "configuracao": { "stability": 0.5, "similarity_boost": 0.85, "style": 0.3, "speed": 1.0 },
+        "frase_teste": "Fala, pessoal! Eu sou o Vinícius, da Protemaxxi. Hoje a gente vai te mostrar como proteger o que é seu, do jeito certo."
+      }
+    },
+    {
       "slug": "marcao-instalador",
       "nome": "Marcão",
       "papel": "Instalador",

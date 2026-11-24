@@ -71,17 +71,18 @@ BRACO_ESQ = ((110, 338), (86, 452), (84, 560))
 BRACO_DIR = ((290, 338), (314, 452), (316, 560))
 
 
-def braco(id_, pele, pontos, manga=None, comprimento=0.9, mao=None, relogio=None, punho=None):
+def braco(id_, pele, pontos, manga=None, comprimento=0.9, mao=None, relogio=None, punho=None, largura=42, contas=None):
     """Braço em traço grosso. comprimento = fração do braço coberta pela manga."""
     s, e, w = pontos
     cheio = _d(s, e, w)
     out = [f'<g id="{id_}">']
-    out.append(f'<path d="{cheio}" fill="none" stroke="{CONTORNO}" stroke-width="50"/>')
-    out.append(f'<path d="{cheio}" fill="none" stroke="{pele}" stroke-width="42"/>')
+    L = largura
+    out.append(f'<path d="{cheio}" fill="none" stroke="{CONTORNO}" stroke-width="{L+8}"/>')
+    out.append(f'<path d="{cheio}" fill="none" stroke="{pele}" stroke-width="{L}"/>')
     if manga and comprimento > 0:
         trecho = _d(*_sub(s, e, w, 0, comprimento))
-        out.append(f'<path d="{trecho}" fill="none" stroke="{CONTORNO}" stroke-width="56"/>')
-        out.append(f'<path d="{trecho}" fill="none" stroke="{manga}" stroke-width="48"/>')
+        out.append(f'<path d="{trecho}" fill="none" stroke="{CONTORNO}" stroke-width="{L+14}"/>')
+        out.append(f'<path d="{trecho}" fill="none" stroke="{manga}" stroke-width="{L+6}"/>')
         if punho:
             faixa = _d(*_sub(s, e, w, comprimento - 0.07, comprimento))
             out.append(f'<path d="{faixa}" fill="none" stroke="{punho}" stroke-width="48" stroke-linecap="butt"/>')
@@ -93,6 +94,13 @@ def braco(id_, pele, pontos, manga=None, comprimento=0.9, mao=None, relogio=None
         cx, cy = _bez(s, e, w, 0.87)
         out.append(f'<rect x="{cx-11:.1f}" y="{cy-12:.1f}" width="22" height="24" rx="6" fill="{mostrador}" {O(3)}/>')
         out.append(f'<path d="M{cx:.1f} {cy-6:.1f} V{cy:.1f} H{cx+5:.1f}" fill="none" stroke="{CONTORNO}" stroke-width="2"/>')
+    if contas:
+        # pulseira de contas no pulso
+        for t in (0.86, 0.875, 0.89):
+            px, py = _bez(s, e, w, t)
+            for dx in range(-L // 2 + 3, L // 2 - 1, 7):
+                out.append(f'<circle cx="{px+dx:.1f}" cy="{py:.1f}" r="3.4" fill="{contas}"/>')
+            break
     cx, cy = w
     cor_mao = mao or pele
     out.append(f'<circle cx="{cx}" cy="{cy+6}" r="23" fill="{cor_mao}" {O()}/>')
@@ -495,7 +503,70 @@ def fernanda():
     return svg("fernanda-cliente", "Fernanda — Cliente", c)
 
 
+def vinicius():
+    """Apresentador geral: baseado no próprio Vinícius."""
+    pele = "#EDC3A2"
+    camiseta = "#15171A"
+    cabelo = "#17110D"
+    import math
+
+    esq = ((102, 340), (72, 455), (70, 562))
+    dir_ = ((298, 340), (328, 455), (330, 562))
+    c = [sombra(), calca("#262A31"), sapatos("#EEEBE4", sola="#CFCAC0"), pescoco(pele), tronco(camiseta, barriga=14, ombro=8)]
+    # detalhes do tênis robusto
+    c.append('<path d="M118 840 Q138 832 160 840 M220 840 Q240 832 262 840" fill="none" stroke="#B9B3A8" stroke-width="4"/>')
+    # gola careca
+    c.append('<path d="M170 300 Q200 334 230 300" fill="none" stroke="#2A2E33" stroke-width="10"/>')
+    # selo da Protemaxxi no peito
+    c.append('<rect x="204" y="356" width="56" height="56" rx="3" fill="none" stroke="#FFFFFF" stroke-width="3"/>')
+    c.append(logo(213, 366, 38, "#FFFFFF"))
+    # dobras da camiseta justa
+    c.append(f'<path d="M126 470 Q150 480 170 474 M236 492 Q258 500 278 490" fill="none" stroke="#2A2E33" stroke-width="4"/>')
+    c.append(braco("braco-esq", pele, esq, camiseta, 0.4, largura=50))
+    c.append(braco("braco-dir", pele, dir_, camiseta, 0.4, largura=50, contas="#3A3A3A"))
+    # aliança na mão esquerda (lado do observador)
+    c.append('<path d="M60 578 q8 6 18 4" fill="none" stroke="#D4A537" stroke-width="5"/>')
+    barba = (
+        f'<path d="M112 176 Q114 250 160 270 Q200 286 240 270 Q286 250 288 176 '
+        f'Q282 226 256 240 Q232 246 222 236 Q200 230 178 236 Q168 246 144 240 Q118 226 112 176 Z" '
+        f'fill="{cabelo}" opacity="0.3" clip-path="url(#clip-rosto)"/>'
+        f'<path d="M186 252 Q200 262 214 252 Q212 268 200 270 Q188 268 186 252 Z" fill="{cabelo}" opacity="0.45"/>'
+    )
+    c.append('<g id="cabeca">' + cabeca(pele, barba))
+    # laterais curtas (degradê), sem contorno
+    c.append(
+        f'<path d="M116 196 C110 160 112 132 128 118 C126 146 126 170 130 196 Z '
+        f'M284 196 C290 160 288 132 272 118 C274 146 274 170 270 196 Z" fill="{cabelo}" opacity="0.55"/>'
+    )
+    # topo cacheado e volumoso: círculos contornados e, por cima, os mesmos sem contorno
+    cachos = []
+    for i in range(9):
+        a = math.pi * (1.08 + 0.84 * i / 8)
+        cachos.append((200 + 76 * math.cos(a), 126 + 50 * math.sin(a), 21 if i % 2 else 24))
+    cachos += [(170, 86, 26), (204, 78, 27), (234, 88, 24), (186, 104, 26), (222, 104, 26)]
+    contornados = "".join(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r}"/>' for x, y, r in cachos)
+    preenchidos = "".join(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r-4}"/>' for x, y, r in cachos)
+    c.append(
+        f'<g id="cabelo"><g fill="{cabelo}" {O()}>{contornados}</g>'
+        f'<path d="M118 150 C122 108 160 92 200 92 C240 92 278 108 282 150 C266 134 238 128 216 134 '
+        f'C196 126 170 128 152 138 C140 134 126 138 118 150 Z" fill="{cabelo}"/>'
+        f'<g fill="{cabelo}">{preenchidos}</g></g>'
+    )
+    # mechas
+    c.append(
+        f'<path d="M156 100 q10 -10 20 -2 M196 86 q12 -9 22 0 M232 100 q9 -7 18 2 M174 120 q10 -8 20 0" '
+        f'fill="none" stroke="#4A3A30" stroke-width="4"/>'
+    )
+    c.append(olhos(iris="#3A2416", sobrancelha=cabelo, esp_sob=10))
+    c.append(boca())
+    # bigode ralo
+    c.append(f'<path d="M176 226 Q200 216 224 226 Q200 222 176 226 Z" fill="{cabelo}" opacity="0.55"/>')
+    c.append("</g>")
+    return svg("vinicius-apresentador", "Vinícius — Apresentador", c)
+
+
 PERSONAGENS = {
+    "vinicius-apresentador": vinicius,
     "marcao-instalador": marcao,
     "rodrigo-vendedor": rodrigo,
     "luana-estoquista": luana,
