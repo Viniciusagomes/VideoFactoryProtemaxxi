@@ -15,13 +15,17 @@
       "visual": "Baseado no próprio Vinícius: cabelo escuro liso penteado para trás, barba rala, sobrancelhas grossas, porte forte, camiseta preta justa com o selo da Protemaxxi no peito, calça preta, tênis claro robusto, pulseira de contas e aliança.",
       "personalidade": "Dono e cara da Protemaxxi. Abre e fecha os vídeos, chama os outros personagens e fala direto com o cliente, com confiança e sem enrolação.",
       "voz": {
-        "voice_id": "",
+        "voice_id": "dGFmpMIdV1UnSahbGwTn",
         "tipo": "clone",
-        "observacao": "Ideal: clonar a voz do próprio Vinícius (ElevenLabs > Voices > Instant Voice Cloning, ou Professional Voice Cloning para mais fidelidade) com 1 a 3 minutos de áudio limpo. O prompt abaixo é só um plano B.",
+        "observacao": "Voz clonada do próprio Vinícius no ElevenLabs.",
         "genero": "masculino",
         "idade": "25-30",
-        "prompt_voice_design": "Brazilian Portuguese young male voice, around 27 years old, confident and direct, medium-deep, warm but assertive, natural São Paulo accent, sounds like a young business owner presenting his company on video.",
-        "configuracao": { "stability": 0.5, "similarity_boost": 0.85, "style": 0.3, "speed": 1.0 },
+        "configuracao": {
+          "stability": 0.5,
+          "similarity_boost": 0.85,
+          "style": 0.3,
+          "speed": 1.0
+        },
         "frase_teste": "Fala, pessoal! Eu sou o Vinícius, da Protemaxxi. Hoje a gente vai te mostrar como proteger o que é seu, do jeito certo."
       }
     },
@@ -37,7 +41,12 @@
         "genero": "masculino",
         "idade": "40-45",
         "prompt_voice_design": "Brazilian Portuguese male voice, around 42 years old, deep and slightly raspy, calm and confident, friendly working-class tone from the interior of São Paulo state, speaks at a steady, unhurried pace like an experienced technician explaining a job.",
-        "configuracao": { "stability": 0.55, "similarity_boost": 0.75, "style": 0.2, "speed": 0.95 },
+        "configuracao": {
+          "stability": 0.55,
+          "similarity_boost": 0.75,
+          "style": 0.2,
+          "speed": 0.95
+        },
         "frase_teste": "Fala, pessoal! Antes de subir na escada, capacete, luva e óculos. Segurança primeiro, depois a câmera."
       }
     },
@@ -53,7 +62,12 @@
         "genero": "masculino",
         "idade": "30-35",
         "prompt_voice_design": "Brazilian Portuguese male voice, around 32 years old, warm, bright and charismatic, smiling tone, clear diction, energetic but trustworthy, like a friendly consultant salesman talking to a customer.",
-        "configuracao": { "stability": 0.45, "similarity_boost": 0.8, "style": 0.35, "speed": 1.05 },
+        "configuracao": {
+          "stability": 0.45,
+          "similarity_boost": 0.8,
+          "style": 0.35,
+          "speed": 1.05
+        },
         "frase_teste": "Olá! Me conta o que você quer proteger, que eu te mostro o kit certo, sem gastar à toa."
       }
     },
@@ -69,7 +83,12 @@
         "genero": "feminino",
         "idade": "24-28",
         "prompt_voice_design": "Brazilian Portuguese female voice, around 26 years old, energetic, upbeat and direct, slightly fast pace, cheerful and practical, like a young warehouse team leader who is always on the move.",
-        "configuracao": { "stability": 0.5, "similarity_boost": 0.75, "style": 0.3, "speed": 1.08 },
+        "configuracao": {
+          "stability": 0.5,
+          "similarity_boost": 0.75,
+          "style": 0.3,
+          "speed": 1.08
+        },
         "frase_teste": "Pedido conferido, bipado e embalado! Fonte, conector, cabo e câmera: tá tudo aqui."
       }
     },
@@ -85,7 +104,12 @@
         "genero": "masculino",
         "idade": "25-28",
         "prompt_voice_design": "Brazilian Portuguese young male voice, around 26 years old, slightly nasal and light, enthusiastic and nerdy, patient and didactic, medium-fast pace, sounds like a tech support specialist who loves explaining gadgets.",
-        "configuracao": { "stability": 0.5, "similarity_boost": 0.75, "style": 0.25, "speed": 1.02 },
+        "configuracao": {
+          "stability": 0.5,
+          "similarity_boost": 0.75,
+          "style": 0.25,
+          "speed": 1.02
+        },
         "frase_teste": "Beleza, vamos lá: abre o aplicativo, toca no mais e aponta a câmera do celular pro QR Code do gravador."
       }
     },
@@ -101,7 +125,12 @@
         "genero": "masculino",
         "idade": "60-68",
         "prompt_voice_design": "Brazilian Portuguese elderly male voice, around 65 years old, warm and a little hoarse, slow and deliberate pace, folksy and good-humored, slightly skeptical tone, like a neighborhood shop owner.",
-        "configuracao": { "stability": 0.6, "similarity_boost": 0.75, "style": 0.2, "speed": 0.9 },
+        "configuracao": {
+          "stability": 0.6,
+          "similarity_boost": 0.75,
+          "style": 0.2,
+          "speed": 0.9
+        },
         "frase_teste": "Ô, meu filho, mas essa câmera aí grava à noite também? Porque o problema lá na padaria é de madrugada."
       }
     },
@@ -117,7 +146,12 @@
         "genero": "feminino",
         "idade": "32-38",
         "prompt_voice_design": "Brazilian Portuguese female voice, around 35 years old, clear, confident and warm, medium pace, modern and articulate, curious and decisive, like a busy entrepreneur asking smart questions.",
-        "configuracao": { "stability": 0.5, "similarity_boost": 0.8, "style": 0.3, "speed": 1.0 },
+        "configuracao": {
+          "stability": 0.5,
+          "similarity_boost": 0.8,
+          "style": 0.3,
+          "speed": 1.0
+        },
         "frase_teste": "Eu consigo ver a câmera da minha casa e da minha loja no mesmo aplicativo? E se a internet cair?"
       }
     }
