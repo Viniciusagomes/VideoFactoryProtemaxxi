@@ -1,0 +1,71 @@
+{
+  "versao": 1,
+  "tamanho": [1920, 1080],
+  "observacao": "chao_y é a altura (em px do cenário) onde ficam os pés dos personagens. Personagens entram entre os grupos 'moveis' e 'frente' de cada SVG.",
+  "cenarios": [
+    {
+      "slug": "loja-interior",
+      "nome": "Loja: interior e balcão",
+      "arquivo": "svg/loja-interior.svg",
+      "descricao": "Prateleiras brancas cheias de caixas verdes, nichos pretos embaixo, balcão de madeira ripada com notebooks e expositor de vidro na frente.",
+      "personagens": ["Rodrigo", "Vinícius", "Seu Antônio", "Fernanda"],
+      "chao_y": 1000
+    },
+    {
+      "slug": "loja-painel",
+      "nome": "Loja: painel de demonstração",
+      "arquivo": "svg/loja-painel.svg",
+      "descricao": "Parede de madeira ripada com câmeras, alarmes, sensores, vídeo porteiro, gravadores e monitor mostrando as câmeras ao vivo. Bom para explicar produto.",
+      "personagens": ["Rodrigo", "Vinícius", "Caio"],
+      "chao_y": 1060
+    },
+    {
+      "slug": "estoque-expedicao",
+      "nome": "Estoque e expedição",
+      "arquivo": "svg/estoque-expedicao.svg",
+      "descricao": "Bancada cinza com fitas amarelas, TV e relógio na parede, estantes de aço com caixas e rolos de cabo embaixo da bancada.",
+      "personagens": ["Luana"],
+      "chao_y": 1060
+    },
+    {
+      "slug": "fachada",
+      "nome": "Fachada da loja",
+      "arquivo": "svg/fachada.svg",
+      "descricao": "Prédio grafite com letreiro verde da Protemaxxi, porta de vidro, banners laterais e estacionamento com faixas amarelas.",
+      "personagens": ["Vinícius", "todos"],
+      "chao_y": 1000
+    },
+    {
+      "slug": "casa-fernanda",
+      "nome": "Casa da Fernanda",
+      "arquivo": "svg/casa-fernanda.svg",
+      "descricao": "Sala moderna com janela para a cidade, sofá, TV, prateleira com câmera Wi-Fi e plantas.",
+      "personagens": ["Fernanda", "Marcão", "Caio"],
+      "chao_y": 1000
+    },
+    {
+      "slug": "casa-antonio",
+      "nome": "Casa do Seu Antônio",
+      "arquivo": "svg/casa-antonio.svg",
+      "descricao": "Sala clássica com papel de parede, cortina vermelha, poltrona, TV antiga, rádio e câmera dome no canto.",
+      "personagens": ["Seu Antônio", "Marcão"],
+      "chao_y": 1000
+    },
+    {
+      "slug": "campo-instalador",
+      "nome": "Campo: instalação na casa do cliente",
+      "arquivo": "svg/campo-instalador.svg",
+      "descricao": "Frente de casa com câmera sendo instalada no canto, escada, caixa de ferramentas, rolo de cabo e a van da Protemaxxi.",
+      "personagens": ["Marcão", "Seu Antônio", "Fernanda"],
+      "chao_y": 1010
+    },
+    {
+      "slug": "suporte-tecnico",
+      "nome": "Central de suporte técnico",
+      "arquivo": "svg/suporte-tecnico.svg",
+      "descricao": "Mesa com dois monitores (mosaico de câmeras e aplicativo de configuração), prateleira de equipamentos e logo da Protemaxxi na parede.",
+      "personagens": ["Caio"],
+      "chao_y": 1060
+    }
+  ]
+}
