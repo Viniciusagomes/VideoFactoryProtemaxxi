@@ -41,6 +41,7 @@ Precisa de Google Chrome, Python com `pillow`, `numpy` e `imageio-ffmpeg` (`pip 
 | `04-gravador-cheio` | Caio e Seu Antônio: 3 ajustes para o gravador guardar mais dias sem trocar o HD | ~1 min |
 | `05-erro-infravermelho` | Erro de instalador #3: imagem branca à noite por reflexo do infravermelho | ~58 s |
 | `06-loja-no-celular` | Seu Antônio e Caio: ver a loja no celular em 3 passos | ~51 s |
+| `07-fernanda-viajou` | Fernanda e Caio: detecção de pessoa x detecção de movimento | ~50 s |
 
 ## Elenco
 
