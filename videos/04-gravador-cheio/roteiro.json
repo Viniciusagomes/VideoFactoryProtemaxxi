@@ -1,0 +1,68 @@
+{
+  "slug": "04-gravador-cheio",
+  "titulo": "Gravador cheio em 3 dias",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar que o tempo de gravação depende de câmeras, resolução e horas gravando, e que H.265, gravação por movimento e taxa de quadros aumentam os dias sem trocar o HD.",
+  "modelo_voz": "eleven_v4",
+  "publicacao": {
+    "titulo": "Gravador só guarda 3 dias? Antes de trocar o HD, assiste isso",
+    "legenda": "Gravador cheio em 3 dias? Nem sempre o problema é o HD 💾\nO Caio, do suporte Protemaxxi, mostra 3 ajustes que aumentam os dias de gravação sem gastar nada: H.265, gravação por movimento e taxa de quadros.\nSalva e manda pro seu instalador 👇",
+    "hashtags": "#cftv #gravador #dvr #nvr #h265 #instalador #segurancaeletronica #protemaxxi",
+    "titulo_youtube": "Gravador só guarda 3 dias? 3 ajustes antes de trocar o HD #Shorts",
+    "tiktok": "Gravador cheio em 3 dias? 3 ajustes que dobram a gravação sem trocar o HD 💾 #cftv #dvr #instalador #protemaxxi"
+  },
+  "cenas": {
+    "casa": {
+      "cenario": "casa-antonio",
+      "camera": [1200, 600, 1.3],
+      "atores": {"seu-antonio-cliente": {"x": 1200, "pe": 1040, "altura": 600}}
+    },
+    "suporte": {
+      "cenario": "suporte-tecnico",
+      "camera": [1180, 600, 1.3],
+      "atores": {"caio-suporte": {"x": 1180, "pe": 1060, "altura": 600, "boca": "aberta"}}
+    }
+  },
+  "falas": [
+    {"id": "f01", "cena": "casa", "personagem": "seu-antonio-cliente", "acao": "tremor",
+     "texto": "[indignado, voz rouca] Ô suporte! Meu gravador só guarda três dias de imagem. Me venderam HD pequeno, foi?",
+     "cartoes": [
+       {"tipo": "banner", "linhas": ["SÓ 3 DIAS", "DE GRAVAÇÃO?"], "cor": "amarelo", "de": -0.3, "dur": 3.2},
+       {"tipo": "notificacao", "titulo": "HD cheio", "sub": "Gravando por cima: só 3 dias", "icone": "!", "escuro": true, "de": 3.2}
+     ]},
+    {"id": "f02", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[calmo, sorrindo] Calma, Seu Antônio! Não é só o tamanho do HD. Vamos fazer a conta juntos."},
+    {"id": "f03", "cena": "suporte", "personagem": "caio-suporte", "camera": [1180, 540, 1.0],
+     "texto": "[didático] O espaço depende de três coisas: quantas câmeras, a resolução e quantas horas gravando.",
+     "cartoes": [{"tipo": "lista", "titulo": "O QUE ENCHE O HD", "cor": "azul_escuro", "ate": "f05", "ritmo": 0.45,
+                  "itens": [["1", "Quantidade de câmeras"], ["2", "Resolução da imagem"], ["3", "Horas gravando por dia"]]}]},
+    {"id": "f04", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[explicando] Câmera em alta resolução, gravando vinte e quatro horas, enche o HD rapidinho."},
+    {"id": "f05", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[animado] Primeiro ajuste: usa a compressão agá dois seis cinco. Ela ocupa até metade do espaço do agá dois seis quatro.",
+     "legenda": "Primeiro ajuste: usa a compressão H.265. Ela ocupa até metade do espaço do H.264.",
+     "cartoes": [{"tipo": "comparativo", "ritmo": 0.6,
+                  "esq": {"titulo": "H.264", "cor": "vermelho", "itens": [["x", "Arquivo maior"], ["x", "Enche mais rápido"]]},
+                  "dir": {"titulo": "H.265", "cor": "verde", "itens": [["ok", "Até metade do espaço"], ["ok", "Qualidade parecida"]]}}]},
+    {"id": "f06", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[didático] Segundo: grava por movimento. Rua parada de madrugada não precisa ocupar o HD.",
+     "cartoes": [{"tipo": "lista", "titulo": "3 AJUSTES SEM GASTAR NADA", "cor": "verde", "ate": "f08",
+                  "itens": [["ok", "Compressão H.265", "f06"], ["ok", "Gravação por movimento", "f06"], ["ok", "15 quadros por segundo", "f07"]]}]},
+    {"id": "f07", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[didático] Terceiro: ajusta a taxa de quadros. Quinze quadros por segundo já é ótimo pra segurança."},
+    {"id": "f08", "cena": "casa", "personagem": "seu-antonio-cliente",
+     "texto": "[surpreso, desconfiado] E sem gastar nada?! Tá bom, pode mexer aí que eu quero ver.",
+     "cartoes": [{"tipo": "notificacao", "titulo": "Configurando...", "sub": "Suporte Protemaxxi no seu gravador", "icone": "fone", "escuro": true, "de": 1.0}]},
+    {"id": "f09", "cena": "suporte", "personagem": "caio-suporte", "camera": [1180, 600, 1.3],
+     "texto": "[confiante] Pronto! Mesmo HD, agora com mais de uma semana de gravação.",
+     "cartoes": [{"tipo": "numero", "valor": "+1 SEMANA", "sub": "Mesmo HD, só configuração", "cor": "verde", "de": 0.8, "y": 330}]},
+    {"id": "f10", "cena": "suporte", "personagem": "caio-suporte", "camera": [1180, 560, 1.15],
+     "texto": "[confiante, fechando] Antes de trocar o HD, confere a configuração. Salva esse vídeo e manda pro seu instalador!",
+     "cartoes": [{"tipo": "banner", "linhas": ["ANTES DE TROCAR O HD,", "CONFERE A CONFIGURAÇÃO"], "cor": "amarelo", "tam": 72}]}
+  ],
+  "final": {
+    "linhas": ["HD CHEIO?", "CONFERE A CONFIGURAÇÃO."],
+    "sub": "H.265 • gravação por movimento • 15 quadros por segundo",
+    "cta": "Salva e manda pro seu instalador"
+  }
+}

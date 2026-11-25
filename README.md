@@ -38,6 +38,7 @@ Precisa de Google Chrome, Python com `pillow`, `numpy` e `imageio-ffmpeg` (`pip 
 | `01-configura-na-bancada` | Instalador: configurar a câmera Wi-Fi na bancada antes de fixar no alto | ~1 min |
 | `02-poe-um-cabo-so` | Caio (suporte) explica o PoE com o switch HAIZ HZ-1006P-EA2 | ~1 min |
 | `03-erro-cabo-cca` | Erro de instalador #2: cabo CCA faz a câmera reiniciar à noite | ~55 s |
+| `04-gravador-cheio` | Caio e Seu Antônio: 3 ajustes para o gravador guardar mais dias sem trocar o HD | ~1 min |
 
 ## Elenco
 
