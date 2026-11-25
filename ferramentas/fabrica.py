@@ -19,7 +19,7 @@ Formato do roteiro (resumo; ver videos/03-* para um exemplo completo):
     "serie": "ERRO DE INSTALADOR #2"      (opcional: selo no topo durante a primeira cena)
     "final": {"linhas": ["...", "..."], "sub": "...", "cta": "..."}
 
-Tipos de cartão: banner, notificacao, lista, comparativo, numero, selo, celular, custom (função passada em extras).
+Tipos de cartão: banner, notificacao, lista, comparativo, numero, selo, celular, comenta (chamada para comentar), custom (função passada em extras).
 Tempo de um cartão: entra em INI(fala) + "de" (s) e fica até o início de "ate" (id de fala), ou "dur" segundos,
 ou o fim da fala (padrão).
 """
@@ -41,6 +41,7 @@ import video as V  # noqa: E402
 from video import FPS, LARG, ALT, SR, Camera, AtorNaCena, fonte, colar, pop  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parents[1]
+SITE = "cftvclube.com.br"   # site divulgado no cartão final de todo vídeo
 
 CORES = {
     "verde": (31, 174, 90), "azul_escuro": (34, 55, 75), "amarelo": (242, 194, 48), "vermelho": (226, 59, 48),
@@ -263,6 +264,34 @@ def cartao_final(logo: Image.Image, fin: dict):
     cta = fin.get("cta", "Salva e manda pro seu instalador")
     d.rounded_rectangle((110, 1280, LARG - 110, 1400), 60, fill=CORES["amarelo"])
     d.text((LARG / 2, 1340), cta, font=ajustar(cta, 44, LARG - 300), fill=(20, 20, 20), anchor="mm")
+    if fin.get("comenta", True):
+        balao(d, LARG / 2 - 330, 1480, 34)
+        d.text((LARG / 2 - 280, 1480), "Comenta aqui embaixo!", font=fonte(46), fill="white", anchor="lm")
+    site = fin.get("site", SITE)
+    if site:
+        d.text((LARG / 2, 1590), "Mais dicas em", font=fonte(36, "bold"), fill=(190, 196, 204), anchor="mm")
+        d.text((LARG / 2, 1650), site, font=fonte(56), fill=CORES["verde"], anchor="mm")
+    return im
+
+
+def balao(d, cx, cy, r):
+    """Ícone de balão de comentário."""
+    d.rounded_rectangle((cx - r, cy - r * 0.8, cx + r, cy + r * 0.6), r * 0.45, fill="white")
+    d.polygon([(cx - r * 0.45, cy + r * 0.5), (cx - r * 0.65, cy + r * 1.05), (cx + r * 0.05, cy + r * 0.55)], fill="white")
+    for k in (-0.45, 0, 0.45):
+        d.ellipse((cx + k * r - r * 0.13, cy - r * 0.23, cx + k * r + r * 0.13, cy + r * 0.03), fill=CORES["azul"])
+
+
+def comenta(pergunta, w=960):
+    """Cartão de chamada para comentar: balão, 'COMENTA AQUI EMBAIXO' e a pergunta."""
+    linhas = V.texto_quebrado(pergunta, fonte(52), w - 80)[:2]
+    h = 150 + 66 * len(linhas) + 30
+    im, d = base_cartao(w, h, CORES["azul"], 40)
+    balao(d, 20 + 80, 20 + 75, 40)
+    d.text((20 + 140, 20 + 75), "COMENTA AQUI EMBAIXO", font=ajustar("COMENTA AQUI EMBAIXO", 56, w - 170), fill="white", anchor="lm")
+    d.line((20 + 40, 20 + 140, 20 + w - 40, 20 + 140), fill=(255, 255, 255), width=3)
+    for k, l in enumerate(linhas):
+        d.text((20 + w / 2, 20 + 185 + k * 66), l, font=fonte(52), fill=CORES["amarelo"], anchor="mm")
     return im
 
 
@@ -382,6 +411,8 @@ class Video:
                     im = selo(c["texto"], cor(c.get("cor", "vermelho")))
                 elif tipo == "numero":
                     im = numero(c["valor"], c.get("sub", ""), cor(c.get("cor", "verde")))
+                elif tipo == "comenta":
+                    im = comenta(c["pergunta"])
                 self.cartoes.append((a, b, c, im, y))
 
     def _desenhar_cartao(self, spec, a, b, t):
@@ -396,8 +427,9 @@ class Video:
         if tipo == "comparativo":
             return comparativo(spec["esq"], spec["dir"], prog)
         if tipo == "celular":
+            alerta_t = self.ini[self.idx[spec["alerta_fala"]]] if "alerta_fala" in spec else a + spec.get("alerta_em", 0.0)
             return celular(spec.get("titulo", "Câmeras"), spec.get("telas", 4),
-                           spec.get("alerta") if t >= a + spec.get("alerta_em", 0.0) else None, t)
+                           spec.get("alerta") if t >= alerta_t else None, t)
         if tipo == "custom":
             return self.extras[spec["nome"]](self, t, prog)
         raise ValueError(f"tipo de cartão desconhecido: {tipo}")
@@ -454,7 +486,7 @@ class Video:
         seg, c, cam, atores = self.estado(t)
         img = V.quadro(self.cenas[seg["cena"]], cam, atores, t)
         if c.get("filtro") == "noite":
-            img.alpha_composite(Image.new("RGBA", img.size, (8, 16, 48, 150)))
+            img.alpha_composite(Image.new("RGBA", img.size, (8, 16, 48, 115)))
         if self.serie is not None and t < self.segmentos[0]["fim"]:
             colar(img, self.serie, LARG / 2, 110, pop(t / 0.3))
         for a, b, spec, im, y in self.cartoes:

@@ -57,7 +57,10 @@
      "cartoes": [{"tipo": "notificacao", "titulo": "O barato saiu caro", "sub": "2 visitas a mais no cliente", "icone": "x", "de": 0.8, "y": 330}]},
     {"id": "f10", "cena": "estoque", "personagem": "luana-estoquista", "camera": [860, 600, 1.15],
      "texto": "[animada, fechando] Cabo bom é o mais barato no final. Salva esse vídeo e manda pro seu instalador!",
-     "cartoes": [{"tipo": "banner", "linhas": ["CABO BOM É O MAIS", "BARATO NO FINAL"], "cor": "amarelo", "tam": 78}]}
+     "cartoes": [{"tipo": "banner", "linhas": ["CABO BOM É O MAIS", "BARATO NO FINAL"], "cor": "amarelo", "tam": 78}]},
+    {"id": "f11", "cena": "estoque", "personagem": "luana-estoquista",
+     "texto": "[animada, provocando] E você, já caiu na do cabo baratinho? Comenta aqui embaixo!",
+     "cartoes": [{"tipo": "comenta", "pergunta": "Já caiu na do cabo baratinho?", "y": 330}]}
   ],
   "final": {
     "linhas": ["CABO DE CÂMERA:", "100% COBRE."],

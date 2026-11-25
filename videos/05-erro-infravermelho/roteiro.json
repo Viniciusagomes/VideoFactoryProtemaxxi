@@ -1,0 +1,67 @@
+{
+  "slug": "05-erro-infravermelho",
+  "titulo": "Erro de instalador #3: infravermelho estourado",
+  "serie": "ERRO DE INSTALADOR #3",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar que imagem branca à noite costuma ser reflexo do infravermelho (parede, beiral, teto, teia de aranha ou vidro perto da lente) e como instalar para evitar.",
+  "modelo_voz": "eleven_v4",
+  "publicacao": {
+    "titulo": "Erro de instalador #3: imagem branca à noite",
+    "legenda": "De dia a imagem é linda, de noite só aparece um clarão branco? Não é defeito da câmera 🌙\nO Vinícius mostra por que o infravermelho estoura e os 3 cuidados na instalação: longe da parede e do beiral, nada perto da lente e nunca atrás de vidro.\nSalva e manda pro seu instalador 👇",
+    "hashtags": "#cftv #infravermelho #visaonoturna #instalador #dicadeinstalador #segurancaeletronica #protemaxxi",
+    "titulo_youtube": "Câmera com imagem branca à noite? Não é defeito #Shorts",
+    "tiktok": "Imagem branca à noite não é defeito: é instalação 🌙 3 cuidados com o infravermelho. #cftv #instalador #protemaxxi"
+  },
+  "cenas": {
+    "sala": {
+      "cenario": "casa-antonio",
+      "filtro": "noite",
+      "camera": [1000, 560, 1.0],
+      "atores": {
+        "vinicius-apresentador": {"x": 640, "pe": 1040, "altura": 600},
+        "marcao-instalador": {"x": 1000, "pe": 1040, "altura": 600},
+        "seu-antonio-cliente": {"x": 1360, "pe": 1040, "altura": 580}
+      }
+    }
+  },
+  "falas": [
+    {"id": "f01", "cena": "sala", "personagem": "seu-antonio-cliente", "camera": [1360, 640, 1.3], "acao": "tremor",
+     "texto": "[reclamando, voz rouca] Marcão, de dia a câmera é uma beleza. Mas de noite... só aparece um clarão branco!",
+     "cartoes": [
+       {"tipo": "banner", "linhas": ["IMAGEM BRANCA", "À NOITE?"], "cor": "amarelo", "de": -0.3, "dur": 3.0, "y": 330},
+       {"tipo": "custom", "nome": "tela_ruim", "de": 3.0, "y": 520}
+     ]},
+    {"id": "f02", "cena": "sala", "personagem": "marcao-instalador", "camera": [1000, 640, 1.3],
+     "texto": "[coçando a cabeça] Ué, a câmera é nova! Deve ter vindo com defeito."},
+    {"id": "f03", "cena": "sala", "personagem": "vinicius-apresentador", "camera": [640, 640, 1.3],
+     "texto": "[firme, descontraído] Calma, Marcão! Não é defeito, é instalação. Olha onde você colocou a câmera.",
+     "cartoes": [{"tipo": "selo", "texto": "ERRO DE INSTALAÇÃO", "de": 1.2}]},
+    {"id": "f04", "cena": "sala", "personagem": "vinicius-apresentador", "camera": [760, 540, 1.0],
+     "texto": "[explicando] À noite ela acende o infravermelho. Se tem parede, beiral ou teto colado na lente, a luz bate e volta direto.",
+     "cartoes": [{"tipo": "custom", "nome": "reflexo"}]},
+    {"id": "f05", "cena": "sala", "personagem": "vinicius-apresentador",
+     "texto": "[didático] Primeiro: afasta a câmera da parede e do beiral, e aponta um pouco pra baixo.",
+     "cartoes": [{"tipo": "lista", "titulo": "COMO RESOLVER", "cor": "verde", "ate": "f08",
+                  "itens": [["1", "Longe da parede e do beiral", "f05"], ["2", "Nada perto da lente", "f06"], ["3", "Nunca atrás de vidro", "f07"]]}]},
+    {"id": "f06", "cena": "sala", "personagem": "vinicius-apresentador",
+     "texto": "[didático] Segundo: nada perto da lente. Galho, fio solto e até teia de aranha refletem a luz."},
+    {"id": "f07", "cena": "sala", "personagem": "vinicius-apresentador",
+     "texto": "[didático] Terceiro: nunca instala atrás de vidro. O infravermelho reflete no vidro e cega a câmera."},
+    {"id": "f08", "cena": "sala", "personagem": "marcao-instalador", "camera": [1000, 560, 1.0], "acao": "pulo",
+     "texto": "[aliviado, animado] Mudei de lugar e olha só: imagem limpinha de noite!",
+     "cartoes": [{"tipo": "custom", "nome": "tela_boa", "de": 0.4, "ate": "f10", "y": 520}]},
+    {"id": "f09", "cena": "sala", "personagem": "seu-antonio-cliente",
+     "texto": "[surpreso, rindo] Agora dá até pra ver o gato do vizinho!"},
+    {"id": "f10", "cena": "sala", "personagem": "vinicius-apresentador", "camera": [700, 600, 1.15],
+     "texto": "[confiante, fechando] Câmera branca de noite? Confere a instalação antes de trocar. Salva e manda pro seu instalador!",
+     "cartoes": [{"tipo": "banner", "linhas": ["NOITE BRANCA?", "CONFERE A INSTALAÇÃO"], "cor": "amarelo", "tam": 78}]},
+    {"id": "f11", "cena": "sala", "personagem": "vinicius-apresentador",
+     "texto": "[animado, convidando] Qual erro de instalação você mais vê por aí? Comenta que pode virar o próximo episódio!",
+     "cartoes": [{"tipo": "comenta", "pergunta": "Qual erro você mais vê por aí?", "y": 330}]}
+  ],
+  "final": {
+    "linhas": ["IMAGEM BRANCA À NOITE?", "CONFERE A INSTALAÇÃO."],
+    "sub": "Longe da parede • nada perto da lente • nunca atrás de vidro",
+    "cta": "Salva e manda pro seu instalador"
+  }
+}

@@ -38,6 +38,13 @@ Precisa de Google Chrome, Python com `pillow`, `numpy` e `imageio-ffmpeg` (`pip 
 | `01-configura-na-bancada` | Instalador: configurar a câmera Wi-Fi na bancada antes de fixar no alto | ~1 min |
 | `02-poe-um-cabo-so` | Caio (suporte) explica o PoE com o switch HAIZ HZ-1006P-EA2 | ~1 min |
 | `03-erro-cabo-cca` | Erro de instalador #2: cabo CCA faz a câmera reiniciar à noite | ~55 s |
+| `04-gravador-cheio` | Caio e Seu Antônio: 3 ajustes para o gravador guardar mais dias sem trocar o HD | ~1 min |
+| `05-erro-infravermelho` | Erro de instalador #3: imagem branca à noite por reflexo do infravermelho | ~58 s |
+| `06-loja-no-celular` | Seu Antônio e Caio: ver a loja no celular em 3 passos | ~51 s |
+| `07-fernanda-viajou` | Fernanda e Caio: detecção de pessoa x detecção de movimento | ~50 s |
+| `08-kit-ou-sob-medida` | Rodrigo e Fernanda na loja: kit pronto x sistema sob medida | ~55 s |
+
+Todo vídeo termina com uma **chamada para interação**: o personagem faz uma pergunta e pede para comentar (cartão `comenta` no roteiro), e o cartão final mostra "Comenta aqui embaixo!" e o site **cftvclube.com.br**.
 
 ## Elenco
 

@@ -1,0 +1,64 @@
+{
+  "slug": "07-fernanda-viajou",
+  "titulo": "Fernanda viajou tranquila",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar a detecção de pessoa: menos alarme falso que a detecção de movimento comum, com área marcada no app e alertas programados.",
+  "modelo_voz": "eleven_v4",
+  "publicacao": {
+    "titulo": "A câmera avisou a Fernanda na praia",
+    "legenda": "A Fernanda estava na praia quando o celular apitou: pessoa detectada na sala! 📲\nO Caio explica a diferença entre detecção de movimento comum e detecção de pessoa, e como configurar pra só receber o alerta que importa.\nSalva e manda pra quem vai viajar 👇",
+    "hashtags": "#cftv #cameradeseguranca #deteccaodepessoa #casasegura #viagem #protemaxxi",
+    "titulo_youtube": "A câmera avisou: pessoa detectada na sala! #Shorts",
+    "tiktok": "Tava na praia e a câmera avisou: pessoa na sala 😱 Detecção de pessoa explicada. #cftv #casasegura #protemaxxi"
+  },
+  "cenas": {
+    "casa": {
+      "cenario": "casa-fernanda",
+      "camera": [1100, 620, 1.3],
+      "atores": {"fernanda-cliente": {"x": 1100, "pe": 1040, "altura": 600}}
+    },
+    "suporte": {
+      "cenario": "suporte-tecnico",
+      "camera": [1180, 600, 1.3],
+      "atores": {"caio-suporte": {"x": 1180, "pe": 1060, "altura": 600, "boca": "aberta"}}
+    }
+  },
+  "falas": [
+    {"id": "f01", "cena": "casa", "personagem": "fernanda-cliente", "camera": [960, 620, 1.15], "acao": "pulo",
+     "texto": "[empolgada, contando uma história] Gente, eu tava na praia quando o celular apitou: pessoa detectada na sala!",
+     "cartoes": [
+       {"tipo": "banner", "linhas": ["VIAJANDO E A", "CÂMERA AVISOU?"], "cor": "amarelo", "de": -0.3, "dur": 2.6, "y": 300},
+       {"tipo": "celular", "titulo": "Casa da Fernanda", "telas": 1, "alerta": "Pessoa detectada na sala", "alerta_em": 1.6,
+        "de": 2.6, "ate": "f03", "x": 320, "y": 760}
+     ]},
+    {"id": "f02", "cena": "casa", "personagem": "fernanda-cliente",
+     "texto": "[rindo, aliviada] Abri a câmera ao vivo... era a minha irmã, que foi dar comida pro gato."},
+    {"id": "f03", "cena": "suporte", "personagem": "caio-suporte", "camera": [1180, 540, 1.0],
+     "texto": "[didático, animado] Isso é a detecção de pessoa. A câmera avisa quando é gente, não quando passa uma sombra ou o gato.",
+     "cartoes": [{"tipo": "comparativo", "ate": "f05", "ritmo": 0.7,
+                  "esq": {"titulo": "MOVIMENTO", "cor": "vermelho", "itens": [["x", "Sombra vira alerta"], ["x", "Cortina vira alerta"], ["x", "Muito alarme falso"]]},
+                  "dir": {"titulo": "PESSOA", "cor": "verde", "itens": [["ok", "Só avisa se é gente"], ["ok", "Alerta que importa"], ["ok", "Você confia no aviso"]]}}]},
+    {"id": "f04", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[explicando] Com detecção de movimento comum, qualquer cortina balançando vira alerta. Aí você para de olhar."},
+    {"id": "f05", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[didático] Dica: marca no aplicativo só a área que importa, tipo a porta e a janela.",
+     "cartoes": [{"tipo": "lista", "titulo": "CONFIGURA ASSIM", "cor": "verde", "ate": "f07",
+                  "itens": [["1", "Área marcada: porta e janela", "f05"], ["2", "Alertas nos horários certos", "f06"]]}]},
+    {"id": "f06", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[didático] E programa os alertas pros horários em que a casa fica vazia."},
+    {"id": "f07", "cena": "casa", "personagem": "fernanda-cliente",
+     "texto": "[tranquila, sorrindo] Agora eu viajo e durmo tranquila. Se apitar, é porque é sério!",
+     "cartoes": [{"tipo": "notificacao", "titulo": "Tudo tranquilo", "sub": "Nenhuma pessoa detectada hoje", "icone": "ok", "de": 0.5, "y": 330}]},
+    {"id": "f08", "cena": "suporte", "personagem": "caio-suporte", "camera": [1180, 560, 1.15],
+     "texto": "[confiante, fechando] Câmera com detecção de pessoa: menos alarme falso, mais tranquilidade. Salva e manda pra quem vai viajar!",
+     "cartoes": [{"tipo": "banner", "linhas": ["MENOS ALARME FALSO,", "MAIS TRANQUILIDADE"], "cor": "amarelo", "tam": 76}]},
+    {"id": "f09", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[rindo, curioso] Sua câmera já te mandou algum alerta inusitado? Conta aqui nos comentários!",
+     "cartoes": [{"tipo": "comenta", "pergunta": "Qual alerta inusitado você já recebeu?", "y": 330}]}
+  ],
+  "final": {
+    "linhas": ["DETECÇÃO DE PESSOA:", "SÓ AVISA O QUE IMPORTA."],
+    "sub": "Área marcada no app • alertas nos horários certos",
+    "cta": "Salva e manda pra quem vai viajar"
+  }
+}
