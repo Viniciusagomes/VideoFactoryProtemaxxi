@@ -58,7 +58,10 @@
      "cartoes": [{"tipo": "numero", "valor": "+1 SEMANA", "sub": "Mesmo HD, só configuração", "cor": "verde", "de": 0.8, "y": 330}]},
     {"id": "f10", "cena": "suporte", "personagem": "caio-suporte", "camera": [1180, 560, 1.15],
      "texto": "[confiante, fechando] Antes de trocar o HD, confere a configuração. Salva esse vídeo e manda pro seu instalador!",
-     "cartoes": [{"tipo": "banner", "linhas": ["ANTES DE TROCAR O HD,", "CONFERE A CONFIGURAÇÃO"], "cor": "amarelo", "tam": 72}]}
+     "cartoes": [{"tipo": "banner", "linhas": ["ANTES DE TROCAR O HD,", "CONFERE A CONFIGURAÇÃO"], "cor": "amarelo", "tam": 72}]},
+    {"id": "f11", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[curioso, animado] E o seu gravador, guarda quantos dias? Conta aqui nos comentários!",
+     "cartoes": [{"tipo": "comenta", "pergunta": "Seu gravador guarda quantos dias?", "y": 330}]}
   ],
   "final": {
     "linhas": ["HD CHEIO?", "CONFERE A CONFIGURAÇÃO."],

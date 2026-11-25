@@ -44,6 +44,8 @@ Precisa de Google Chrome, Python com `pillow`, `numpy` e `imageio-ffmpeg` (`pip 
 | `07-fernanda-viajou` | Fernanda e Caio: detecção de pessoa x detecção de movimento | ~50 s |
 | `08-kit-ou-sob-medida` | Rodrigo e Fernanda na loja: kit pronto x sistema sob medida | ~55 s |
 
+Todo vídeo termina com uma **chamada para interação**: o personagem faz uma pergunta e pede para comentar (cartão `comenta` no roteiro), e o cartão final mostra "Comenta aqui embaixo!" e o site **cftvclube.com.br**.
+
 ## Elenco
 
 | Personagem | Papel | Voz |

@@ -54,7 +54,10 @@
      "texto": "[surpreso, rindo] Agora dá até pra ver o gato do vizinho!"},
     {"id": "f10", "cena": "sala", "personagem": "vinicius-apresentador", "camera": [700, 600, 1.15],
      "texto": "[confiante, fechando] Câmera branca de noite? Confere a instalação antes de trocar. Salva e manda pro seu instalador!",
-     "cartoes": [{"tipo": "banner", "linhas": ["NOITE BRANCA?", "CONFERE A INSTALAÇÃO"], "cor": "amarelo", "tam": 78}]}
+     "cartoes": [{"tipo": "banner", "linhas": ["NOITE BRANCA?", "CONFERE A INSTALAÇÃO"], "cor": "amarelo", "tam": 78}]},
+    {"id": "f11", "cena": "sala", "personagem": "vinicius-apresentador",
+     "texto": "[animado, convidando] Qual erro de instalação você mais vê por aí? Comenta que pode virar o próximo episódio!",
+     "cartoes": [{"tipo": "comenta", "pergunta": "Qual erro você mais vê por aí?", "y": 330}]}
   ],
   "final": {
     "linhas": ["IMAGEM BRANCA À NOITE?", "CONFERE A INSTALAÇÃO."],

@@ -49,7 +49,10 @@
      "texto": "[rindo, convencido] Agora eu fiscalizo tudo do sofá. Ninguém me engana mais!"},
     {"id": "f09", "cena": "suporte", "personagem": "caio-suporte", "camera": [1180, 560, 1.15],
      "texto": "[confiante, fechando] Câmera boa é a que você vê de qualquer lugar. Pede pro seu instalador configurar o acesso no celular!",
-     "cartoes": [{"tipo": "banner", "linhas": ["ACESSO NO CELULAR:", "PEDE PRO SEU INSTALADOR"], "cor": "amarelo", "tam": 74}]}
+     "cartoes": [{"tipo": "banner", "linhas": ["ACESSO NO CELULAR:", "PEDE PRO SEU INSTALADOR"], "cor": "amarelo", "tam": 74}]},
+    {"id": "f10", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[animado] E você, já vê sua casa ou sua loja pelo celular? Comenta aqui embaixo!",
+     "cartoes": [{"tipo": "comenta", "pergunta": "Já vê sua casa ou loja pelo celular?", "y": 330}]}
   ],
   "final": {
     "linhas": ["SUA LOJA", "NA PALMA DA MÃO."],

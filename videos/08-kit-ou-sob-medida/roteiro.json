@@ -44,7 +44,10 @@
      "cartoes": [{"tipo": "notificacao", "titulo": "Projeto sob medida", "sub": "Garagem • quintal • ateliê", "icone": "ok", "de": 2.0, "y": 330}]},
     {"id": "f08", "cena": "loja", "personagem": "rodrigo-vendedor", "camera": [860, 600, 1.15],
      "texto": "[animado, fechando] Escolha certa! Tá em dúvida também? Chama a gente que a gente monta o projeto com você.",
-     "cartoes": [{"tipo": "banner", "linhas": ["EM DÚVIDA? A GENTE MONTA", "O PROJETO COM VOCÊ"], "cor": "verde", "tam": 72}]}
+     "cartoes": [{"tipo": "banner", "linhas": ["EM DÚVIDA? A GENTE MONTA", "O PROJETO COM VOCÊ"], "cor": "verde", "tam": 72}]},
+    {"id": "f09", "cena": "loja", "personagem": "rodrigo-vendedor",
+     "texto": "[animado, convidando] E aí, kit ou sob medida? Comenta aqui embaixo que eu te ajudo a escolher!",
+     "cartoes": [{"tipo": "comenta", "pergunta": "Kit pronto ou sob medida?", "y": 330}]}
   ],
   "final": {
     "linhas": ["KIT OU SOB MEDIDA?", "A GENTE TE AJUDA."],

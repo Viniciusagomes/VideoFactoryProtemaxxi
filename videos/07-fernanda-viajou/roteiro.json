@@ -51,7 +51,10 @@
      "cartoes": [{"tipo": "notificacao", "titulo": "Tudo tranquilo", "sub": "Nenhuma pessoa detectada hoje", "icone": "ok", "de": 0.5, "y": 330}]},
     {"id": "f08", "cena": "suporte", "personagem": "caio-suporte", "camera": [1180, 560, 1.15],
      "texto": "[confiante, fechando] Câmera com detecção de pessoa: menos alarme falso, mais tranquilidade. Salva e manda pra quem vai viajar!",
-     "cartoes": [{"tipo": "banner", "linhas": ["MENOS ALARME FALSO,", "MAIS TRANQUILIDADE"], "cor": "amarelo", "tam": 76}]}
+     "cartoes": [{"tipo": "banner", "linhas": ["MENOS ALARME FALSO,", "MAIS TRANQUILIDADE"], "cor": "amarelo", "tam": 76}]},
+    {"id": "f09", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[rindo, curioso] Sua câmera já te mandou algum alerta inusitado? Conta aqui nos comentários!",
+     "cartoes": [{"tipo": "comenta", "pergunta": "Qual alerta inusitado você já recebeu?", "y": 330}]}
   ],
   "final": {
     "linhas": ["DETECÇÃO DE PESSOA:", "SÓ AVISA O QUE IMPORTA."],
