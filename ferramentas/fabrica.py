@@ -396,8 +396,9 @@ class Video:
         if tipo == "comparativo":
             return comparativo(spec["esq"], spec["dir"], prog)
         if tipo == "celular":
+            alerta_t = self.ini[self.idx[spec["alerta_fala"]]] if "alerta_fala" in spec else a + spec.get("alerta_em", 0.0)
             return celular(spec.get("titulo", "Câmeras"), spec.get("telas", 4),
-                           spec.get("alerta") if t >= a + spec.get("alerta_em", 0.0) else None, t)
+                           spec.get("alerta") if t >= alerta_t else None, t)
         if tipo == "custom":
             return self.extras[spec["nome"]](self, t, prog)
         raise ValueError(f"tipo de cartão desconhecido: {tipo}")
@@ -454,7 +455,7 @@ class Video:
         seg, c, cam, atores = self.estado(t)
         img = V.quadro(self.cenas[seg["cena"]], cam, atores, t)
         if c.get("filtro") == "noite":
-            img.alpha_composite(Image.new("RGBA", img.size, (8, 16, 48, 150)))
+            img.alpha_composite(Image.new("RGBA", img.size, (8, 16, 48, 115)))
         if self.serie is not None and t < self.segmentos[0]["fim"]:
             colar(img, self.serie, LARG / 2, 110, pop(t / 0.3))
         for a, b, spec, im, y in self.cartoes:
