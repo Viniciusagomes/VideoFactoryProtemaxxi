@@ -1,0 +1,230 @@
+{
+  "slug": "10-camera-falsa",
+  "titulo": "Câmera falsa vale a pena?",
+  "publico": "cliente",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar ao cliente que câmera falsa não protege: ladrão percebe e ela não grava prova; câmera de verdade grava e avisa.",
+  "modelo_voz": "eleven_v4",
+  "produto": null,
+  "publicacao": {
+    "titulo": "Câmera falsa vale a pena?",
+    "legenda": "O Seu Antônio queria uma câmera de mentirinha pra assustar ladrão 😅\nO Rodrigo explica por que não funciona: ladrão experiente percebe e, se acontecer algo, ela não grava nada.\nJá viu câmera falsa por aí? Comenta aqui embaixo 👇\nMais dicas em cftvclube.com.br",
+    "hashtags": "#cftv #camerafalsa #seguranca #comercio #cameradeseguranca #protemaxxi",
+    "titulo_youtube": "Câmera falsa vale a pena? A verdade #Shorts",
+    "tiktok": "Câmera de mentirinha engana ladrão? 😅 O Rodrigo explica. Já viu uma por aí? #cftv #seguranca #protemaxxi"
+  },
+  "cenas": {
+    "loja_a": {
+      "cenario": "loja-interior",
+      "camera": [
+        932,
+        560,
+        1.0
+      ],
+      "atores": {
+        "rodrigo-vendedor": {
+          "x": 790,
+          "pe": 1010,
+          "altura": 600
+        },
+        "seu-antonio-cliente": {
+          "x": 1075,
+          "pe": 1010,
+          "altura": 580
+        }
+      }
+    }
+  },
+  "falas": [
+    {
+      "id": "f01",
+      "cena": "loja_a",
+      "personagem": "seu-antonio-cliente",
+      "camera": [
+        1075,
+        640,
+        1.3
+      ],
+      "texto": "[desconfiado, pechinchando] Rodrigo, me vê essa câmera de mentirinha aí. Só pra assustar ladrão, sai mais barato!",
+      "cartoes": [
+        {
+          "tipo": "banner",
+          "linhas": [
+            "CÂMERA FALSA",
+            "VALE A PENA?"
+          ],
+          "cor": "amarelo",
+          "de": -0.3
+        }
+      ]
+    },
+    {
+      "id": "f02",
+      "cena": "loja_a",
+      "personagem": "rodrigo-vendedor",
+      "camera": [
+        790,
+        640,
+        1.3
+      ],
+      "texto": "[simpático, sincero] Seu Antônio, vou ser sincero: câmera falsa só engana quem não entende."
+    },
+    {
+      "id": "f03",
+      "cena": "loja_a",
+      "personagem": "rodrigo-vendedor",
+      "camera": [
+        932,
+        560,
+        1.0
+      ],
+      "texto": "[explicando] Ladrão experiente olha e percebe: sem cabo, luzinha piscando estranho, cara de brinquedo.",
+      "cartoes": [
+        {
+          "tipo": "lista",
+          "titulo": "COMO O LADRÃO PERCEBE",
+          "itens": [
+            [
+              "x",
+              "Sem cabo nenhum"
+            ],
+            [
+              "x",
+              "Luz piscando diferente"
+            ],
+            [
+              "x",
+              "Cara de brinquedo"
+            ]
+          ],
+          "cor": "vermelho",
+          "ritmo": 0.7
+        }
+      ]
+    },
+    {
+      "id": "f04",
+      "cena": "loja_a",
+      "personagem": "rodrigo-vendedor",
+      "texto": "[explicando] E se acontecer alguma coisa, ela não grava nada. Sem imagem, sem prova.",
+      "cartoes": [
+        {
+          "tipo": "notificacao",
+          "titulo": "Nada gravado",
+          "sub": "Câmera falsa não grava",
+          "icone": "x",
+          "y": 330,
+          "de": 0.6
+        }
+      ]
+    },
+    {
+      "id": "f05",
+      "cena": "loja_a",
+      "personagem": "rodrigo-vendedor",
+      "texto": "[didático] Hoje uma câmera de verdade, com gravação e alerta no celular, cabe no bolso.",
+      "cartoes": [
+        {
+          "tipo": "comparativo",
+          "ate": "f07",
+          "ritmo": 0.6,
+          "esq": {
+            "titulo": "FALSA",
+            "cor": "vermelho",
+            "itens": [
+              [
+                "x",
+                "Não grava"
+              ],
+              [
+                "x",
+                "Não avisa"
+              ],
+              [
+                "x",
+                "Ladrão percebe"
+              ]
+            ]
+          },
+          "dir": {
+            "titulo": "DE VERDADE",
+            "cor": "verde",
+            "itens": [
+              [
+                "ok",
+                "Grava tudo"
+              ],
+              [
+                "ok",
+                "Alerta no celular"
+              ],
+              [
+                "ok",
+                "Vira prova"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "f06",
+      "cena": "loja_a",
+      "personagem": "seu-antonio-cliente",
+      "camera": [
+        1075,
+        640,
+        1.3
+      ],
+      "texto": "[convencido, resmungando] Tá bom, tá bom... me mostra então essa de verdade."
+    },
+    {
+      "id": "f07",
+      "cena": "loja_a",
+      "personagem": "rodrigo-vendedor",
+      "camera": [
+        790,
+        640,
+        1.3
+      ],
+      "texto": "[animado] Boa escolha! Segurança de mentira só funciona até o dia em que você precisa.",
+      "cartoes": [
+        {
+          "tipo": "banner",
+          "linhas": [
+            "SEGURANÇA DE MENTIRA",
+            "NÃO PROTEGE"
+          ],
+          "cor": "amarelo",
+          "tam": 78
+        }
+      ]
+    },
+    {
+      "id": "f08",
+      "cena": "loja_a",
+      "personagem": "rodrigo-vendedor",
+      "camera": [
+        750,
+        600,
+        1.15
+      ],
+      "texto": "[animado, convidando] E aí, você já viu câmera falsa por aí? Comenta aqui embaixo!",
+      "cartoes": [
+        {
+          "tipo": "comenta",
+          "pergunta": "Já viu câmera falsa por aí?",
+          "y": 330
+        }
+      ]
+    }
+  ],
+  "final": {
+    "linhas": [
+      "CÂMERA FALSA",
+      "NÃO GRAVA NADA."
+    ],
+    "sub": "Câmera de verdade: grava, avisa e vira prova",
+    "cta": "Marca quem ainda usa câmera de mentirinha"
+  }
+}

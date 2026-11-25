@@ -1,0 +1,187 @@
+{
+  "slug": "18-faltou-luz-nobreak",
+  "titulo": "Faltou luz e a câmera apagou",
+  "publico": "cliente",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar ao cliente que sem energia não há gravação, e que o nobreak no gravador, nas câmeras e no roteador mantém tudo gravando.",
+  "modelo_voz": "eleven_v4",
+  "produto": null,
+  "publicacao": {
+    "titulo": "Faltou luz e a câmera apagou?",
+    "legenda": "Faltou luz na loja do Seu Antônio e, justo nessa noite, entraram 😱\nO Caio explica como o nobreak mantém gravador, câmeras e roteador funcionando quando a energia cai.\nSeu sistema tem nobreak? Conta aqui nos comentários 👇\nMais dicas em cftvclube.com.br",
+    "hashtags": "#cftv #nobreak #seguranca #comercio #cameradeseguranca #protemaxxi",
+    "titulo_youtube": "Faltou luz e a câmera apagou? Nobreak resolve #Shorts",
+    "tiktok": "Faltou luz e a câmera apagou 😱 O nobreak segura tudo. O seu tem? #cftv #nobreak #protemaxxi"
+  },
+  "cenas": {
+    "casa_a": {
+      "cenario": "casa-antonio",
+      "camera": [
+        1200,
+        620,
+        1.3
+      ],
+      "atores": {
+        "seu-antonio-cliente": {
+          "x": 1200,
+          "pe": 1040,
+          "altura": 600
+        }
+      }
+    },
+    "suporte": {
+      "cenario": "suporte-tecnico",
+      "camera": [
+        1180,
+        600,
+        1.3
+      ],
+      "atores": {
+        "caio-suporte": {
+          "x": 1180,
+          "pe": 1060,
+          "altura": 600,
+          "boca": "aberta"
+        }
+      }
+    }
+  },
+  "falas": [
+    {
+      "id": "f01",
+      "cena": "casa_a",
+      "personagem": "seu-antonio-cliente",
+      "acao": "tremor",
+      "texto": "[revoltado, voz rouca] Faltou luz na loja e, justo nessa noite, entraram! E a câmera? Desligada!",
+      "cartoes": [
+        {
+          "tipo": "banner",
+          "linhas": [
+            "FALTOU LUZ E A",
+            "CÂMERA APAGOU?"
+          ],
+          "cor": "amarelo",
+          "de": -0.3
+        }
+      ]
+    },
+    {
+      "id": "f02",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "texto": "[sério, compreensivo] Seu Antônio, sem energia não tem gravação. Por isso o nobreak é tão importante."
+    },
+    {
+      "id": "f03",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "camera": [
+        1180,
+        600,
+        1.3
+      ],
+      "texto": "[didático] O nobreak segura a energia do gravador e das câmeras quando a luz cai.",
+      "cartoes": [
+        {
+          "tipo": "lista",
+          "titulo": "LIGA NO NOBREAK",
+          "itens": [
+            [
+              "ok",
+              "Gravador",
+              "f03"
+            ],
+            [
+              "ok",
+              "Switch ou fontes das câmeras",
+              "f03"
+            ],
+            [
+              "ok",
+              "Roteador, pros alertas",
+              "f04"
+            ]
+          ],
+          "cor": "verde",
+          "ate": "f05"
+        }
+      ]
+    },
+    {
+      "id": "f04",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "texto": "[didático] Liga também o roteador. Assim o alerta continua chegando no seu celular."
+    },
+    {
+      "id": "f05",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "texto": "[explicando] E escolhe a potência pela quantidade de equipamentos e pelo tempo que precisa segurar.",
+      "cartoes": [
+        {
+          "tipo": "notificacao",
+          "titulo": "Faltou energia",
+          "sub": "Nobreak ativo • gravando",
+          "icone": "ok",
+          "y": 330,
+          "de": 0.5,
+          "escuro": true
+        }
+      ]
+    },
+    {
+      "id": "f06",
+      "cena": "casa_a",
+      "personagem": "seu-antonio-cliente",
+      "texto": "[desconfiado] E isso resolve mesmo? O ladrão não vai saber?"
+    },
+    {
+      "id": "f07",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "camera": [
+        1180,
+        640,
+        1.3
+      ],
+      "texto": "[confiante] Ele pode até desligar a luz... mas a sua câmera continua gravando.",
+      "cartoes": [
+        {
+          "tipo": "banner",
+          "linhas": [
+            "SEM LUZ,",
+            "CONTINUA GRAVANDO"
+          ],
+          "cor": "verde"
+        }
+      ]
+    },
+    {
+      "id": "f08",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "camera": [
+        1140,
+        600,
+        1.15
+      ],
+      "texto": "[curioso, animado] Seu sistema tem nobreak? Conta aqui nos comentários!",
+      "cartoes": [
+        {
+          "tipo": "comenta",
+          "pergunta": "Seu sistema tem nobreak?",
+          "y": 330
+        }
+      ]
+    }
+  ],
+  "final": {
+    "linhas": [
+      "FALTOU LUZ?",
+      "O NOBREAK SEGURA."
+    ],
+    "sub": "Gravador, câmeras e roteador no nobreak",
+    "cta": "Marca aquele comerciante que precisa ver isso"
+  }
+}

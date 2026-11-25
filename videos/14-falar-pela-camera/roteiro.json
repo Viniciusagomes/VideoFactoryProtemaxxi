@@ -1,0 +1,194 @@
+{
+  "slug": "14-falar-pela-camera",
+  "titulo": "Falar com o entregador pela câmera",
+  "publico": "cliente",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar o áudio de duas vias (microfone e alto-falante) e o cuidado com a placa de ambiente monitorado.",
+  "modelo_voz": "eleven_v4",
+  "produto": null,
+  "publicacao": {
+    "titulo": "Falei com o entregador pela câmera",
+    "legenda": "A Fernanda estava numa reunião quando o entregador chegou... e resolveu tudo pela câmera 📦\nO Caio explica o áudio de duas vias: a câmera tem microfone e alto-falante, e você fala pelo app de onde estiver.\nJá falou com alguém pela câmera? Conta aqui nos comentários 👇\nMais dicas em cftvclube.com.br",
+    "hashtags": "#cftv #cameradeseguranca #casasegura #entrega #seguranca #protemaxxi",
+    "titulo_youtube": "Falei com o entregador pela câmera! #Shorts",
+    "tiktok": "Entregador chegou e eu não tava? Falei pela câmera 📦 #cftv #casasegura #protemaxxi"
+  },
+  "cenas": {
+    "casa_f": {
+      "cenario": "casa-fernanda",
+      "camera": [
+        1100,
+        620,
+        1.3
+      ],
+      "atores": {
+        "fernanda-cliente": {
+          "x": 1100,
+          "pe": 1040,
+          "altura": 600
+        }
+      }
+    },
+    "suporte": {
+      "cenario": "suporte-tecnico",
+      "camera": [
+        1180,
+        600,
+        1.3
+      ],
+      "atores": {
+        "caio-suporte": {
+          "x": 1180,
+          "pe": 1060,
+          "altura": 600,
+          "boca": "aberta"
+        }
+      }
+    }
+  },
+  "falas": [
+    {
+      "id": "f01",
+      "cena": "casa_f",
+      "personagem": "fernanda-cliente",
+      "texto": "[apressada, contando] Eu tava numa reunião quando o entregador tocou aqui em casa. E agora?",
+      "cartoes": [
+        {
+          "tipo": "banner",
+          "linhas": [
+            "ENTREGA E NINGUÉM",
+            "EM CASA?"
+          ],
+          "cor": "amarelo",
+          "de": -0.3
+        }
+      ]
+    },
+    {
+      "id": "f02",
+      "cena": "casa_f",
+      "personagem": "fernanda-cliente",
+      "camera": [
+        960,
+        620,
+        1.15
+      ],
+      "acao": "pulo",
+      "texto": "[rindo, orgulhosa] Abri a câmera e falei com ele pelo celular: deixa com o porteiro, moço!",
+      "cartoes": [
+        {
+          "tipo": "celular",
+          "titulo": "Portão",
+          "telas": 1,
+          "alerta": "Falando pela câmera...",
+          "x": 320,
+          "y": 760,
+          "alerta_em": 1.2,
+          "de": 0.2,
+          "ate": "f03"
+        }
+      ]
+    },
+    {
+      "id": "f03",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "camera": [
+        1180,
+        600,
+        1.3
+      ],
+      "texto": "[animado, didático] Isso é o áudio de duas vias: a câmera tem microfone e alto-falante.",
+      "cartoes": [
+        {
+          "tipo": "lista",
+          "titulo": "ÁUDIO DE DUAS VIAS",
+          "itens": [
+            [
+              "ok",
+              "Microfone: você escuta",
+              "f03"
+            ],
+            [
+              "ok",
+              "Alto-falante: você fala",
+              "f03"
+            ],
+            [
+              "ok",
+              "Tudo pelo app, de onde estiver",
+              "f04"
+            ]
+          ],
+          "cor": "verde",
+          "ate": "f06"
+        }
+      ]
+    },
+    {
+      "id": "f04",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "texto": "[explicando] Você escuta e fala pelo aplicativo, de onde estiver."
+    },
+    {
+      "id": "f05",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "texto": "[bem-humorado] Serve pra entregador, visita... e até pra dar bronca no cachorro!"
+    },
+    {
+      "id": "f06",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "camera": [
+        1180,
+        640,
+        1.3
+      ],
+      "texto": "[sério, didático] Só lembra: coloca a plaquinha de ambiente monitorado e respeita a privacidade de quem passa.",
+      "cartoes": [
+        {
+          "tipo": "notificacao",
+          "titulo": "Ambiente monitorado",
+          "sub": "Avise quem entra no local",
+          "icone": "!",
+          "y": 330,
+          "de": 0.5
+        }
+      ]
+    },
+    {
+      "id": "f07",
+      "cena": "casa_f",
+      "personagem": "fernanda-cliente",
+      "texto": "[contente] Nunca mais perco entrega!"
+    },
+    {
+      "id": "f08",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "camera": [
+        1140,
+        600,
+        1.15
+      ],
+      "texto": "[curioso, animado] E você, já falou com alguém pela câmera? Conta aqui nos comentários!",
+      "cartoes": [
+        {
+          "tipo": "comenta",
+          "pergunta": "Já falou com alguém pela câmera?",
+          "y": 330
+        }
+      ]
+    }
+  ],
+  "final": {
+    "linhas": [
+      "FALA PELA CÂMERA,",
+      "DE ONDE ESTIVER."
+    ],
+    "sub": "Microfone + alto-falante • tudo pelo app",
+    "cta": "Salva e manda pra quem vive perdendo entrega"
+  }
+}

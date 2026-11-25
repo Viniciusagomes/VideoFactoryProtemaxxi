@@ -1,0 +1,196 @@
+{
+  "slug": "12-compartilhar-acesso",
+  "titulo": "Compartilhar as câmeras sem passar a senha",
+  "publico": "cliente",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar ao cliente como compartilhar o acesso às câmeras pelo app, com permissões, sem passar a senha.",
+  "modelo_voz": "eleven_v4",
+  "produto": null,
+  "publicacao": {
+    "titulo": "Como deixar a família ver as câmeras sem passar a senha",
+    "legenda": "A mãe da Fernanda queria ver as câmeras da casa. Passar a senha? Nada disso! 🔐\nO Caio mostra como compartilhar o acesso pelo aplicativo, escolhendo o que a pessoa pode ver, e tirar quando quiser.\nQuem da sua família vê suas câmeras? Conta aqui nos comentários 👇\nMais dicas em cftvclube.com.br",
+    "hashtags": "#cftv #cameradeseguranca #casasegura #seguranca #appdecameras #protemaxxi",
+    "titulo_youtube": "Família vendo as câmeras sem passar a senha #Shorts",
+    "tiktok": "Passar a senha da câmera? Nunca! Compartilha o acesso 🔐 #cftv #casasegura #protemaxxi"
+  },
+  "cenas": {
+    "casa_f": {
+      "cenario": "casa-fernanda",
+      "camera": [
+        1100,
+        620,
+        1.3
+      ],
+      "atores": {
+        "fernanda-cliente": {
+          "x": 1100,
+          "pe": 1040,
+          "altura": 600
+        }
+      }
+    },
+    "suporte": {
+      "cenario": "suporte-tecnico",
+      "camera": [
+        1180,
+        600,
+        1.3
+      ],
+      "atores": {
+        "caio-suporte": {
+          "x": 1180,
+          "pe": 1060,
+          "altura": 600,
+          "boca": "aberta"
+        }
+      }
+    }
+  },
+  "falas": [
+    {
+      "id": "f01",
+      "cena": "casa_f",
+      "personagem": "fernanda-cliente",
+      "texto": "[em dúvida] Caio, minha mãe quer ver as câmeras aqui de casa. Passo minha senha pra ela?",
+      "cartoes": [
+        {
+          "tipo": "banner",
+          "linhas": [
+            "PASSAR A SENHA",
+            "DA CÂMERA?"
+          ],
+          "cor": "amarelo",
+          "de": -0.3
+        }
+      ]
+    },
+    {
+      "id": "f02",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "texto": "[firme, simpático] Nada disso, Fernanda! Senha é só sua. O certo é compartilhar o acesso.",
+      "cartoes": [
+        {
+          "tipo": "selo",
+          "texto": "NUNCA PASSE A SENHA",
+          "de": 1.4
+        }
+      ]
+    },
+    {
+      "id": "f03",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "camera": [
+        1180,
+        600,
+        1.3
+      ],
+      "texto": "[didático] No aplicativo, você escolhe a câmera e toca em compartilhar.",
+      "cartoes": [
+        {
+          "tipo": "lista",
+          "titulo": "COMPARTILHAR ACESSO",
+          "itens": [
+            [
+              "1",
+              "Escolhe a câmera",
+              "f03"
+            ],
+            [
+              "2",
+              "Toca em compartilhar",
+              "f03"
+            ],
+            [
+              "3",
+              "Convite pra conta da pessoa",
+              "f04"
+            ],
+            [
+              "4",
+              "Define o que ela pode ver",
+              "f05"
+            ]
+          ],
+          "cor": "verde",
+          "ate": "f06"
+        }
+      ]
+    },
+    {
+      "id": "f04",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "texto": "[didático] Aí manda o convite pra conta da sua mãe, no aplicativo dela."
+    },
+    {
+      "id": "f05",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "texto": "[explicando] E você define o que ela pode fazer: só ver ao vivo, ou também ver as gravações."
+    },
+    {
+      "id": "f06",
+      "cena": "casa_f",
+      "personagem": "fernanda-cliente",
+      "camera": [
+        960,
+        620,
+        1.15
+      ],
+      "acao": "pulo",
+      "texto": "[contente] Pronto! Ela já tá vendo o quintal... e eu não passei senha nenhuma!",
+      "cartoes": [
+        {
+          "tipo": "celular",
+          "titulo": "Câmeras da Fernanda",
+          "telas": 2,
+          "alerta": "Mãe agora tem acesso",
+          "x": 320,
+          "y": 760,
+          "alerta_em": 1.0,
+          "de": 0.3,
+          "ate": "f08"
+        }
+      ]
+    },
+    {
+      "id": "f07",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "camera": [
+        1040,
+        600,
+        1.15
+      ],
+      "texto": "[confiante] E se precisar, você tira o acesso a qualquer hora, sem trocar senha."
+    },
+    {
+      "id": "f08",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "camera": [
+        1140,
+        600,
+        1.15
+      ],
+      "texto": "[curioso, animado] Quem da sua família vê as suas câmeras? Conta aqui nos comentários!",
+      "cartoes": [
+        {
+          "tipo": "comenta",
+          "pergunta": "Quem da família vê suas câmeras?",
+          "y": 330
+        }
+      ]
+    }
+  ],
+  "final": {
+    "linhas": [
+      "ACESSO PRA FAMÍLIA?",
+      "COMPARTILHA, NÃO PASSA SENHA."
+    ],
+    "sub": "Só ao vivo ou também gravações • tira o acesso quando quiser",
+    "cta": "Salva e manda pra sua família"
+  }
+}

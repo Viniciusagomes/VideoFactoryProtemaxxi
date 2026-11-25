@@ -1,0 +1,179 @@
+{
+  "slug": "17-erro-sem-etiqueta",
+  "titulo": "Erro de instalador #8: cabo sem etiqueta",
+  "publico": "instalador",
+  "serie": "ERRO DE INSTALADOR #8",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar a instalação organizada: etiqueta nas duas pontas, mapa das câmeras, termo de entrega e senha entregue em mãos.",
+  "modelo_voz": "eleven_v4",
+  "produto": null,
+  "publicacao": {
+    "titulo": "Erro de instalador #8: qual cabo é de qual câmera?",
+    "legenda": "Voltou no cliente depois de 6 meses e não sabe qual cabo é de qual câmera? 🏷️\nA Luana mostra como deixar a instalação organizada: etiqueta nas duas pontas, mapa das câmeras e termo de entrega.\nVocê etiqueta seus cabos ou vai no chute? Comenta aqui embaixo 👇\nMais dicas em cftvclube.com.br",
+    "hashtags": "#cftv #instalador #organizacao #dicadeinstalador #segurancaeletronica #protemaxxi",
+    "titulo_youtube": "Qual cabo é de qual câmera? Organiza a instalação #Shorts",
+    "tiktok": "6 meses depois: qual cabo é de qual câmera? 🏷️ Etiqueta ou chute? #cftv #instalador #protemaxxi"
+  },
+  "cenas": {
+    "estoque": {
+      "cenario": "estoque-expedicao",
+      "camera": [
+        955,
+        540,
+        1.0
+      ],
+      "atores": {
+        "luana-estoquista": {
+          "x": 780,
+          "pe": 1060,
+          "altura": 600
+        },
+        "marcao-instalador": {
+          "x": 1140,
+          "pe": 1060,
+          "altura": 600
+        }
+      }
+    }
+  },
+  "falas": [
+    {
+      "id": "f01",
+      "cena": "estoque",
+      "personagem": "marcao-instalador",
+      "camera": [
+        1140,
+        640,
+        1.3
+      ],
+      "acao": "tremor",
+      "texto": "[desesperado, rindo de nervoso] Luana, voltei num cliente depois de seis meses e não sei qual cabo é de qual câmera!",
+      "cartoes": [
+        {
+          "tipo": "banner",
+          "linhas": [
+            "QUAL CABO É DE",
+            "QUAL CÂMERA?"
+          ],
+          "cor": "amarelo",
+          "de": -0.3
+        }
+      ]
+    },
+    {
+      "id": "f02",
+      "cena": "estoque",
+      "personagem": "luana-estoquista",
+      "camera": [
+        780,
+        640,
+        1.3
+      ],
+      "texto": "[rindo] Clássico! Você não etiquetou, né?",
+      "cartoes": [
+        {
+          "tipo": "selo",
+          "texto": "ERRO COMUM",
+          "de": 0.8
+        }
+      ]
+    },
+    {
+      "id": "f03",
+      "cena": "estoque",
+      "personagem": "luana-estoquista",
+      "camera": [
+        955,
+        540,
+        1.0
+      ],
+      "texto": "[didática] Etiqueta nas duas pontas do cabo: no gravador e na câmera, com o mesmo nome.",
+      "cartoes": [
+        {
+          "tipo": "lista",
+          "titulo": "INSTALAÇÃO ORGANIZADA",
+          "itens": [
+            [
+              "ok",
+              "Etiqueta nas duas pontas",
+              "f03"
+            ],
+            [
+              "ok",
+              "Mapa das câmeras",
+              "f04"
+            ],
+            [
+              "ok",
+              "Termo de entrega",
+              "f05"
+            ],
+            [
+              "!",
+              "Senha em mãos, nunca no grupo",
+              "f06"
+            ]
+          ],
+          "cor": "verde",
+          "ate": "f07"
+        }
+      ]
+    },
+    {
+      "id": "f04",
+      "cena": "estoque",
+      "personagem": "luana-estoquista",
+      "texto": "[didática] Faz um mapa simples: câmera um, portão. Câmera dois, garagem..."
+    },
+    {
+      "id": "f05",
+      "cena": "estoque",
+      "personagem": "luana-estoquista",
+      "texto": "[explicando] E entrega um termo pro cliente, com o que foi instalado e como acessar."
+    },
+    {
+      "id": "f06",
+      "cena": "estoque",
+      "personagem": "luana-estoquista",
+      "texto": "[firme] Senha? Entrega em mãos. Nada de mandar no grupo da família!"
+    },
+    {
+      "id": "f07",
+      "cena": "estoque",
+      "personagem": "marcao-instalador",
+      "camera": [
+        1140,
+        640,
+        1.3
+      ],
+      "acao": "pulo",
+      "texto": "[convencido, orgulhoso] Instalação organizada até parece de empresa grande!"
+    },
+    {
+      "id": "f08",
+      "cena": "estoque",
+      "personagem": "luana-estoquista",
+      "camera": [
+        740,
+        600,
+        1.15
+      ],
+      "texto": "[animada, provocando] E você, etiqueta seus cabos ou vai no chute? Comenta aqui embaixo!",
+      "cartoes": [
+        {
+          "tipo": "comenta",
+          "pergunta": "Etiqueta os cabos ou vai no chute?",
+          "y": 330
+        }
+      ]
+    }
+  ],
+  "final": {
+    "linhas": [
+      "INSTALAÇÃO ORGANIZADA",
+      "É INSTALAÇÃO PROFISSIONAL."
+    ],
+    "sub": "Etiqueta nas duas pontas • mapa das câmeras • termo de entrega",
+    "cta": "Salva e manda pro seu instalador"
+  }
+}

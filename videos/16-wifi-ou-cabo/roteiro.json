@@ -1,0 +1,194 @@
+{
+  "slug": "16-wifi-ou-cabo",
+  "titulo": "Câmera Wi-Fi ou com cabo?",
+  "publico": "cliente",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Ajudar o cliente a escolher entre câmera Wi-Fi (prática, sem obra) e com cabo (estável, ideal para área externa e muitas câmeras).",
+  "modelo_voz": "eleven_v4",
+  "produto": null,
+  "publicacao": {
+    "titulo": "Câmera Wi-Fi ou com cabo? Qual escolher",
+    "legenda": "Câmera Wi-Fi ou com cabo? Todo mundo fala uma coisa diferente 🤔\nO Rodrigo explica pra Fernanda quando cada uma faz sentido, e por que muita casa usa as duas.\nE na sua casa, Wi-Fi ou cabo? Comenta aqui embaixo 👇\nMais dicas em cftvclube.com.br",
+    "hashtags": "#cftv #camerawifi #cameradeseguranca #casasegura #seguranca #protemaxxi",
+    "titulo_youtube": "Câmera Wi-Fi ou com cabo? Qual escolher #Shorts",
+    "tiktok": "Wi-Fi ou cabo? O Rodrigo explica quando usar cada uma 🤔 E na sua casa? #cftv #camerawifi #protemaxxi"
+  },
+  "cenas": {
+    "loja_f": {
+      "cenario": "loja-interior",
+      "camera": [
+        932,
+        560,
+        1.0
+      ],
+      "atores": {
+        "rodrigo-vendedor": {
+          "x": 790,
+          "pe": 1010,
+          "altura": 600
+        },
+        "fernanda-cliente": {
+          "x": 1075,
+          "pe": 1010,
+          "altura": 590
+        }
+      }
+    }
+  },
+  "falas": [
+    {
+      "id": "f01",
+      "cena": "loja_f",
+      "personagem": "fernanda-cliente",
+      "camera": [
+        1075,
+        640,
+        1.3
+      ],
+      "texto": "[curiosa] Rodrigo, câmera Wi-Fi ou com cabo? Todo mundo me fala uma coisa diferente!",
+      "cartoes": [
+        {
+          "tipo": "banner",
+          "linhas": [
+            "WI-FI OU",
+            "COM CABO?"
+          ],
+          "cor": "amarelo",
+          "de": -0.3
+        }
+      ]
+    },
+    {
+      "id": "f02",
+      "cena": "loja_f",
+      "personagem": "rodrigo-vendedor",
+      "camera": [
+        790,
+        640,
+        1.3
+      ],
+      "texto": "[simpático, confiante] Depende do lugar, Fernanda. As duas são boas, cada uma no seu canto."
+    },
+    {
+      "id": "f03",
+      "cena": "loja_f",
+      "personagem": "rodrigo-vendedor",
+      "camera": [
+        932,
+        560,
+        1.0
+      ],
+      "texto": "[explicando] A Wi-Fi é a mais prática: sem obra, só precisa de tomada e um sinal bom de internet.",
+      "cartoes": [
+        {
+          "tipo": "comparativo",
+          "ate": "f07",
+          "ritmo": 0.85,
+          "esq": {
+            "titulo": "WI-FI",
+            "cor": "azul",
+            "itens": [
+              [
+                "ok",
+                "Sem obra"
+              ],
+              [
+                "ok",
+                "Ideal dentro de casa"
+              ],
+              [
+                "!",
+                "Depende do sinal"
+              ]
+            ]
+          },
+          "dir": {
+            "titulo": "COM CABO",
+            "cor": "verde",
+            "itens": [
+              [
+                "ok",
+                "Mais estável"
+              ],
+              [
+                "ok",
+                "Ideal pra área externa"
+              ],
+              [
+                "ok",
+                "Muitas câmeras"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "f04",
+      "cena": "loja_f",
+      "personagem": "rodrigo-vendedor",
+      "texto": "[explicando] Ótima pra dentro de casa, apartamento, ou pra começar com uma ou duas câmeras."
+    },
+    {
+      "id": "f05",
+      "cena": "loja_f",
+      "personagem": "rodrigo-vendedor",
+      "legenda": "Já a com cabo é a mais estável. Com PoE, um cabo só leva imagem e energia.",
+      "texto": "[didático] Já a com cabo é a mais estável. Com pê-ó-é, um cabo só leva imagem e energia."
+    },
+    {
+      "id": "f06",
+      "cena": "loja_f",
+      "personagem": "rodrigo-vendedor",
+      "texto": "[didático] É a ideal pra área externa, portão, garagem, e quando são muitas câmeras."
+    },
+    {
+      "id": "f07",
+      "cena": "loja_f",
+      "personagem": "fernanda-cliente",
+      "camera": [
+        1075,
+        640,
+        1.3
+      ],
+      "acao": "pulo",
+      "texto": "[decidida, animada] Então Wi-Fi na sala e cabo lá fora. Fechou!",
+      "cartoes": [
+        {
+          "tipo": "notificacao",
+          "titulo": "Projeto misto",
+          "sub": "Wi-Fi dentro • cabo lá fora",
+          "icone": "ok",
+          "y": 330,
+          "de": 1.2
+        }
+      ]
+    },
+    {
+      "id": "f08",
+      "cena": "loja_f",
+      "personagem": "rodrigo-vendedor",
+      "camera": [
+        860,
+        600,
+        1.15
+      ],
+      "texto": "[animado, convidando] E na sua casa, Wi-Fi ou cabo? Comenta aqui embaixo!",
+      "cartoes": [
+        {
+          "tipo": "comenta",
+          "pergunta": "Na sua casa: Wi-Fi ou cabo?",
+          "y": 330
+        }
+      ]
+    }
+  ],
+  "final": {
+    "linhas": [
+      "WI-FI DENTRO,",
+      "CABO LÁ FORA."
+    ],
+    "sub": "Wi-Fi: prática e sem obra • Cabo: estável, ideal pra área externa",
+    "cta": "Chama a Protemaxxi pra montar seu projeto"
+  }
+}
