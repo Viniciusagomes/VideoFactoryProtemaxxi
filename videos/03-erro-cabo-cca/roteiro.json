@@ -1,0 +1,67 @@
+{
+  "slug": "03-erro-cabo-cca",
+  "titulo": "Erro de instalador #2: cabo CCA",
+  "serie": "ERRO DE INSTALADOR #2",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar que cabo CCA (alumínio revestido de cobre) derruba a energia da câmera, principalmente com PoE e à noite, e que o certo é cabo 100% cobre.",
+  "modelo_voz": "eleven_v4",
+  "publicacao": {
+    "titulo": "Erro de instalador #2: o cabo baratinho",
+    "legenda": "Câmera reiniciando toda noite? O culpado pode ser o cabo 🔌\nA Luana explica por que o cabo CCA (alumínio com cobre por fora) derruba a energia da câmera, ainda mais com PoE e infravermelho ligado. E ensina o teste rápido pra descobrir.\nSalva e manda pro seu instalador 👇",
+    "hashtags": "#cftv #instalador #cabodered #poe #dicadeinstalador #segurancaeletronica #protemaxxi",
+    "titulo_youtube": "Câmera reinicia toda noite? O erro está no cabo #Shorts",
+    "tiktok": "Câmera reiniciando à noite? Pode ser o cabo CCA 🔌 Teste rápido no vídeo. #cftv #instalador #poe #protemaxxi"
+  },
+  "cenas": {
+    "estoque": {
+      "cenario": "estoque-expedicao",
+      "camera": [955, 540, 1.0],
+      "atores": {
+        "luana-estoquista": {"x": 780, "pe": 1060, "altura": 600},
+        "marcao-instalador": {"x": 1140, "pe": 1060, "altura": 600}
+      }
+    }
+  },
+  "falas": [
+    {"id": "f01", "cena": "estoque", "personagem": "marcao-instalador", "acao": "tremor", "camera": [1140, 640, 1.3],
+     "texto": "[irritado, desabafando] Luana, de novo! A câmera do cliente fica reiniciando toda noite. Já troquei câmera, fonte... nada!",
+     "cartoes": [
+       {"tipo": "banner", "linhas": ["CÂMERA REINICIA", "TODA NOITE?"], "cor": "amarelo", "de": -0.3, "dur": 3.0, "y": 330},
+       {"tipo": "notificacao", "titulo": "Câmera offline", "sub": "Reiniciou às 18:42 • de novo", "icone": "x", "escuro": true, "de": 3.0, "y": 330}
+     ]},
+    {"id": "f02", "cena": "estoque", "personagem": "luana-estoquista", "camera": [800, 640, 1.3],
+     "texto": "[desconfiada, rindo] Marcão... que cabo você usou?"},
+    {"id": "f03", "cena": "estoque", "personagem": "marcao-instalador", "camera": [1140, 640, 1.3],
+     "texto": "[sem graça] Ah, aquele baratinho da promoção. Cabo é tudo igual, né?",
+     "cartoes": [{"tipo": "selo", "texto": "ERRO COMUM", "de": 1.6}]},
+    {"id": "f04", "cena": "estoque", "personagem": "luana-estoquista", "camera": [955, 540, 1.0],
+     "texto": "[firme, didática] Não é não! Esse aí é cê cê á: alumínio por dentro, só uma camada de cobre por fora.",
+     "legenda": "Não é não! Esse aí é CCA: alumínio por dentro, só uma camada de cobre por fora.",
+     "cartoes": [{"tipo": "custom", "nome": "corte_cabos", "ate": "f06"}]},
+    {"id": "f05", "cena": "estoque", "personagem": "luana-estoquista",
+     "texto": "[explicando] O alumínio tem mais resistência. A energia chega fraca lá na câmera."},
+    {"id": "f06", "cena": "estoque", "personagem": "luana-estoquista",
+     "texto": "[explicando, ritmo rápido] À noite o infravermelho liga, a câmera puxa mais energia... e reinicia.",
+     "cartoes": [{"tipo": "lista", "titulo": "POR QUE REINICIA À NOITE", "cor": "azul_escuro", "ritmo": 0.75,
+                  "itens": [["1", "Infravermelho liga"], ["2", "Câmera puxa mais energia"], ["3", "Cabo CCA derruba a tensão"], ["x", "Câmera reinicia"]]}]},
+    {"id": "f07", "cena": "estoque", "personagem": "luana-estoquista",
+     "texto": "[didática] Pra conferir, raspa o fio: se aparecer prateado por dentro, é alumínio.",
+     "cartoes": [{"tipo": "lista", "titulo": "TESTE RÁPIDO", "cor": "laranja", "ritmo": 0.7,
+                  "itens": [["!", "Raspa o fio com o estilete"], ["x", "Prateado por dentro: alumínio"], ["ok", "Cobre até o centro: cobre"]]}]},
+    {"id": "f08", "cena": "estoque", "personagem": "luana-estoquista",
+     "texto": "[confiante] Pra câmera, principalmente com pê-ó-é, usa cabo cem por cento cobre.",
+     "legenda": "Pra câmera, principalmente com PoE, usa cabo 100% cobre.",
+     "cartoes": [{"tipo": "banner", "linhas": ["CABO DE CÂMERA:", "100% COBRE"], "cor": "verde", "de": 0.3}]},
+    {"id": "f09", "cena": "estoque", "personagem": "marcao-instalador", "camera": [1140, 640, 1.3],
+     "texto": "[convencido, rindo de si mesmo] Economizei no cabo e paguei com duas visitas. Nunca mais!",
+     "cartoes": [{"tipo": "notificacao", "titulo": "O barato saiu caro", "sub": "2 visitas a mais no cliente", "icone": "x", "de": 0.8, "y": 330}]},
+    {"id": "f10", "cena": "estoque", "personagem": "luana-estoquista", "camera": [860, 600, 1.15],
+     "texto": "[animada, fechando] Cabo bom é o mais barato no final. Salva esse vídeo e manda pro seu instalador!",
+     "cartoes": [{"tipo": "banner", "linhas": ["CABO BOM É O MAIS", "BARATO NO FINAL"], "cor": "amarelo", "tam": 78}]}
+  ],
+  "final": {
+    "linhas": ["CABO DE CÂMERA:", "100% COBRE."],
+    "sub": "Cabo CCA derruba a energia e a câmera reinicia.",
+    "cta": "Salva e manda pro seu instalador"
+  }
+}
