@@ -1,0 +1,195 @@
+{
+  "slug": "13-erro-camera-alta",
+  "titulo": "Erro de instalador #6: câmera alta demais",
+  "publico": "instalador",
+  "serie": "ERRO DE INSTALADOR #6",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar que câmera muito alta só grava o topo da cabeça; na entrada, 2,5 a 3 metros com ângulo olhando para frente.",
+  "modelo_voz": "eleven_v4",
+  "produto": null,
+  "publicacao": {
+    "titulo": "Erro de instalador #6: gravou o ladrão... só o boné",
+    "legenda": "A câmera gravou o ladrão, mas só aparece o boné dele? 🧢\nO Vinícius explica a altura e o ângulo certos pra reconhecer rosto na entrada, e onde a câmera alta faz sentido.\nQual altura você usa nas suas instalações? Comenta aqui embaixo 👇\nMais dicas em cftvclube.com.br",
+    "hashtags": "#cftv #instalador #dicadeinstalador #posicionamento #segurancaeletronica #protemaxxi",
+    "titulo_youtube": "Gravou o ladrão... só o boné! Altura certa da câmera #Shorts",
+    "tiktok": "Câmera alta demais só grava boné 🧢 Altura certa no vídeo. Qual você usa? #cftv #instalador #protemaxxi"
+  },
+  "cenas": {
+    "campo_vma": {
+      "cenario": "campo-instalador",
+      "camera": [
+        910,
+        560,
+        1.0
+      ],
+      "atores": {
+        "vinicius-apresentador": {
+          "x": 700,
+          "pe": 1010,
+          "altura": 560
+        },
+        "marcao-instalador": {
+          "x": 980,
+          "pe": 1010,
+          "altura": 560
+        },
+        "seu-antonio-cliente": {
+          "x": 1300,
+          "pe": 1010,
+          "altura": 540
+        }
+      }
+    }
+  },
+  "falas": [
+    {
+      "id": "f01",
+      "cena": "campo_vma",
+      "personagem": "seu-antonio-cliente",
+      "camera": [
+        1300,
+        640,
+        1.3
+      ],
+      "acao": "tremor",
+      "texto": "[indignado, voz rouca] Marcão, a câmera filmou o ladrão... mas só aparece o boné dele!",
+      "cartoes": [
+        {
+          "tipo": "banner",
+          "linhas": [
+            "GRAVOU O LADRÃO...",
+            "SÓ O BONÉ?"
+          ],
+          "cor": "amarelo",
+          "de": -0.3
+        }
+      ]
+    },
+    {
+      "id": "f02",
+      "cena": "campo_vma",
+      "personagem": "marcao-instalador",
+      "camera": [
+        980,
+        640,
+        1.3
+      ],
+      "texto": "[coçando a cabeça] Ué, coloquei lá no alto pra ninguém alcançar!"
+    },
+    {
+      "id": "f03",
+      "cena": "campo_vma",
+      "personagem": "vinicius-apresentador",
+      "camera": [
+        700,
+        640,
+        1.3
+      ],
+      "texto": "[firme, descontraído] Esse é o problema, Marcão. Câmera muito alta só vê o topo da cabeça.",
+      "cartoes": [
+        {
+          "tipo": "selo",
+          "texto": "ERRO DE INSTALAÇÃO",
+          "de": 1.6
+        }
+      ]
+    },
+    {
+      "id": "f04",
+      "cena": "campo_vma",
+      "personagem": "vinicius-apresentador",
+      "camera": [
+        840,
+        560,
+        1.0
+      ],
+      "legenda": "Pra reconhecer rosto, a câmera da entrada fica mais ou menos entre 2,5 e 3 metros.",
+      "texto": "[explicando] Pra reconhecer rosto, a câmera da entrada fica mais ou menos entre dois metros e meio e três metros.",
+      "cartoes": [
+        {
+          "tipo": "numero",
+          "valor": "2,5 a 3 m",
+          "sub": "Altura pra ver o rosto na entrada",
+          "cor": "verde",
+          "y": 380,
+          "de": 1.0
+        }
+      ]
+    },
+    {
+      "id": "f05",
+      "cena": "campo_vma",
+      "personagem": "vinicius-apresentador",
+      "texto": "[didático] E com o ângulo mais deitado, olhando pra frente, não só pra baixo.",
+      "cartoes": [
+        {
+          "tipo": "lista",
+          "titulo": "COMO POSICIONAR",
+          "itens": [
+            [
+              "1",
+              "Entrada: 2,5 a 3 metros",
+              "f05"
+            ],
+            [
+              "2",
+              "Ângulo olhando pra frente",
+              "f05"
+            ],
+            [
+              "3",
+              "Câmera alta: só visão geral",
+              "f06"
+            ]
+          ],
+          "cor": "verde",
+          "ate": "f07"
+        }
+      ]
+    },
+    {
+      "id": "f06",
+      "cena": "campo_vma",
+      "personagem": "vinicius-apresentador",
+      "texto": "[didático] Câmera no alto? Pode, mas pra visão geral. Na porta, quem manda é a do rosto."
+    },
+    {
+      "id": "f07",
+      "cena": "campo_vma",
+      "personagem": "seu-antonio-cliente",
+      "camera": [
+        1300,
+        640,
+        1.3
+      ],
+      "acao": "pulo",
+      "texto": "[satisfeito, rindo] Agora sim! Dá pra ver até a cara de pau do sujeito!"
+    },
+    {
+      "id": "f08",
+      "cena": "campo_vma",
+      "personagem": "vinicius-apresentador",
+      "camera": [
+        660,
+        600,
+        1.15
+      ],
+      "texto": "[animado, convidando] E aí, qual altura você usa nas suas instalações? Comenta aqui embaixo!",
+      "cartoes": [
+        {
+          "tipo": "comenta",
+          "pergunta": "Qual altura você usa?",
+          "y": 330
+        }
+      ]
+    }
+  ],
+  "final": {
+    "linhas": [
+      "QUER VER O ROSTO?",
+      "2,5 A 3 METROS."
+    ],
+    "sub": "Ângulo olhando pra frente • câmera alta só pra visão geral",
+    "cta": "Salva e manda pro seu instalador"
+  }
+}

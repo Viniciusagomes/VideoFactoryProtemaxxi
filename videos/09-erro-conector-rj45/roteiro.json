@@ -1,0 +1,203 @@
+{
+  "slug": "09-erro-conector-rj45",
+  "titulo": "Erro de instalador #4: conector mal crimpado",
+  "publico": "instalador",
+  "serie": "ERRO DE INSTALADOR #4",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar que as duas pontas do cabo devem seguir o mesmo padrão de cores (T568B), com a capa dentro do conector e teste no testador.",
+  "modelo_voz": "eleven_v4",
+  "produto": null,
+  "publicacao": {
+    "titulo": "Erro de instalador #4: cabo novo que não conecta",
+    "legenda": "Cabo novinho, conector novinho... e a câmera não conecta? 🔌\nA Luana mostra o erro mais comum na crimpagem: cada ponta num padrão de cores. O certo é o mesmo padrão nas duas pontas, capa dentro do conector e teste antes de ir embora.\nVocê crimpa no A ou no B? Comenta aqui embaixo 👇\nMais dicas em cftvclube.com.br",
+    "hashtags": "#cftv #rj45 #crimpagem #cabodered #instalador #dicadeinstalador #protemaxxi",
+    "titulo_youtube": "Cabo novo e a câmera não conecta? Erro na crimpagem #Shorts",
+    "tiktok": "Cabo novo e não conecta? Olha a ordem das cores 🔌 Você crimpa no A ou no B? #cftv #rj45 #instalador #protemaxxi"
+  },
+  "cenas": {
+    "estoque": {
+      "cenario": "estoque-expedicao",
+      "camera": [
+        955,
+        540,
+        1.0
+      ],
+      "atores": {
+        "luana-estoquista": {
+          "x": 780,
+          "pe": 1060,
+          "altura": 600
+        },
+        "marcao-instalador": {
+          "x": 1140,
+          "pe": 1060,
+          "altura": 600
+        }
+      }
+    }
+  },
+  "falas": [
+    {
+      "id": "f01",
+      "cena": "estoque",
+      "personagem": "marcao-instalador",
+      "camera": [
+        1140,
+        640,
+        1.3
+      ],
+      "acao": "tremor",
+      "texto": "[frustrado, bufando] Luana, cabo novinho, conector novinho... e a câmera não conecta! Já crimpei três vezes!",
+      "cartoes": [
+        {
+          "tipo": "banner",
+          "linhas": [
+            "CABO NOVO E",
+            "NÃO CONECTA?"
+          ],
+          "cor": "amarelo",
+          "de": -0.3
+        }
+      ]
+    },
+    {
+      "id": "f02",
+      "cena": "estoque",
+      "personagem": "luana-estoquista",
+      "camera": [
+        780,
+        640,
+        1.3
+      ],
+      "texto": "[rindo] Deixa eu adivinhar: cada ponta numa ordem de cor diferente?"
+    },
+    {
+      "id": "f03",
+      "cena": "estoque",
+      "personagem": "marcao-instalador",
+      "camera": [
+        1140,
+        640,
+        1.3
+      ],
+      "texto": "[sem graça] Ué... eu fui pela cor que tava mais perto.",
+      "cartoes": [
+        {
+          "tipo": "selo",
+          "texto": "ERRO COMUM",
+          "de": 1.0
+        }
+      ]
+    },
+    {
+      "id": "f04",
+      "cena": "estoque",
+      "personagem": "luana-estoquista",
+      "camera": [
+        955,
+        540,
+        1.0
+      ],
+      "legenda": "As duas pontas têm que seguir o mesmo padrão. O mais usado é o T568B.",
+      "texto": "[didática] As duas pontas têm que seguir o mesmo padrão. O mais usado é o tê cinco seis oito bê.",
+      "cartoes": [
+        {
+          "tipo": "custom",
+          "nome": "cores",
+          "ate": "f06"
+        }
+      ]
+    },
+    {
+      "id": "f05",
+      "cena": "estoque",
+      "personagem": "luana-estoquista",
+      "texto": "[didática, ritmo rápido] Branco laranja, laranja, branco verde, azul, branco azul, verde, branco marrom, marrom."
+    },
+    {
+      "id": "f06",
+      "cena": "estoque",
+      "personagem": "luana-estoquista",
+      "texto": "[didática] E crimpa com a capa do cabo dentro do conector, pra não soltar com o tempo.",
+      "cartoes": [
+        {
+          "tipo": "lista",
+          "titulo": "CRIMPAGEM CERTA",
+          "itens": [
+            [
+              "ok",
+              "Mesmo padrão nas duas pontas",
+              "f06"
+            ],
+            [
+              "ok",
+              "Capa do cabo dentro do conector",
+              "f06"
+            ],
+            [
+              "ok",
+              "Testador antes de ir embora",
+              "f07"
+            ]
+          ],
+          "cor": "verde",
+          "ate": "f08"
+        }
+      ]
+    },
+    {
+      "id": "f07",
+      "cena": "estoque",
+      "personagem": "luana-estoquista",
+      "texto": "[firme] E antes de ir embora, passa o testador. Luzinha por luzinha, de um a oito."
+    },
+    {
+      "id": "f08",
+      "cena": "estoque",
+      "personagem": "marcao-instalador",
+      "camera": [
+        1140,
+        640,
+        1.3
+      ],
+      "acao": "pulo",
+      "texto": "[aliviado, animado] Refiz no padrão, testei... conectou na hora!",
+      "cartoes": [
+        {
+          "tipo": "notificacao",
+          "titulo": "Câmera online",
+          "sub": "Cabo testado: 8 de 8",
+          "icone": "ok",
+          "y": 330,
+          "de": 0.8
+        }
+      ]
+    },
+    {
+      "id": "f09",
+      "cena": "estoque",
+      "personagem": "luana-estoquista",
+      "camera": [
+        740,
+        600,
+        1.15
+      ],
+      "texto": "[animada, provocando] E você, crimpa no A ou no B? Comenta aqui embaixo!",
+      "cartoes": [
+        {
+          "tipo": "comenta",
+          "pergunta": "Você crimpa no padrão A ou B?",
+          "y": 330
+        }
+      ]
+    }
+  ],
+  "final": {
+    "linhas": [
+      "RJ45: MESMO PADRÃO",
+      "NAS DUAS PONTAS."
+    ],
+    "sub": "T568B • capa dentro do conector • testador sempre",
+    "cta": "Salva e manda pro seu instalador"
+  }
+}

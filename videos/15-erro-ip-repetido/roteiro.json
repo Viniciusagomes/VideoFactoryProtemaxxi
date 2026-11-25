@@ -1,0 +1,196 @@
+{
+  "slug": "15-erro-ip-repetido",
+  "titulo": "Erro de instalador #7: IP repetido",
+  "publico": "instalador",
+  "serie": "ERRO DE INSTALADOR #7",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar que câmera que cai sozinha pode ser conflito de IP; solução: reserva no roteador ou IP fora do DHCP, e planilha.",
+  "modelo_voz": "eleven_v4",
+  "produto": null,
+  "publicacao": {
+    "titulo": "Erro de instalador #7: a câmera cai sozinha",
+    "legenda": "Câmera que volta, cai, volta, cai...? Pode ser IP repetido na rede 🌐\nO Caio explica o conflito de IP e como resolver: reserva no roteador ou IP fora da faixa automática, e tudo anotado numa planilha.\nVocê usa IP fixo ou reserva no roteador? Comenta aqui embaixo 👇\nMais dicas em cftvclube.com.br",
+    "hashtags": "#cftv #redes #enderecoip #instalador #dicadeinstalador #protemaxxi",
+    "titulo_youtube": "Câmera cai sozinha? Pode ser IP repetido #Shorts",
+    "tiktok": "Câmera caindo sozinha? Confere o IP 🌐 Fixo ou reserva no roteador? #cftv #redes #instalador #protemaxxi"
+  },
+  "cenas": {
+    "campo_m": {
+      "cenario": "campo-instalador",
+      "camera": [
+        1060,
+        620,
+        1.3
+      ],
+      "atores": {
+        "marcao-instalador": {
+          "x": 1060,
+          "pe": 1010,
+          "altura": 560
+        }
+      }
+    },
+    "suporte": {
+      "cenario": "suporte-tecnico",
+      "camera": [
+        1180,
+        600,
+        1.3
+      ],
+      "atores": {
+        "caio-suporte": {
+          "x": 1180,
+          "pe": 1060,
+          "altura": 600,
+          "boca": "aberta"
+        }
+      }
+    }
+  },
+  "falas": [
+    {
+      "id": "f01",
+      "cena": "campo_m",
+      "personagem": "marcao-instalador",
+      "acao": "tremor",
+      "texto": "[irritado] Caio, a câmera do cliente fica caindo sozinha! Volta, cai, volta, cai...",
+      "cartoes": [
+        {
+          "tipo": "banner",
+          "linhas": [
+            "A CÂMERA CAI",
+            "SOZINHA?"
+          ],
+          "cor": "amarelo",
+          "de": -0.3
+        }
+      ]
+    },
+    {
+      "id": "f02",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "texto": "[calmo, investigando] Hum... tem outro aparelho com o mesmo IP na rede. Os dois tão brigando pelo endereço.",
+      "cartoes": [
+        {
+          "tipo": "selo",
+          "texto": "IP REPETIDO",
+          "de": 1.6
+        }
+      ]
+    },
+    {
+      "id": "f03",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "camera": [
+        1180,
+        600,
+        1.3
+      ],
+      "texto": "[didático] Cada aparelho precisa de um endereço só dele. Se dois usam o mesmo, a rede se perde.",
+      "cartoes": [
+        {
+          "tipo": "lista",
+          "titulo": "POR QUE CAI",
+          "itens": [
+            [
+              "1",
+              "Câmera com IP fixo"
+            ],
+            [
+              "2",
+              "Outro aparelho pega o mesmo"
+            ],
+            [
+              "x",
+              "Os dois caem"
+            ]
+          ],
+          "cor": "vermelho",
+          "ritmo": 0.7
+        }
+      ]
+    },
+    {
+      "id": "f04",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "texto": "[didático] A solução: reserva o IP da câmera no roteador, ou usa um IP fora da faixa automática.",
+      "cartoes": [
+        {
+          "tipo": "lista",
+          "titulo": "COMO RESOLVER",
+          "itens": [
+            [
+              "1",
+              "Reserva de IP no roteador",
+              "f04"
+            ],
+            [
+              "2",
+              "Ou IP fora da faixa do DHCP",
+              "f04"
+            ],
+            [
+              "3",
+              "Anota tudo numa planilha",
+              "f05"
+            ]
+          ],
+          "cor": "verde",
+          "ate": "f06"
+        }
+      ]
+    },
+    {
+      "id": "f05",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "texto": "[bem-humorado] E anota numa planilha qual IP é de cada câmera. Seu eu do futuro agradece."
+    },
+    {
+      "id": "f06",
+      "cena": "campo_m",
+      "personagem": "marcao-instalador",
+      "acao": "pulo",
+      "texto": "[aliviado, animado] Reservei no roteador e acabou o pisca-pisca!",
+      "cartoes": [
+        {
+          "tipo": "notificacao",
+          "titulo": "Câmera online",
+          "sub": "Estável há 24 horas",
+          "icone": "ok",
+          "y": 330,
+          "de": 0.5
+        }
+      ]
+    },
+    {
+      "id": "f07",
+      "cena": "suporte",
+      "personagem": "caio-suporte",
+      "camera": [
+        1140,
+        600,
+        1.15
+      ],
+      "texto": "[curioso, animado] Você usa IP fixo ou reserva no roteador? Comenta aqui embaixo!",
+      "cartoes": [
+        {
+          "tipo": "comenta",
+          "pergunta": "IP fixo ou reserva no roteador?",
+          "y": 330
+        }
+      ]
+    }
+  ],
+  "final": {
+    "linhas": [
+      "CÂMERA CAINDO?",
+      "CONFERE O IP."
+    ],
+    "sub": "Reserva no roteador ou IP fora do DHCP • anota numa planilha",
+    "cta": "Salva e manda pro seu instalador"
+  }
+}

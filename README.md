@@ -43,6 +43,16 @@ Precisa de Google Chrome, Python com `pillow`, `numpy` e `imageio-ffmpeg` (`pip 
 | `06-loja-no-celular` | Seu Antônio e Caio: ver a loja no celular em 3 passos | ~51 s |
 | `07-fernanda-viajou` | Fernanda e Caio: detecção de pessoa x detecção de movimento | ~50 s |
 | `08-kit-ou-sob-medida` | Rodrigo e Fernanda na loja: kit pronto x sistema sob medida | ~55 s |
+| `09-erro-conector-rj45` | Erro de instalador #4: conector mal crimpado (instalador) | ~1 min |
+| `10-camera-falsa` | Câmera falsa vale a pena? (cliente) | ~1 min |
+| `11-erro-agua-no-conector` | Erro de instalador #5: água no conector (instalador) | ~1 min |
+| `12-compartilhar-acesso` | Compartilhar as câmeras sem passar a senha (cliente) | ~1 min |
+| `13-erro-camera-alta` | Erro de instalador #6: câmera alta demais (instalador) | ~1 min |
+| `14-falar-pela-camera` | Falar com o entregador pela câmera (cliente) | ~1 min |
+| `15-erro-ip-repetido` | Erro de instalador #7: IP repetido (instalador) | ~1 min |
+| `16-wifi-ou-cabo` | Câmera Wi-Fi ou com cabo? (cliente) | ~1 min |
+| `17-erro-sem-etiqueta` | Erro de instalador #8: cabo sem etiqueta (instalador) | ~1 min |
+| `18-faltou-luz-nobreak` | Faltou luz e a câmera apagou (cliente) | ~1 min |
 
 Todo vídeo termina com uma **chamada para interação**: o personagem faz uma pergunta e pede para comentar (cartão `comenta` no roteiro), e o cartão final mostra "Comenta aqui embaixo!" e o site **cftvclube.com.br**.
 
