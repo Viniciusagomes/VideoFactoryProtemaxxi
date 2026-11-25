@@ -1,0 +1,59 @@
+{
+  "slug": "06-loja-no-celular",
+  "titulo": "Seu Antônio vê a loja pelo celular",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Mostrar ao cliente comerciante como é simples ver as câmeras da loja no celular (app do gravador, QR Code, senha forte) e receber alertas.",
+  "modelo_voz": "eleven_v4",
+  "publicacao": {
+    "titulo": "Seu Antônio descobriu que vê a loja pelo celular",
+    "legenda": "O Seu Antônio não confiava nesse negócio de ver a loja pelo celular... até o Caio mostrar como é fácil 📱\n3 passos: app do gravador, QR Code e senha forte. E ainda recebe alerta de movimento quando a loja fecha.\nMarca aquele comerciante que precisa ver isso 👇",
+    "hashtags": "#cftv #cameradeseguranca #comercio #seguranca #appdecameras #protemaxxi",
+    "titulo_youtube": "Seu Antônio descobriu que vê a loja pelo celular #Shorts",
+    "tiktok": "Ver a loja pelo celular em 3 passos 📱 O Seu Antônio aprovou! #cftv #comercio #seguranca #protemaxxi"
+  },
+  "cenas": {
+    "casa": {
+      "cenario": "casa-antonio",
+      "camera": [1200, 620, 1.3],
+      "atores": {"seu-antonio-cliente": {"x": 1200, "pe": 1040, "altura": 600}}
+    },
+    "suporte": {
+      "cenario": "suporte-tecnico",
+      "camera": [1180, 600, 1.3],
+      "atores": {"caio-suporte": {"x": 1180, "pe": 1060, "altura": 600, "boca": "aberta"}}
+    }
+  },
+  "falas": [
+    {"id": "f01", "cena": "casa", "personagem": "seu-antonio-cliente", "acao": "tremor",
+     "texto": "[desconfiado, voz rouca] Esse negócio de ver a loja pelo celular... é coisa de jovem. Eu não confio, não!",
+     "cartoes": [{"tipo": "banner", "linhas": ["VER A LOJA", "PELO CELULAR?"], "cor": "amarelo", "de": -0.3}]},
+    {"id": "f02", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[animado, paciente] Seu Antônio, é mais fácil que mandar mensagem no grupo da família! Pega o celular aí.",
+     "cartoes": [{"tipo": "notificacao", "titulo": "Suporte na linha", "sub": "Caio • Suporte Protemaxxi", "icone": "fone", "escuro": true, "de": 0.4}]},
+    {"id": "f03", "cena": "suporte", "personagem": "caio-suporte", "camera": [1180, 540, 1.0],
+     "texto": "[didático] Primeiro: baixa o aplicativo do seu gravador na loja de aplicativos do celular.",
+     "cartoes": [{"tipo": "lista", "titulo": "3 PASSOS NO CELULAR", "cor": "verde", "ate": "f06",
+                  "itens": [["1", "Baixa o app do gravador", "f03"], ["2", "Lê o QR Code do gravador", "f04"], ["3", "Senha forte (nada de 1234!)", "f05"]]}]},
+    {"id": "f04", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[didático] Segundo: toca em adicionar e aponta a câmera do celular pro QR Code do gravador."},
+    {"id": "f05", "cena": "suporte", "personagem": "caio-suporte",
+     "texto": "[didático, bem-humorado] Terceiro: cria uma senha forte, só sua. Nada de um, dois, três, quatro!",
+     "legenda": "Terceiro: cria uma senha forte, só sua. Nada de 1234!"},
+    {"id": "f06", "cena": "casa", "personagem": "seu-antonio-cliente", "camera": [1060, 620, 1.15], "acao": "pulo",
+     "texto": "[surpreso, encantado] Opa! Apareceu a loja inteirinha! Olha o Juca varrendo a calçada!",
+     "cartoes": [{"tipo": "celular", "titulo": "Loja do Seu Antônio", "telas": 4, "alerta": "Movimento na loja • 22:14",
+                  "alerta_fala": "f07", "de": 0.3, "ate": "f09", "x": 320, "y": 760}]},
+    {"id": "f07", "cena": "suporte", "personagem": "caio-suporte", "camera": [1040, 600, 1.15],
+     "texto": "[contente] E ainda dá pra receber alerta de movimento quando a loja fecha."},
+    {"id": "f08", "cena": "casa", "personagem": "seu-antonio-cliente", "camera": [1060, 620, 1.15],
+     "texto": "[rindo, convencido] Agora eu fiscalizo tudo do sofá. Ninguém me engana mais!"},
+    {"id": "f09", "cena": "suporte", "personagem": "caio-suporte", "camera": [1180, 560, 1.15],
+     "texto": "[confiante, fechando] Câmera boa é a que você vê de qualquer lugar. Pede pro seu instalador configurar o acesso no celular!",
+     "cartoes": [{"tipo": "banner", "linhas": ["ACESSO NO CELULAR:", "PEDE PRO SEU INSTALADOR"], "cor": "amarelo", "tam": 74}]}
+  ],
+  "final": {
+    "linhas": ["SUA LOJA", "NA PALMA DA MÃO."],
+    "sub": "App do gravador • QR Code • senha forte • alerta de movimento",
+    "cta": "Marca aquele comerciante que precisa ver isso"
+  }
+}
