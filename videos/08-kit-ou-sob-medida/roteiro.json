@@ -1,0 +1,54 @@
+{
+  "slug": "08-kit-ou-sob-medida",
+  "titulo": "Kit pronto ou sistema sob medida?",
+  "formato": "Reels vertical 1080x1920, 30 fps, ~1 min",
+  "objetivo": "Ajudar o cliente a escolher entre kit pronto (prático, preço fechado, poucos pontos) e sistema sob medida (câmera certa para cada lugar, espaço para crescer).",
+  "modelo_voz": "eleven_v4",
+  "publicacao": {
+    "titulo": "Kit pronto ou sistema sob medida?",
+    "legenda": "Vai colocar câmera em casa e não sabe se leva o kit pronto ou monta um sistema? 🤔\nO Rodrigo explica pra Fernanda quando cada um vale a pena. Ficou em dúvida? Chama a Protemaxxi que a gente monta o projeto com você.\nMarca quem tá pensando em colocar câmera 👇",
+    "hashtags": "#cftv #cameradeseguranca #kitcftv #casasegura #seguranca #protemaxxi",
+    "titulo_youtube": "Kit de câmeras pronto ou sistema sob medida? #Shorts",
+    "tiktok": "Kit pronto ou sob medida? O Rodrigo explica quando cada um vale a pena 🤔 #cftv #casasegura #protemaxxi"
+  },
+  "cenas": {
+    "loja": {
+      "cenario": "loja-interior",
+      "camera": [932, 560, 1.0],
+      "atores": {
+        "rodrigo-vendedor": {"x": 790, "pe": 1010, "altura": 600},
+        "fernanda-cliente": {"x": 1075, "pe": 1010, "altura": 590}
+      }
+    }
+  },
+  "falas": [
+    {"id": "f01", "cena": "loja", "personagem": "fernanda-cliente", "camera": [1075, 640, 1.3],
+     "texto": "[em dúvida, pensativa] Rodrigo, quero colocar câmera em casa. Levo esse kit pronto ou monto um sistema?",
+     "cartoes": [{"tipo": "banner", "linhas": ["KIT PRONTO OU", "SOB MEDIDA?"], "cor": "amarelo", "de": -0.3}]},
+    {"id": "f02", "cena": "loja", "personagem": "rodrigo-vendedor", "camera": [790, 640, 1.3],
+     "texto": "[simpático, confiante] Ótima pergunta, Fernanda! Depende do tamanho da casa e do que você quer ver."},
+    {"id": "f03", "cena": "loja", "personagem": "rodrigo-vendedor", "camera": [932, 560, 1.0],
+     "texto": "[explicando] O kit já vem com gravador, câmeras e cabos. É prático e o preço já é fechado.",
+     "cartoes": [{"tipo": "lista", "titulo": "KIT PRONTO", "cor": "laranja", "ate": "f05",
+                  "itens": [["ok", "Gravador, câmeras e cabos", "f03"], ["ok", "Prático e preço fechado", "f03"], ["ok", "Ideal pra poucos pontos", "f04"]]}]},
+    {"id": "f04", "cena": "loja", "personagem": "rodrigo-vendedor",
+     "texto": "[explicando] Serve bem pra casa ou comércio pequeno, com poucos pontos pra vigiar."},
+    {"id": "f05", "cena": "loja", "personagem": "rodrigo-vendedor",
+     "texto": "[didático] Já o sistema sob medida tem a câmera certa pra cada lugar: uma pra garagem, outra pro portão, uma dome na sala.",
+     "cartoes": [{"tipo": "lista", "titulo": "SOB MEDIDA", "cor": "verde", "ate": "f07",
+                  "itens": [["ok", "Câmera certa pra cada lugar", "f05"], ["ok", "Garagem, portão, sala...", "f05"], ["ok", "Espaço pra crescer", "f06"]]}]},
+    {"id": "f06", "cena": "loja", "personagem": "rodrigo-vendedor",
+     "texto": "[didático] E já deixa espaço pra crescer. Quer mais câmeras depois? É só ligar no gravador."},
+    {"id": "f07", "cena": "loja", "personagem": "fernanda-cliente", "camera": [1075, 640, 1.3], "acao": "pulo",
+     "texto": "[decidida, animada] Minha casa tem garagem, quintal e o ateliê nos fundos. Quero o sob medida!",
+     "cartoes": [{"tipo": "notificacao", "titulo": "Projeto sob medida", "sub": "Garagem • quintal • ateliê", "icone": "ok", "de": 2.0, "y": 330}]},
+    {"id": "f08", "cena": "loja", "personagem": "rodrigo-vendedor", "camera": [860, 600, 1.15],
+     "texto": "[animado, fechando] Escolha certa! Tá em dúvida também? Chama a gente que a gente monta o projeto com você.",
+     "cartoes": [{"tipo": "banner", "linhas": ["EM DÚVIDA? A GENTE MONTA", "O PROJETO COM VOCÊ"], "cor": "verde", "tam": 72}]}
+  ],
+  "final": {
+    "linhas": ["KIT OU SOB MEDIDA?", "A GENTE TE AJUDA."],
+    "sub": "Kit: prático e preço fechado • Sob medida: a câmera certa pra cada lugar",
+    "cta": "Chama a Protemaxxi pra montar seu projeto"
+  }
+}

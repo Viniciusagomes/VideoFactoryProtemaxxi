@@ -42,6 +42,7 @@ Precisa de Google Chrome, Python com `pillow`, `numpy` e `imageio-ffmpeg` (`pip 
 | `05-erro-infravermelho` | Erro de instalador #3: imagem branca à noite por reflexo do infravermelho | ~58 s |
 | `06-loja-no-celular` | Seu Antônio e Caio: ver a loja no celular em 3 passos | ~51 s |
 | `07-fernanda-viajou` | Fernanda e Caio: detecção de pessoa x detecção de movimento | ~50 s |
+| `08-kit-ou-sob-medida` | Rodrigo e Fernanda na loja: kit pronto x sistema sob medida | ~55 s |
 
 ## Elenco
 
